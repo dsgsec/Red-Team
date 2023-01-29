@@ -16,3 +16,6 @@ C'est faisable en changeant :
 | `-f` | Fragmente les paquets |
 | `-g` | Change le port source |
 | `-D RND:12` | Change l'adresse IP source 12 fois|
+| `--disable-arp-ping` | Désactive la détection d'hôte par ARP|
+| `-Pn` | Désactive l'ICMP Echo requests|
+| `-D RND:12` | Change l'adresse IP source 12 fois|
