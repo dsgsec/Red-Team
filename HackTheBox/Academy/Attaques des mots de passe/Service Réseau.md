@@ -21,6 +21,33 @@ Un outil pratique que nous pouvons utiliser pour nos attaques par mot de passe e
 
 <hr>
 
+## EvilWinRM
+EvilWinRM permet de se connecter à un serveur par WinRM (donc c'est un client winrm)
+
+### Installation
+```
+dsgsec@htb[/htb]$ sudo gem install evil-winrm
+
+Fetching little-plugger-1.1.4.gem
+Fetching rubyntlm-0.6.3.gem
+Fetching builder-3.2.4.gem
+Fetching logging-2.3.0.gem
+Fetching gyoku-1.3.1.gem
+Fetching nori-2.6.0.gem
+Fetching gssapi-1.3.1.gem
+Fetching erubi-1.10.0.gem
+Fetching evil-winrm-3.3.gem
+Fetching winrm-2.3.6.gem
+Fetching winrm-fs-1.3.5.gem
+Happy hacking! :)
+```
+
+### Utilisation
+```
+dsgsec@htb[/htb]$ evil-winrm -i <target-IP> -u <username> -p <password>
+```
+
+
 ## CrackMapExec
 ### **Installation de CrackMapExec**
 
