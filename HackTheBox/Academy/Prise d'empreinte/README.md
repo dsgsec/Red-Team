@@ -1,4 +1,4 @@
-## Principes d'énumération
+# Principes d'énumération
 
 L'énumération est un terme largement utilisé en cybersécurité. Il s'agit de la collecte d'informations à l'aide de méthodes actives (scans) et passives (utilisation de fournisseurs tiers). Il est important de noter que l'OSINT est une procédure indépendante et doit être effectuée séparément de l'énumération, car l'OSINT est basée exclusivement sur la collecte passive d'informations et n'implique pas l'énumération active de la cible donnée. L'énumération est une boucle dans laquelle nous recueillons à plusieurs reprises des informations en fonction des données que nous avons ou que nous avons déjà découvertes.
 
@@ -70,3 +70,202 @@ Il est crucial de les identifier et de comprendre ce qui est et n'est pas possib
 Ici, nous recueillons des informations sur le système d'exploitation réel et sa configuration à l'aide d'un accès interne. Cela nous donne un bon aperçu de la sécurité interne des systèmes et reflète les compétences et les capacités des équipes administratives de l'entreprise.
 
 L'objectif ici est de voir comment les administrateurs gèrent les systèmes et quelles informations internes sensibles nous pouvons en tirer.
+
+<hr>
+
+## Informations de domaine
+
+Les informations de domaine sont un élément central de tout test d'intrusion, et il ne s'agit pas seulement des sous-domaines mais de l'ensemble de la présence sur Internet. Par conséquent, nous recueillons des informations et essayons de comprendre la fonctionnalité de l'entreprise et quelles technologies et structures sont nécessaires pour que les services soient offerts avec succès et efficacité.
+
+Ce type d'informations est collecté passivement sans analyses directes et actives. En d'autres termes, nous restons cachés et naviguons en tant que "clients" ou "visiteurs" pour éviter les connexions directes avec l'entreprise qui pourraient nous exposer. Les sections pertinentes de l'OSINT ne sont qu'une infime partie de la profondeur de l'OSINT et ne décrivent que quelques-unes des nombreuses façons d'obtenir des informations de cette manière. Plus d'approches et de stratégies pour cela peuvent être trouvées dans le module OSINT: Corporate Recon.
+
+Cependant, lors de la collecte passive d'informations, nous pouvons utiliser des services tiers pour mieux comprendre l'entreprise. Cependant, la première chose que nous devrions faire est d'examiner le site Web principal de l'entreprise. Ensuite, nous devons lire les textes en gardant à l'esprit les technologies et les structures nécessaires à ces services.
+
+Par exemple, de nombreuses entreprises informatiques proposent des services de développement d'applications, d'IoT, d'hébergement, de science des données et de sécurité informatique, en fonction de leur secteur d'activité. Si nous rencontrons un service avec lequel nous n'avions pas grand-chose à voir auparavant, il est logique et nécessaire de s'y attaquer et de savoir en quoi il consiste et quelles sont les opportunités qui s'offrent à lui. Ces services nous donnent également un bon aperçu de la façon dont l'entreprise peut être structurée.
+
+Par exemple, cette partie est la combinaison entre le premier principe et le deuxième principe d'énumération. Nous prêtons attention à ce que nous voyons et nous ne voyons pas. Nous voyons les services mais pas leur fonctionnalité. Cependant, les services sont liés à certains aspects techniques nécessaires pour fournir un service. Par conséquent, nous adoptons le point de vue du développeur et examinons le tout de son point de vue. Ce point de vue nous permet d'acquérir de nombreuses connaissances techniques sur la fonctionnalité.
+
+<hr>
+
+## Présence en ligne
+Une fois que nous avons une compréhension de base de l'entreprise et de ses services, nous pouvons avoir une première impression de sa présence sur Internet. Supposons qu'une entreprise de taille moyenne nous ait embauché pour tester l'ensemble de son infrastructure dans une perspective de boîte noire. Cela signifie que nous n'avons reçu qu'un ensemble d'objectifs et que nous devons obtenir nous-mêmes toutes les informations complémentaires.
+
+Remarque : N'oubliez pas que les exemples ci-dessous seront différents des exercices pratiques et ne donneront pas les mêmes résultats. Cependant, les exemples sont basés sur de vrais tests de pénétration et illustrent comment et quelles informations peuvent être obtenues.
+
+Le premier point de présence sur Internet peut être le certificat SSL du site Web principal de l'entreprise que nous pouvons examiner. Souvent, un tel certificat comprend plus qu'un simple sous-domaine, ce qui signifie que le certificat est utilisé pour plusieurs domaines, et ceux-ci sont très probablement toujours actifs.
+
+Une autre source pour trouver plus de sous-domaines est crt.sh. Cette source est les journaux de transparence des certificats. La transparence des certificats est un processus destiné à permettre la vérification des certificats numériques émis pour les connexions Internet cryptées. La norme (RFC 6962) prévoit la journalisation de tous les certificats numériques délivrés par une autorité de certification dans des journaux à l'épreuve des audits. Ceci est destiné à permettre la détection de certificats faux ou émis de manière malveillante pour un domaine. Les fournisseurs de certificats SSL comme Let's Encrypt partagent cela avec l'interface Web crt.sh, qui stocke les nouvelles entrées dans la base de données pour y accéder ultérieurement.
+
+### En ligne de commande
+```json
+dsgsec@htb[/htb]$ curl -s https://crt.sh/\?q\=inlanefreight.com\&output\=json | jq .
+
+[
+  {
+    "issuer_ca_id": 23451835427,
+    "issuer_name": "C=US, O=Let's Encrypt, CN=R3",
+    "common_name": "matomo.inlanefreight.com",
+    "name_value": "matomo.inlanefreight.com",
+    "id": 50815783237226155,
+    "entry_timestamp": "2021-08-21T06:00:17.173",
+    "not_before": "2021-08-21T05:00:16",
+    "not_after": "2021-11-19T05:00:15",
+    "serial_number": "03abe9017d6de5eda90"
+  },
+  {
+    "issuer_ca_id": 6864563267,
+    "issuer_name": "C=US, O=Let's Encrypt, CN=R3",
+    "common_name": "matomo.inlanefreight.com",
+    "name_value": "matomo.inlanefreight.com",
+    "id": 5081529377,
+    "entry_timestamp": "2021-08-21T06:00:16.932",
+    "not_before": "2021-08-21T05:00:16",
+    "not_after": "2021-11-19T05:00:15",
+    "serial_number": "03abe90104e271c98a90"
+  },
+  {
+    "issuer_ca_id": 113123452,
+    "issuer_name": "C=US, O=Let's Encrypt, CN=R3",
+    "common_name": "smartfactory.inlanefreight.com",
+    "name_value": "smartfactory.inlanefreight.com",
+    "id": 4941235512141012357,
+    "entry_timestamp": "2021-07-27T00:32:48.071",
+    "not_before": "2021-07-26T23:32:47",
+    "not_after": "2021-10-24T23:32:45",
+    "serial_number": "044bac5fcc4d59329ecbbe9043dd9d5d0878"
+  },
+```
+<hr>
+
+## Shodan
+
+Une fois que nous avons vu quels hôtes peuvent être étudiés plus en détail, nous pouvons générer une liste d'adresses IP avec un ajustement mineur de la commande cut et les exécuter via Shodan.
+
+Shodan peut être utilisé pour trouver des appareils et des systèmes connectés en permanence à Internet, comme l'Internet des objets (IoT). Il recherche sur Internet les ports TCP/IP ouverts et filtre les systèmes en fonction de termes et de critères spécifiques. Par exemple, les ports HTTP ou HTTPS ouverts et d'autres ports de serveur pour FTP, SSH, SNMP, Telnet, RTSP ou SIP sont recherchés. En conséquence, nous pouvons trouver des appareils et des systèmes, tels que des caméras de surveillance, des serveurs, des systèmes de maison intelligente, des contrôleurs industriels, des feux de signalisation et des contrôleurs de trafic, ainsi que divers composants de réseau.
+
+### Shodan - IP List
+```bash
+dsgsec@htb[/htb]$ for i in $(cat subdomainlist);do host $i | grep "has address" | grep inlanefreight.com | cut -d" " -f4 >> ip-addresses.txt;done
+dsgsec@htb[/htb]$ for i in $(cat ip-addresses.txt);do shodan host $i;done
+
+10.129.24.93
+City:                    Berlin
+Country:                 Germany
+Organization:            InlaneFreight
+Updated:                 2021-09-01T09:02:11.370085
+Number of open ports:    2
+
+Ports:
+     80/tcp nginx 
+    443/tcp nginx 
+	
+10.129.27.33
+City:                    Berlin
+Country:                 Germany
+Organization:            InlaneFreight
+Updated:                 2021-08-30T22:25:31.572717
+Number of open ports:    3
+
+Ports:
+     22/tcp OpenSSH (7.6p1 Ubuntu-4ubuntu0.3)
+     80/tcp nginx 
+    443/tcp nginx 
+        |-- SSL Versions: -SSLv2, -SSLv3, -TLSv1, -TLSv1.1, -TLSv1.3, TLSv1.2
+        |-- Diffie-Hellman Parameters:
+                Bits:          2048
+                Generator:     2
+				
+10.129.27.22
+City:                    Berlin
+Country:                 Germany
+Organization:            InlaneFreight
+Updated:                 2021-09-01T15:39:55.446281
+Number of open ports:    8
+
+Ports:
+     25/tcp  
+        |-- SSL Versions: -SSLv2, -SSLv3, -TLSv1, -TLSv1.1, TLSv1.2, TLSv1.3
+     53/tcp  
+     53/udp  
+     80/tcp Apache httpd 
+     81/tcp Apache httpd 
+    110/tcp  
+        |-- SSL Versions: -SSLv2, -SSLv3, -TLSv1, -TLSv1.1, TLSv1.2
+    111/tcp  
+    443/tcp Apache httpd 
+        |-- SSL Versions: -SSLv2, -SSLv3, -TLSv1, -TLSv1.1, TLSv1.2, TLSv1.3
+        |-- Diffie-Hellman Parameters:
+                Bits:          2048
+                Generator:     2
+                Fingerprint:   RFC3526/Oakley Group 14
+    444/tcp  
+		
+10.129.27.33
+City:                    Berlin
+Country:                 Germany
+Organization:            InlaneFreight
+Updated:                 2021-08-30T22:25:31.572717
+Number of open ports:    3
+
+Ports:
+     22/tcp OpenSSH (7.6p1 Ubuntu-4ubuntu0.3)
+     80/tcp nginx 
+    443/tcp nginx 
+        |-- SSL Versions: -SSLv2, -SSLv3, -TLSv1, -TLSv1.1, -TLSv1.3, TLSv1.2
+        |-- Diffie-Hellman Parameters:
+                Bits:          2048
+                Generator:     2
+```
+
+<hr>
+
+## Enregistrement DNS
+
+```
+dsgsec@htb[/htb]$ dig any inlanefreight.com
+
+; <<>> DiG 9.16.1-Ubuntu <<>> any inlanefreight.com
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 52058
+;; flags: qr rd ra; QUERY: 1, ANSWER: 17, AUTHORITY: 0, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 65494
+;; QUESTION SECTION:
+;inlanefreight.com.             IN      ANY
+
+;; ANSWER SECTION:
+inlanefreight.com.      300     IN      A       10.129.27.33
+inlanefreight.com.      300     IN      A       10.129.95.250
+inlanefreight.com.      3600    IN      MX      1 aspmx.l.google.com.
+inlanefreight.com.      3600    IN      MX      10 aspmx2.googlemail.com.
+inlanefreight.com.      3600    IN      MX      10 aspmx3.googlemail.com.
+inlanefreight.com.      3600    IN      MX      5 alt1.aspmx.l.google.com.
+inlanefreight.com.      3600    IN      MX      5 alt2.aspmx.l.google.com.
+inlanefreight.com.      21600   IN      NS      ns.inwx.net.
+inlanefreight.com.      21600   IN      NS      ns2.inwx.net.
+inlanefreight.com.      21600   IN      NS      ns3.inwx.eu.
+inlanefreight.com.      3600    IN      TXT     "MS=ms92346782372"
+inlanefreight.com.      21600   IN      TXT     "atlassian-domain-verification=IJdXMt1rKCy68JFszSdCKVpwPN"
+inlanefreight.com.      3600    IN      TXT     "google-site-verification=O7zV5-xFh_jn7JQ31"
+inlanefreight.com.      300     IN      TXT     "google-site-verification=bow47-er9LdgoUeah"
+inlanefreight.com.      3600    IN      TXT     "google-site-verification=gZsCG-BINLopf4hr2"
+inlanefreight.com.      3600    IN      TXT     "logmein-verification-code=87123gff5a479e-61d4325gddkbvc1-b2bnfghfsed1-3c789427sdjirew63fc"
+inlanefreight.com.      300     IN      TXT     "v=spf1 include:mailgun.org include:_spf.google.com include:spf.protection.outlook.com include:_spf.atlassian.net ip4:10.129.24.8 ip4:10.129.27.2 ip4:10.72.82.106 ~all"
+inlanefreight.com.      21600   IN      SOA     ns.inwx.net. hostmaster.inwx.net. 2021072600 10800 3600 604800 3600
+
+;; Query time: 332 msec
+;; SERVER: 127.0.0.53#53(127.0.0.53)
+;; WHEN: Mi Sep 01 18:27:22 CEST 2021
+;; MSG SIZE  rcvd: 940
+```
+Regardons ce que nous avons appris ici et revenons à nos principes. Nous voyons un enregistrement IP, des serveurs de messagerie, des serveurs DNS, des enregistrements TXT et un enregistrement SOA.
+
+- Enregistrements A : Nous reconnaissons les adresses IP qui pointent vers un (sous-)domaine spécifique via l'enregistrement A. Ici, nous n'en voyons qu'un que nous connaissons déjà.
+
+- Enregistrements MX : les enregistrements du serveur de messagerie nous indiquent quel serveur de messagerie est responsable de la gestion des e-mails pour l'entreprise. Étant donné que cela est géré par Google dans notre cas, nous devrions le noter et l'ignorer pour l'instant.
+
+- Enregistrements NS : ces types d'enregistrements indiquent les serveurs de noms utilisés pour résoudre le FQDN en adresses IP. La plupart des hébergeurs utilisent leurs propres serveurs de noms, ce qui facilite l'identification de l'hébergeur.
+
+- Enregistrements TXT : ce type d'enregistrement contient souvent des clés de vérification pour différents fournisseurs tiers et d'autres aspects de sécurité du DNS, tels que SPF, DMARC et DKIM, qui sont chargés de vérifier et de confirmer l'origine des e-mails envoyés. Ici, nous pouvons déjà voir des informations précieuses si nous regardons de plus près les résultats.
