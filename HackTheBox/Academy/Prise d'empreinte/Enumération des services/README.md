@@ -642,6 +642,16 @@ ns.inlanefreight.htb.   604800  IN      A       10.129.34.136
 ;; MSG SIZE  rcvd: 437
 ```
 
+## Transfert de zone
+
+Le transfert de zone fait référence au transfert de zones vers un autre serveur dans DNS, qui se produit généralement via le port TCP 53. Cette procédure est abrégée Zone de transfert complet asynchrone (AXFR). Étant donné qu'une panne DNS a généralement de graves conséquences pour une entreprise, le fichier de zone est presque invariablement conservé à l'identique sur plusieurs serveurs de noms. Lorsque des modifications sont apportées, il faut s'assurer que tous les serveurs ont les mêmes données. La synchronisation entre les serveurs concernés est réalisée par transfert de zone. A l'aide d'une clé secrète rndc-key, que nous avons vu initialement dans la configuration par défaut, les serveurs s'assurent qu'ils communiquent avec leur propre maître ou esclave. Le transfert de zone implique le simple transfert de fichiers ou d'enregistrements et la détection de divergences dans les ensembles de données des serveurs concernés.
+
+Les données d'origine d'une zone se trouvent sur un serveur DNS, appelé serveur de noms primaire pour cette zone. Cependant, pour augmenter la fiabilité, réaliser une simple répartition de charge, ou protéger le primaire des attaques, on installe en pratique dans la quasi-totalité des cas un ou plusieurs serveurs supplémentaires, appelés serveurs de noms secondaires pour cette zone. Pour certains domaines de premier niveau (TLD), il est obligatoire de rendre les fichiers de zone des domaines de second niveau accessibles sur au moins deux serveurs.
+
+Les entrées DNS ne sont généralement créées, modifiées ou supprimées que sur le serveur principal. Cela peut être fait en éditant manuellement le fichier de zone concerné ou automatiquement par une mise à jour dynamique à partir d'une base de données. Un serveur DNS qui sert de source directe pour synchroniser un fichier de zone est appelé un maître. Un serveur DNS qui obtient des données de zone d'un maître est appelé un esclave. Un primaire est toujours un maître, tandis qu'un secondaire peut être à la fois un esclave et un maître.
+
+L'esclave récupère l'enregistrement SOA de la zone concernée auprès du maître à certains intervalles, le soi-disant temps de rafraîchissement, généralement une heure, et compare les numéros de série. Si le numéro de série de l'enregistrement SOA du maître est supérieur à celui de l'esclave, les jeux de données ne correspondent plus.
+
 ## DIG - AXFR Zone Transfer
 
 ```
