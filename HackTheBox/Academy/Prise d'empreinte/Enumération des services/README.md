@@ -483,3 +483,75 @@ Il est important de noter que si l'option root_squash est définie, nous ne pouv
 Nous pouvons également utiliser NFS pour une escalade ultérieure. Par exemple, si nous avons accès au système via SSH et que nous voulons lire les fichiers d'un autre dossier qu'un utilisateur spécifique peut lire, nous devons télécharger un shell sur le partage NFS qui a le SUID de cet utilisateur, puis exécuter le shell via l'utilisateur SSH.
 
 Après avoir effectué toutes les étapes nécessaires et obtenu les informations dont nous avons besoin, nous pouvons démonter le partage NFS.
+
+<hr>
+
+## DNS
+
+Le système de noms de domaine (DNS) fait partie intégrante d'Internet. Par exemple, via des noms de domaine, tels que academy.hackthebox.com ou www.hackthebox.com, nous pouvons atteindre les serveurs Web auxquels le fournisseur d'hébergement a attribué une ou plusieurs adresses IP spécifiques. Le DNS est un système de résolution des noms d'ordinateurs en adresses IP, et il n'a pas de base de données centrale. Simplifié, on peut l'imaginer comme une bibliothèque avec de nombreux annuaires téléphoniques différents. Les informations sont distribuées sur plusieurs milliers de serveurs de noms. Les serveurs DNS distribués à l'échelle mondiale traduisent les noms de domaine en adresses IP et contrôlent ainsi le serveur auquel un utilisateur peut accéder via un domaine particulier. Il existe plusieurs types de serveurs DNS utilisés dans le monde :
+
+- Serveur racine DNS
+- Serveur de noms faisant autorité
+- Serveur de noms ne faisant pas autorité
+- Serveur de cache
+- Serveur de transfert
+- Résolveur
+
+| Type de serveur | Descriptif |
+| --- | --- |
+| `Serveur racine DNS` | Les serveurs racine du DNS sont responsables des domaines de premier niveau (`TLD`). En dernier lieu, ils ne sont demandés que si le serveur de noms ne répond pas. Ainsi, un serveur racine est une interface centrale entre les utilisateurs et le contenu sur Internet, car il relie le domaine et l'adresse IP. La [Internet Corporation for Assigned Names and Numbers](https://www.icann.org/)(`ICANN`) coordonne le travail des serveurs de noms racine. Il existe `13` de tels serveurs racine dans le monde. |
+| `Serveur de noms faisant autorité` | Les serveurs de noms faisant autorité détiennent l'autorité pour une zone particulière. Ils ne répondent qu'aux questions relevant de leur domaine de responsabilité et leurs informations sont contraignantes. Si un serveur de noms faisant autorité ne peut pas répondre à la requête d'un client, le serveur de noms racine prend le relais à ce stade. |
+| `Serveur de noms ne faisant pas autorité` | Les serveurs de noms ne faisant pas autorité ne sont pas responsables d'une zone DNS particulière. Au lieu de cela, ils collectent eux-mêmes des informations sur des zones DNS spécifiques, ce qui se fait à l'aide d'une requête DNS récursive ou itérative. |
+| `Mise en cache du serveur DNS` | Mise en cache Les serveurs DNS mettent en cache les informations d'autres serveurs de noms pendant une période spécifiée. Le serveur de noms faisant autorité détermine la durée de ce stockage. |
+| `Serveur de transfert` | Les serveurs de transfert n'exécutent qu'une seule fonction: ils transmettent les requêtes DNS à un autre serveur DNS. |
+| `Résolveur` | Les résolveurs ne sont pas des serveurs DNS faisant autorité, mais effectuent la résolution de noms localement sur l'ordinateur ou le routeur. |
+
+![image](./ressources/tooldev-dns.png)
+
+Différents enregistrements DNS sont utilisés pour les requêtes DNS, qui ont toutes des tâches différentes. De plus, des entrées distinctes existent pour différentes fonctions puisque nous pouvons configurer des serveurs de messagerie et d'autres serveurs pour un domaine.
+
+| Enregistrement DNS | Descriptif |
+| --- | --- |
+| `A` | Renvoie une adresse IPv4 du domaine demandé en conséquence. |
+| `AAA` | Renvoie une adresse IPv6 du domaine demandé. |
+| `MX` | Renvoie les serveurs de messagerie responsables en conséquence. |
+| `NS` | Renvoie les serveurs DNS (serveurs de noms) du domaine. |
+| `TXT` | Cet enregistrement peut contenir diverses informations. Le polyvalent peut être utilisé, par exemple, pour valider la Google Search Console ou valider les certificats SSL. De plus, les entrées SPF et DMARC sont définies pour valider le trafic de messagerie et le protéger du spam. |
+| `CNAME` | Cet enregistrement sert d'alias. Si le domaine www.hackthebox.eu doit pointer vers la même IP, et nous créons un enregistrement A pour l'un et un enregistrement CNAME pour l'autre. |
+| `PTR` | L'enregistrement PTR fonctionne dans l'autre sens (recherche inversée). Il convertit les adresses IP en noms de domaine valides. |
+| `SOA` | Fournit des informations sur la zone DNS correspondante et l'adresse e-mail du contact administratif. |
+
+L'enregistrement SOA se trouve dans le fichier de zone d'un domaine et spécifie qui est responsable du fonctionnement du domaine et comment les informations DNS du domaine sont gérées.
+
+```
+dsgsec@htb[/htb]$ dig soa www.inlanefreight.com
+
+; <<>> DiG 9.16.27-Debian <<>> soa www.inlanefreight.com
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 15876
+;; flags: qr rd ra; QUERY: 1, ANSWER: 0, AUTHORITY: 1, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 512
+;; QUESTION SECTION:
+;www.inlanefreight.com.         IN      SOA
+
+;; AUTHORITY SECTION:
+inlanefreight.com.      900     IN      SOA     ns-161.awsdns-20.com. awsdns-hostmaster.amazon.com. 1 7200 900 1209600 86400
+
+;; Query time: 16 msec
+;; SERVER: 8.8.8.8#53(8.8.8.8)
+;; WHEN: Thu Jan 05 12:56:10 GMT 2023
+;; MSG SIZE  rcvd: 128
+```
+
+**Le point (.) est remplacé par un arobase (@) dans l'adresse e-mail. Dans cet exemple, l'adresse e-mail de l'administrateur est awsdns-hostmaster@amazon.com.**
+
+## Configuration par défaut
+
+Il existe de nombreux types de configuration différents pour le DNS. Nous n'aborderons donc que les plus importantes pour mieux illustrer le principe de fonctionnement d'un point de vue administratif. Tous les serveurs DNS fonctionnent avec trois types différents de fichiers de configuration:
+
+- fichiers de configuration DNS locaux
+- fichiers de zones
+- fichiers de résolution de noms inversés
