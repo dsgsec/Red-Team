@@ -1176,3 +1176,7 @@ SSL-Session:
 read R BLOCK
 * OK [CAPABILITY IMAP4rev1 SASL-IR LOGIN-REFERRALS ID ENABLE IDLE LITERAL+ AUTH=PLAIN] HTB-Academy IMAP4 v.0.21.4
 ```
+
+#### Autres commandes
+
+Les autres commandes pour intéragir avec IMAP sont disponibles ici : https://www.atmail.com/blog/imap-101-manual-imap-sessions/
