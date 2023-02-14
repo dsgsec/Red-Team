@@ -1,0 +1,27 @@
+# COLLECTE D'INFORMATIONS - ÉDITION WEB
+
+## Introduction
+Ce module couvrira diverses techniques de collecte d'informations passives et actives à partir de domaines et de serveurs Web que nous pourrons appliquer à presque tous les tests d'intrusion et à la plupart des programmes de primes de bogues.
+
+Dans ce module, nous aborderons:
++ WHOIS
++ DNS
++ Énumération (sous-)domaine
++ Identification des infrastructures
++ Énumération des hôtes virtuels
++ Crawling
+
+## Cours
+
+La phase de collecte d'informations est la première étape de chaque test d'intrusion où nous devons simuler des attaquants externes sans informations internes de l'organisation cible. Cette phase est cruciale car une collecte d'informations médiocre et précipitée pourrait entraîner des défauts manquants qu'une énumération approfondie aurait autrement découverts.
+
+Cette phase nous aide à comprendre la surface d'attaque, les technologies utilisées et, dans certains cas, à découvrir des environnements de développement ou même des infrastructures oubliées et non entretenues qui peuvent nous conduire à un accès au réseau interne car ils sont généralement moins protégés et surveillés. La collecte d'informations est généralement un processus itératif. Au fur et à mesure que nous découvrons des actifs (par exemple, un sous-domaine ou un hôte virtuel), nous devrons identifier les technologies utilisées, rechercher des pages/répertoires cachés, etc., ce qui peut nous amener à découvrir un autre sous-domaine et à recommencer le processus.
+
+Par exemple, nous pouvons y voir la découverte de nouveaux sous-domaines lors de l'un de nos tests d'intrusion basés sur le certificat SSL. Cependant, si nous examinons de plus près ces sous-domaines, nous verrons souvent différentes technologies utilisées que le site Web principal de l'entreprise. Les sous-domaines et les vhosts sont utilisés pour présenter d'autres informations et effectuer d'autres tâches qui ont été séparées de la page d'accueil. Par conséquent, il est essentiel de savoir quelles technologies sont utilisées, à quoi elles servent et comment elles fonctionnent. Au cours de ce processus, notre objectif est d'identifier autant d'informations que possible dans les domaines suivants :
+
+| Zone | Descriptif |
+| --- | --- |
+| Domaines et sous-domaines | Souvent, on nous donne un seul domaine ou peut-être une liste de domaines et de sous-domaines appartenant à une organisation. De nombreuses organisations ne disposent pas d'un inventaire précis des actifs et peuvent avoir oublié à la fois les domaines et les sous-domaines exposés à l'extérieur. C'est une partie essentielle de la phase de reconnaissance. Nous pouvons rencontrer divers sous-domaines qui renvoient à des adresses IP dans le champ d'application, ce qui augmente la surface d'attaque globale de notre engagement (ou programme de primes de bogues). Les sous-domaines cachés et oubliés peuvent avoir des versions anciennes/vulnérables d'applications ou des versions de développement avec des fonctionnalités supplémentaires (une console de débogage Python, par exemple). Les programmes de primes de bogues définissent souvent le champ d'application comme `*.inlanefreight.com`, ce qui signifie que tous les sous-domaines de `inlanefreight.com`, dans cet exemple, sont dans le champ d'application (c'est-à-dire `acme.inlanefreight.com`, `admin.inlanefreight.com`, et ainsi de suite et ainsi de suite). Nous pouvons également découvrir des sous-domaines de sous-domaines. Par exemple, supposons que nous découvrions quelque chose comme `admin.inlanefreight.com`. Nous pourrions ensuite exécuter une autre énumération de sous-domaines sur ce sous-domaine et peut-être trouver `dev.admin.inlanefreight.com` comme une cible très attrayante. Il existe de nombreuses façons de trouver des sous-domaines (à la fois passivement et activement) que nous aborderons plus loin dans ce module. |
+| Plages IP | A moins d'être contraint à un périmètre très précis, nous souhaitons en savoir le plus possible sur notre cible. Trouver des plages d'adresses IP supplémentaires détenues par notre cible peut conduire à la découverte d'autres domaines et sous-domaines et ouvrir encore plus largement notre surface d'attaque possible. |
+| Infrastructures | Nous voulons en savoir le plus possible sur notre cible. Nous devons savoir quelles piles technologiques notre cible utilise. Leurs applications sont-elles toutes ASP.NET ? Utilisent-ils Django, PHP, Flask, etc. ? Quel(s) type(s) d'API/services Web sont utilisés ? Utilisent-ils des systèmes de gestion de contenu (CMS) tels que WordPress, Joomla, Drupal ou DotNetNuke, qui ont leurs propres types de vulnérabilités et de mauvaises configurations que nous pouvons rencontrer ? Nous nous soucions également des serveurs Web utilisés, tels que IIS, Nginx, Apache et des numéros de version. Si notre cible exécute des frameworks ou des serveurs Web obsolètes, nous souhaitons approfondir les applications Web associées. Nous nous intéressons également aux types de bases de données back-end utilisées (MSSQL, MySQL, PostgreSQL, SQLite, Oracle, etc.) car cela nous donnera une indication des types d'attaques que nous pouvons être en mesure d'effectuer. |
+| Hôtes virtuels | Enfin, nous voulons énumérer les hôtes virtuels (vhosts), qui sont similaires aux sous-domaines mais indiquent qu'une organisation héberge plusieurs applications sur le même serveur Web. Nous couvrirons également l'énumération vhost plus tard dans le module. |
