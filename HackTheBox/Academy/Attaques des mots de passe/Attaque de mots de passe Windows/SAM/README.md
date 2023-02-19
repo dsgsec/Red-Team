@@ -8,8 +8,8 @@ Il existe trois ruches de registre que nous pouvons copier si nous avons un acc�
 | Ruche de registre | Descriptif |
 | --- | --- |
 | `hklm\sam` | Contient les hachages associés aux mots de passe des comptes locaux. Nous aurons besoin des hachages pour pouvoir les déchiffrer et obtenir les mots de passe des comptes d'utilisateurs en texte clair. |
-| `hklm\système` | Contient la clé de démarrage du système, qui est utilisée pour chiffrer la base de données SAM. Nous aurons besoin de la bootkey pour déchiffrer la base de données SAM. |
-| `hklm\sécurité` | Contient les informations d'identification mises en cache pour les comptes de domaine. Nous pouvons bénéficier de cela sur une cible Windows jointe à un domaine. |
+| `hklm\system` | Contient la clé de démarrage du système, qui est utilisée pour chiffrer la base de données SAM. Nous aurons besoin de la bootkey pour déchiffrer la base de données SAM. |
+| `hklm\security` | Contient les informations d'identification mises en cache pour les comptes de domaine. Nous pouvons bénéficier de cela sur une cible Windows jointe à un domaine. |
 
 ## Utilisation de reg.exe enregistrer pour copier les ruches du registre
 Le lancement de CMD en tant qu'administrateur nous permettra d'exécuter reg.exe pour enregistrer des copies des ruches de registre susmentionnées. Exécutez ces commandes ci-dessous pour ce faire :
