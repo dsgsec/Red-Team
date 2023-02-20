@@ -1,7 +1,8 @@
 # LSASS
 
 En plus d'obtenir des copies de la base de données SAM pour vider et casser les hachages, nous bénéficierons également du ciblage de LSASS. Comme indiqué dans la section Stockage des informations d'identification de ce module, LSASS est un service essentiel qui joue un rôle central dans la gestion des informations d'identification et les processus d'authentification dans tous les systèmes d'exploitation Windows.
-
+![lsassexe_diagram](ressource/lsassexe_diagram.png)
+lsassexe_diagram.png
 Lors de la connexion initiale, LSASS :
 + Mettre en cache les informations d'identification localement dans la mémoire
 + Créer des jetons d'accès
