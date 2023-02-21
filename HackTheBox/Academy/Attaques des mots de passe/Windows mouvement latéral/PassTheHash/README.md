@@ -8,7 +8,7 @@ Extraction des hachages de la base de données NTDS (ntds.dit) sur un contrôleu
 Extraction des hachages de la mémoire (lsass.exe).
 Supposons que nous obtenions le hachage du mot de passe (64F12CDDAA88057E06A81B54E73B949B) pour le compte julio du domaine inlanefreight.htb. Voyons comment nous pouvons effectuer des attaques Pass the Hash à partir de machines Windows et Linux.
 
-# Inbtroduction à Windows NTLM
+# Introduction à Windows NTLM
 Microsoft Windows New Technology LAN Manager (NTLM) est un ensemble de protocoles de sécurité qui authentifie l'identité des utilisateurs tout en protégeant l'intégrité et la confidentialité de leurs données. NTLM est une solution d'authentification unique (SSO) qui utilise un protocole challenge-response pour vérifier l'identité de l'utilisateur sans lui demander de fournir un mot de passe.
 
 Malgré ses défauts connus, NTLM est encore couramment utilisé pour assurer la compatibilité avec les clients et serveurs hérités, même sur les systèmes modernes. Alors que Microsoft continue de prendre en charge NTLM, Kerberos est devenu le mécanisme d'authentification par défaut dans Windows 2000 et les domaines Active Directory (AD) ultérieurs.
