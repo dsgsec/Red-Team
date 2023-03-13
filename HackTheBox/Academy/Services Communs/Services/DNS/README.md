@@ -40,7 +40,7 @@ Un attaquant pourrait exploiter cette vulnérabilité de transfert de zone DNS p
 DIG - Transfert de zone AXFR
 
 ```
-dsgsec@htb[/htb]# creuser AXFR @ns1.inlanefreight.htb inlanefreight.htb
+dsgsec@htb[/htb]# dig AXFR @ns1.inlanefreight.htb inlanefreight.htb
 
 ; <<>> DiG 9.11.5-P1-1-Debian <<>> axfr inlanefrieght.htb @10.129.110.213
 ;; options globales : +cmd
