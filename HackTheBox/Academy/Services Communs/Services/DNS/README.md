@@ -64,7 +64,7 @@ Des outils tels que [Fierce](https://github.com/mschwager/fierce) peuvent éga
 DIG - Transfert de zone AXFR
 
 ```
-dsgsec@htb[/htb]# féroce --domain zonetransfer.me
+dsgsec@htb[/htb]# fierce --domain zonetransfer.me
 
 NS : nsztm2.digi.ninja. nsztm1.digi.ninja.
 SOA : nsztm1.digi.ninja. (81.4.108.41)
@@ -201,7 +201,7 @@ L'outil a trouvé quatre sous-domaines associés à `inlanefreight.com`. À l'a
 Subbrute
 
 ```
-dsgsec@htb[/htb]# hôte support.inlanefreight.com
+dsgsec@htb[/htb]# host support.inlanefreight.com
 
 support.inlanefreight.com est un alias pour inlanefreight.s3.amazonaws.com
 
@@ -233,7 +233,7 @@ Pour exploiter l'empoisonnement du cache DNS via `Ettercap`, nous devons d'abor
 Empoisonnement du cache DNS local
 
 ```
-dsgsec@htb[/htb]# chat /etc/ettercap/etter.dns
+dsgsec@htb[/htb]# cat /etc/ettercap/etter.dns
 
 inlanefreight.com A 192.168.225.110
 *.inlanefreight.com A 192.168.225.110
