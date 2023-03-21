@@ -20,6 +20,7 @@ Dans l'image ci-dessous, nous avons un hôte d'attaque basé sur Windows.
 
 L'hôte d'attaque Windows démarre un processus plink.exe avec les arguments de ligne de commande ci-dessous pour démarrer une redirection de port dynamique sur le serveur Ubuntu. Cela démarre une session SSH entre l'hôte d'attaque Windows et le serveur Ubuntu, puis plink commence à écouter sur le port 9050.
 
+
 #### Utilisation de Plink.exe
 
 Utilisation de Plink.exe
