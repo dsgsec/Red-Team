@@ -221,7 +221,7 @@ dsgsec@htb[/htb]$ tail -4 /etc/proxychains.conf
 
 # en attendant
 # valeurs par défaut définies sur "tor"
-chaussettes4 127.0.0.1 9050
+socks4 127.0.0.1 9050
 
 ```
 
