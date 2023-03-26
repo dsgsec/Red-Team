@@ -44,8 +44,4 @@ Il existe trois principaux types de vulnérabilités XSS :
 
 Nous couvrirons chacun de ces types dans les sections à venir et effectuerons des exercices pour voir comment chacun d'eux se produit, puis nous verrons également comment chacun d'eux peut être utilisé dans des attaques.
 
-Marquer terminé et suivant
-
-[Suivant ](https://academy.hackthebox.com/module/103/section/967)
-
-Aide-mémoire
+Ò
