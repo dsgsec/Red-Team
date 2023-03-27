@@ -67,7 +67,7 @@ Nous pouvons faire preuve de créativité avec de telles techniques et créer no
 Burp POST Demande
 
 ```
-dsgsec@htb[/htb]$ echo 'whoami' | tour
+dsgsec@htb[/htb]$ echo 'whoami' | rev
 imaohw
 
 ```
