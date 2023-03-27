@@ -49,7 +49,7 @@ Comme nous pouvons le voir, nous avons également contourné avec succès le fil
 
 * * * * *
 
-les fenêtres
+Windows
 -------
 
 Le même concept fonctionne également sur Windows. Par exemple, pour produire une barre oblique dans `Windows Command Line (CMD)`, nous pouvons `echo` une variable Windows (`%HOMEPATH%` -> `\Users\htb-student`), puis spécifier une position de départ ( `~6` -> `\htb-student`), et enfin en spécifiant une position de fin négative, qui dans ce cas est la longueur du nom d'utilisateur `htb-student` (`-11` -> `\`) :
