@@ -1,4 +1,4 @@
-Contournement d'autres personnages sur liste noire
+Contournement charactères sur liste noire
 ======================================
 
 * * * * *
