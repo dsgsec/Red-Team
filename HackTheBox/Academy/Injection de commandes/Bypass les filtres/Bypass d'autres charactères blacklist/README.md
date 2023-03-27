@@ -3,7 +3,7 @@ Contournement charactères sur liste noire
 
 * * * * *
 
-Outre les opérateurs d'injection et les caractères d'espacement, un caractère très couramment mis sur liste noire est le caractère barre oblique (`/`) ou barre oblique inverse (`\`), car il est nécessaire de spécifier des répertoires sous Linux ou Windows. Nous pouvons utiliser plusieurs techniques pour produire n'importe quel personnage que nous voulons tout en évitant l'utilisation de personnages sur liste noire.
+Outre les opérateurs d'injection et les caractères d'espacement, un caractère très couramment mis sur liste noire est le caractère barre oblique (`/`) ou barre oblique inverse (`\`), car il est nécessaire de spécifier des répertoires sous Linux ou Windows. Nous pouvons utiliser plusieurs techniques pour produire n'importe quel charactères que nous voulons tout en évitant l'utilisation de charactères sur liste noire.
 
 * * * * *
 
@@ -73,7 +73,7 @@ Nous pouvons également utiliser la commande `Get-ChildItem Env:` PowerShell p
 
 * * * * *
 
-Changement de personnage
+Changement de charactères
 ------------------
 
 Il existe d'autres techniques pour produire les caractères requis sans les utiliser, comme le "décalage des caractères". Par exemple, la commande Linux suivante décale le caractère que nous passons de `1`. Donc, tout ce que nous avons à faire est de trouver le caractère dans la table ASCII qui se trouve juste avant le caractère dont nous avons besoin (nous pouvons l'obtenir avec `man ascii`), puis de l'ajouter à la place de `[` dans l'exemple ci-dessous. De cette façon, le dernier caractère imprimé serait celui dont nous avons besoin :
