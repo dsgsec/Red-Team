@@ -210,7 +210,7 @@ Nous pouvons installer EyeWitness via apt :
 Nmap - Découverte Web
 
 ```
-dsgsec@htb[/htb]$ sudo apt installer témoin oculaire
+dsgsec@htb[/htb]$ sudo apt install eyewitness
 
 ```
 
@@ -221,7 +221,7 @@ Exécuter `eyewitness -h` nous montrera les options qui s'offrent à nous :
 Nmap - Découverte Web
 
 ```
-dsgsec@htb[/htb]$ témoin oculaire -h
+dsgsec@htb[/htb]$ eyewitness -h
 
 utilisation : EyeWitness.py [--web] [-f NomFichier] [-x NomFichier.xml]
                       [--single URL unique] [--no-dns] [--timeout Délai]
@@ -271,10 +271,10 @@ Exécutons l'option `--web` par défaut pour prendre des captures d'écran en 
 Nmap - Découverte Web
 
 ```
-dsgsec@htb[/htb]$ témoin oculaire --web -x web_discovery.xml -d inlanefreight_eyewitness
+dsgsec@htb[/htb]$ eyewitness --web -x web_discovery.xml -d inlanefreight_eyewitness
 
 ################################################# ##############################
-# Témoin oculaire #
+# eyewitness #
 ################################################# ##############################
 # Sécurité FortyNorth - https://www.fortynorthsecurity.com #
 ################################################# ##############################
