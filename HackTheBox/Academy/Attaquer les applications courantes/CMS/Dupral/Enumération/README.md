@@ -67,7 +67,7 @@ dsgsec@htb[/htb]$ curl -s http://drupal.inlanefreight.local/CHANGELOG.txt
 
 <!DOCTYPE html><html><head><title>404 Not Found</title></head><body><h1>Not Found</h1><p>L'URL demandée "http://drupal. inlanefreight.local/CHANGELOG.txt" n'a pas été trouvé sur ce serveur.</p></body></html>
 
-```
+
 
 Il y a plusieurs autres choses que nous pourrions vérifier dans ce cas pour identifier la version. Essayons une analyse avec `droopescan` comme indiqué dans la section d'énumération Joomla. `Dropescan` a beaucoup plus de fonctionnalités pour Drupal que pour Joomla.
 
@@ -90,7 +90,7 @@ dsgsec@htb[/htb]$ droopescan scan drupal -u http://drupal.inlanefreight.local
      Administrateur par défaut - http://drupal.inlanefreight.local/user/login
 
 [+] Numérisation terminée (0:03:19.199526 écoulé)
-
 ```
+
 
 Cette instance semble exécuter la version `8.9.1` de Drupal. Au moment de la rédaction de cet article, ce n'était pas le dernier car il a été publié en juin 2020. Une recherche rapide des [vulnérabilités] liées à Drupal(https://www.cvedetails.com/vulnerability-list/vendor_id-1367/product_id- 2387/Drupal-Drupal.html) ne montre rien d'apparent pour cette version principale de Drupal. Dans ce cas, nous voudrions ensuite examiner les plugins installés ou abuser des fonctionnalités intégrées.
