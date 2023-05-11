@@ -192,7 +192,7 @@ Nous pouvons accéder à un menu d'aide plus détaillé en tapant `droopescan s
 Faisons un scan et voyons ce que ça donne.
 
 ```
-dsgsec@htb[/htb]$ droopescan analyse joomla --url http://dev.inlanefreight.local/
+dsgsec@htb[/htb]$ droopescan scan joomla --url http://dev.inlanefreight.local/
 
 [+] Version(s) possible(s) :
      3.8.10
@@ -278,7 +278,7 @@ Le compte administrateur par défaut sur les installations de Joomla est `admin
 ```
 dsgsec@htb[/htb]$ sudo python3 joomla-brute.py -u http://dev.inlanefreight.local -w /usr/share/metasploit-framework/data/wordlists/http_default_pass.txt -usr admin
 
-administrateur : administrateur
+admin:admin
 
 ```
 
