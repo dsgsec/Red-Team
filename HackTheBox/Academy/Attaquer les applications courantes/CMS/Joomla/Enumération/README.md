@@ -97,7 +97,7 @@ Interdire : /tmp/
 Nous pouvons aussi souvent voir le favicon révélateur de Joomla (mais pas toujours). Nous pouvons identifier la version de Joomla si le fichier `README.txt` est présent.
 
 ```
-dsgsec@htb[/htb]$ curl -s http://dev.inlanefreight.local/README.txt | tête -n 5
+dsgsec@htb[/htb]$ curl -s http://dev.inlanefreight.local/README.txt | head -n 5
 
 1- Qu'est-ce que c'est ?
 * Ceci est un Joomla! package d'installation/de mise à niveau vers la version 3.x
