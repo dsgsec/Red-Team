@@ -42,7 +42,7 @@ L'examen du système lui-même nous donnera une meilleure idée de la version ex
 Liste de tâches
 
 ```
-C:\htb> liste des tâches /svc
+C:\htb> tasklist /svc
 
 Nom de l'image Services PID
 ========================= ======== ================= ===========================
@@ -105,7 +105,7 @@ En plus du PATH, `set` peut également donner d'autres informations utiles tel
 Afficher toutes les variables d'environnement
 
 ```
-C:\htb> définir
+C:\htb> set
 
 ALLUSERSPROFILE=C:\ProgramData
 APPDATA=C:\Users\Administrator\AppData\Roaming
@@ -155,7 +155,7 @@ De plus, de nombreux guides diront que les informations sur le réseau sont impo
 Afficher les informations de configuration détaillées
 
 ```
-C:\htb> informations système
+C:\htb> systeminfo
 
 Nom d'hôte : WINLPE-SRV01
 Nom du système d'exploitation : Microsoft Windows Server 2016 Standard
@@ -234,7 +234,7 @@ Nous pouvons également le faire avec PowerShell en utilisant [Get-Hotfix](http
 Correctifs et mises à jour
 
 ```
-PS C:\htb> Get-HotFix | pi -AutoSize
+PS C:\htb> Get-HotFix | ft -AutoSize
 
 Source Description HotFixID installé par installé sur
 ------ ----------- -------- ----------- -----------
@@ -252,7 +252,7 @@ WMI peut également être utilisé pour afficher les logiciels installés. Ces i
 Programmes installés
 
 ```
-C:\htb> nom d'obtention du produit wmic
+C:\htb> wmic product get name
 
 Nom
 Exécution supplémentaire Microsoft Visual C++ 2019 X64 - 14.24.28127
@@ -272,7 +272,7 @@ Bien sûr, nous pouvons également le faire avec PowerShell en utilisant [Get-W
 Programmes installés
 
 ```
-PS C:\htb> Get-WmiObject -Class Win32_Product | sélectionnez Nom, Version
+PS C:\htb> Get-WmiObject -Class Win32_Product |  select Name, Version
 
 Version du nom
 ---- -------
@@ -337,7 +337,7 @@ Il est toujours important de déterminer quels utilisateurs sont connectés à u
 Utilisateurs connectés
 
 ```
-C:\htb> interroger l'utilisateur
+C:\htb> query user
 
   NOM D'UTILISATEUR NOM DE SESSION ID ÉTAT TEMPS D'INACTIVITÉ TEMPS DE CONNEXION
 >administrateur rdp-tcp#2 1 Actif . 25/03/2021 09:27
@@ -411,7 +411,7 @@ Savoir quels autres utilisateurs sont sur le système est également important. 
 Obtenir tous les utilisateurs
 
 ```
-C:\htb> internaute
+C:\htb> net user
 
 Comptes d'utilisateur pour \\WINLPE-SRV01
 
@@ -430,7 +430,7 @@ Savoir quels groupes non standard sont présents sur l'hôte peut nous aider à 
 Obtenir tous les groupes
 
 ```
-C:\htb> net groupe local
+C:\htb> net localgroup
 
 Alias pour \\WINLPE-SRV01
 
@@ -470,7 +470,8 @@ Il vaut la peine de vérifier les détails pour tous les groupes non standard. B
 Détails sur un groupe
 
 ```
-C:\htb> administrateurs du groupe local net
+C:\htb> net localgroup administrators
+
 
 Administrateurs de noms d'alias
 Commentaire Les administrateurs ont un accès complet et illimité à l'ordinateur/au domaine
@@ -491,7 +492,7 @@ La commande s'est terminée avec succès.
 Obtenir la politique de mot de passe et d'autres informations sur le compte
 
 ```
-C:\htb> comptes nets
+C:\htb> net accounts
 
 Forcer la déconnexion de l'utilisateur combien de temps après l'expiration du délai ? : Jamais
 Âge minimum du mot de passe (jours) : 0
