@@ -75,7 +75,7 @@ Connexions actives
    TCP [::]:49674 [::]:0 ÉCOUTE 616
    TCP [::1]:14147 [::]:0 ÉCOUTE 3812
    UDP 0.0.0.0:123 *:* 1104
-   UDP 0.0.0.0:500 *:* 1260
+   UDP 0.0.0.0:500 *:* 1260s
    UDP 0.0.0.0:3389 *:* 936
 
 <SNIP>
@@ -86,7 +86,7 @@ La principale chose à rechercher avec les connexions réseau actives sont les e
 
 #### Plus d'exemples
 
-L'un des meilleurs exemples de ce type d'élévation de privilèges est le `Splunk Universal Forwarder`, installé sur les terminaux pour envoyer les journaux à Splunk. La configuration par défaut de Splunk n'avait aucune authentification sur le logiciel et permettait à n'importe qui de déployer des applications, ce qui pouvait conduire à l'exécution de code. Encore une fois, la configuration par défaut de Splunk consistait à l'exécuter en tant que SYSTEM$ et non en tant qu'utilisateur à faibles privilèges. Pour plus d'informations, consultez [Splunk Universal Forwarder Hijacking](https://airman604.medium.com/splunk-universal-forwarder-hijacking-5899c3e0e6b2) et [SplunkWhisperer2](https://clement.notin.org/blog/ 2019/02/25/Splunk-Universal-Forwarder-Hijacking-2-SplunkWhisperer2/).
+L'un des meilleurs exemples de ce type d'élévation de privilèges est le `Splunk Universal Forwarder`, installé sur les terminaux pour envoyer les journaux à Splunk. La configuration par défaut de Splunk n'avait aucune authentification sur le logiciel et permettait à n'importe qui de déployer des applications, ce qui pouvait conduire à l'exécution de code. Encore une fois, la configuration par défaut de Splunk consistait à l'exécuter en tant que SYSTEM$ et non en tant qu'utilisateur à faibles privilèges. Pour plus d'informations, consultez [Splunk Universal Forwarder Hijacking](https://airman604.medium.com/splunk-universal-forwarder-hijacking-5899c3e0e6b2) et [SplunkWhisperer2](https://clement.notin.org/blog/2019/02/25/Splunk-Universal-Forwarder-Hijacking-2-SplunkWhisperer2/).
 
 Le `port Erlang` (25672) est un autre vecteur d'escalade de privilèges locaux négligé mais courant. Erlang est un langage de programmation conçu autour de l'informatique distribuée et disposera d'un port réseau permettant à d'autres nœuds Erlang de rejoindre le cluster. Le secret pour rejoindre ce cluster s'appelle un cookie. De nombreuses applications qui utilisent Erlang utilisent soit un cookie faible (RabbitMQ utilise `rabbit` par défaut) ou placent le cookie dans un fichier de configuration qui n'est pas bien protégé. Quelques exemples d'applications Erlang sont SolarWinds, RabbitMQ et CouchDB. Pour plus d'informations, consultez le [article de blog Erlang-arce de Mubix](https://malicious.link/post/2018/erlang-arce/)
 
