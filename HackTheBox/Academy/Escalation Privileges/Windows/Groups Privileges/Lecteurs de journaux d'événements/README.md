@@ -9,23 +9,23 @@ Cette [étude](https://blogs.jpcert.or.jp/en/2016/01/windows-commands-abused-by
 
 J'ai effectué un test d'intrusion contre une organisation de taille moyenne il y a quelques années avec une petite équipe de sécurité, pas d'EDR d'entreprise, mais j'utilisais une configuration similaire à ce qui a été détaillé ci-dessus (création de processus d'audit et valeurs de ligne de commande). Ils ont attrapé et contenu l'un des membres de mon équipe lorsqu'il a exécuté la commande `tasklist` à partir du poste de travail d'un membre du service financier (après avoir capturé les informations d'identification à l'aide de `Responder` et les avoir piratées hors ligne).
 
-Administrateurs ou membres des [Event Log Readers](https://docs.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2012-R2-and-2012/dn579255(v =ws.11)?redirectedfrom=MSDN#event-log-readers) groupe sont autorisés à accéder à ce journal. Il est concevable que les administrateurs système veuillent ajouter des utilisateurs avancés ou des développeurs dans ce groupe pour effectuer certaines tâches sans avoir à leur accorder un accès administratif.
+Administrateurs ou membres des [Event Log Readers](https://docs.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2012-R2-and-2012/dn579255(v=ws.11)?redirectedfrom=MSDN#event-log-readers) groupe sont autorisés à accéder à ce journal. Il est concevable que les administrateurs système veuillent ajouter des utilisateurs avancés ou des développeurs dans ce groupe pour effectuer certaines tâches sans avoir à leur accorder un accès administratif.
 
 #### Confirmation de l'appartenance au groupe
 
 Confirmation de l'appartenance au groupe
 
 ```
-C:\htb> groupe local net "Lecteurs de journaux d'événements"
+C:\htb> net localgroup "Event Log Readers"
 
-Nom d'alias Lecteurs du journal des événements
-Commentaire Les membres de ce groupe peuvent lire les journaux d'événements à partir de la machine locale
+Alias name     Event Log Readers
+Comment        Members of this group can read event logs from local machine
 
-Membres
+Members
 
--------------------------------------------------- -----------------------------
-enregistreur
-La commande s'est terminée avec succès.
+-------------------------------------------------------------------------------
+logger
+The command completed successfully.
 
 ```
 
@@ -38,9 +38,9 @@ Nous pouvons interroger les événements Windows à partir de la ligne de comman
 Recherche des journaux de sécurité à l'aide de wevtutil
 
 ```
-PS C:\htb> wevtutil qe Sécurité /rd:true /f:text | Select-String "/user"
+PS C:\htb> wevtutil qe Security /rd:true /f:text | Select-String "/user"
 
-         Ligne de commande de processus : net use T : \\fs01\backups /user:tim MyStr0ngP@ssword
+        Process Command Line:   net use T: \\fs01\backups /user:tim MyStr0ngP@ssword
 
 ```
 
@@ -51,7 +51,7 @@ Nous pouvons également spécifier d'autres informations d'identification pour 
 Transmission des informations d'identification à wevtutil
 
 ```
-C:\htb> wevtutil qe Sécurité /rd:true /f:text /r:share01 /u:julie.clay /p:Welcome1 | findstr "/user"
+C:\htb> wevtutil qe Security /rd:true /f:text /r:share01 /u:julie.clay /p:Welcome1 | findstr "/user"
 
 ```
 
@@ -64,9 +64,9 @@ Remarque : La recherche dans le journal des événements `Security` avec `Ge
 Recherche de journaux de sécurité à l'aide de Get-WinEvent
 
 ```
-PS C:\htb> Get-WinEvent -LogName security | où { $_.ID -eq 4688 -and $_.Properties[8].Value -like '*/user*'} | Select-Object @{name='CommandLine';expression={ $_.Properties[8].Value }}
+PS C:\htb> Get-WinEvent -LogName security | where { $_.ID -eq 4688 -and $_.Properties[8].Value -like '*/user*'} | Select-Object @{name='CommandLine';expression={ $_.Properties[8].Value }}
 
-Ligne de commande
+CommandLine
 -----------
 net use T: \\fs01\backups /user:tim MyStr0ngP@ssword
 
