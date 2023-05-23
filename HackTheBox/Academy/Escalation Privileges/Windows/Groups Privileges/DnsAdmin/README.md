@@ -241,7 +241,7 @@ Confirmation de l'appartenance au groupe
 
 ```
 
-C:\htb> groupe net "Domain Admins" /dom
+C:\htb> net group "Domain Admins" /dom
 
 Nom du groupe     Domain Admins
 
