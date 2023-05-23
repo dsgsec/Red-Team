@@ -105,9 +105,9 @@ Comme nous pouvons le voir ci-dessus, le privilège a été activé avec succès
 Copie d'un fichier protégé
 
 ```
-PS C:\htb> répertoire C:\Confidentiel
+PS C:\htb> dir C:\Confidentiel
 
-     Répertoire : C:\Confidentiel
+     dir : C:\Confidentiel
 
 Mode LastWriteTime Longueur Nom
 ---- ------------- ------ ----
@@ -128,7 +128,7 @@ A la ligne:1 car:1
 Copie d'un fichier protégé
 
 ```
-PS C:\htb> Copier-FileSeBackupPrivilege 'C:\Confidential\2021 Contract.txt' .\Contract.txt
+PS C:\htb> Copy-FileSeBackupPrivilege 'C:\Confidential\2021 Contract.txt' .\Contract.txt
 
 Copié 88 octets
 
