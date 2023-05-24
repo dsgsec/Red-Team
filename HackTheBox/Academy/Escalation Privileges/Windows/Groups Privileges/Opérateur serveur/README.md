@@ -38,45 +38,44 @@ Nous pouvons utiliser le visualiseur/contrôleur de service [PsService](https:/
 Vérification des autorisations de service avec PsService
 
 ```
-C:\htb> c:\Tools\PsService.exe sécurité AppReadiness
+C:\htb> c:\Tools\PsService.exe security AppReadiness
 
-PsService v2.25 - Informations sur le service et utilitaire de configuration
+PsService v2.25 - Service information and configuration utility
 Copyright (C) 2001-2010 Mark Russinovich
 Sysinternals - www.sysinternals.com
 
-SERVICE_NAME : compatibilité avec les applications
-DISPLAY_NAME : compatibilité avec l'application
-         COMPTE : système local
-         SÉCURITÉ:
-         [AUTORISER] AUTORITE NT\SYSTEME
-                 État de la requête
-                 Configuration de la requête
-                 Interroger
-                 Énumérer les personnes à charge
-                 Pause/Reprendre
-                 Commencer
-                 Arrêt
-                 Contrôle défini par l'utilisateur
-                 Autorisations de lecture
-         [AUTORISER] INTÉGRÉ\Administrateurs
-                 Tous
-         [AUTORISER] AUTORITÉ NT\INTERACTIF
-                 État de la requête
-                 Configuration de la requête
-                 Interroger
-                 Énumérer les personnes à charge
-                 Contrôle défini par l'utilisateur
-                 Autorisations de lecture
-         [AUTORISER] AUTORITÉ NT\SERVICE
-                 État de la requête
-                 Configuration de la requête
-                 Interroger
-                 Énumérer les personnes à charge
-                 Contrôle défini par l'utilisateur
-                 Autorisations de lecture
-         [AUTORISER] BUILTIN\Opérateurs de serveur
-                 Tous
-
+SERVICE_NAME: AppReadiness
+DISPLAY_NAME: App Readiness
+        ACCOUNT: LocalSystem
+        SECURITY:
+        [ALLOW] NT AUTHORITY\SYSTEM
+                Query status
+                Query Config
+                Interrogate
+                Enumerate Dependents
+                Pause/Resume
+                Start
+                Stop
+                User-Defined Control
+                Read Permissions
+        [ALLOW] BUILTIN\Administrators
+                All
+        [ALLOW] NT AUTHORITY\INTERACTIVE
+                Query status
+                Query Config
+                Interrogate
+                Enumerate Dependents
+                User-Defined Control
+                Read Permissions
+        [ALLOW] NT AUTHORITY\SERVICE
+                Query status
+                Query Config
+                Interrogate
+                Enumerate Dependents
+                User-Defined Control
+                Read Permissions
+        [ALLOW] BUILTIN\Server Operators
+                All
 ```
 
 Cela confirme que le groupe Opérateurs de serveur dispose du droit d'accès [SERVICE_ALL_ACCESS](https://docs.microsoft.com/en-us/windows/win32/services/service-security-and-access-rights), ce qui nous donne un contrôle total sur ce service.
