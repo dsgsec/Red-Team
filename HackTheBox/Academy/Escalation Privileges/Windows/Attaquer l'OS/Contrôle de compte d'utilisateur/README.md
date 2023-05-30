@@ -46,9 +46,7 @@ winlpe-ws03\sarah S-1-5-21-3159276091-2191180989-3781274054-1002
 
 ```
 
-#### Confirmation de l'appartenance au groupe d'administrateurs
-
-Confirmation de l'appartenance au groupe d'administrateurs
+#### Confirmation de l'appartenance au groupe d'administrateurs
 
 ```
 C:\htb> administrateurs du groupe local net
@@ -86,7 +84,7 @@ SeTimeZonePrivilege Changer le fuseau horaire Désactivé
 
 ```
 
-#### Confirmation de l'activation de l'UAC
+#### Confirmation de l'activation de l'UAC
 
 Il n'y a pas de version en ligne de commande de l'invite de consentement de l'interface graphique, nous devrons donc contourner l'UAC pour exécuter des commandes avec notre jeton d'accès privilégié. Tout d'abord, vérifions si l'UAC est activé et, si oui, à quel niveau.
 
