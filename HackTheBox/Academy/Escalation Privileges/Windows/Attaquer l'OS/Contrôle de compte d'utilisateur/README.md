@@ -35,7 +35,7 @@ Le compte `administrateur RID 500 par défaut` fonctionne toujours au niveau o
 Vérification de l'utilisateur actuel
 
 ```
-C:\htb> whoami /utilisateur
+C:\htb> whoami /user
 
 INFORMATIONS DE L'UTILISATEUR
 ----------------
@@ -49,18 +49,18 @@ winlpe-ws03\sarah S-1-5-21-3159276091-2191180989-3781274054-1002
 #### Confirmation de l'appartenance au groupe d'administrateurs
 
 ```
-C:\htb> administrateurs du groupe local net
+C:\htb> net localgroup administrators
 
-Administrateurs de noms d'alias
-Commentaire Les administrateurs ont un accès complet et illimité à l'ordinateur/au domaine
+Alias name     administrators
+Comment        Administrators have complete and unrestricted access to the computer/domain
 
-Membres
+Members
 
--------------------------------------------------- -----------------------------
-Administrateur
+-------------------------------------------------------------------------------
+Administrator
 mrb3n
 sarah
-La commande s'est terminée avec succès.
+The command completed successfully.
 
 ```
 
@@ -71,16 +71,16 @@ Examen des privilèges de l'utilisateur
 ```
 C:\htb> whoami /priv
 
-INFORMATIONS SUR LES PRIVILÈGES
+PRIVILEGES INFORMATION
 ----------------------
 
-Nom du privilège Description État
-================================================= =============== ========
-SeShutdownPrivilege Arrêter le système Désactivé
-SeChangeNotifyPrivilege Bypass traverse la vérification activée
-SeUndockPrivilege Supprimer l'ordinateur de la station d'accueil Désactivé
-SeIncreaseWorkingSetPrivilege Augmenter un ensemble de travail de processus Désactivé
-SeTimeZonePrivilege Changer le fuseau horaire Désactivé
+Privilege Name                Description                          State
+============================= ==================================== ========
+SeShutdownPrivilege           Shut down the system                 Disabled
+SeChangeNotifyPrivilege       Bypass traverse checking             Enabled
+SeUndockPrivilege             Remove computer from docking station Disabled
+SeIncreaseWorkingSetPrivilege Increase a process working set       Disabled
+SeTimeZonePrivilege           Change the time zone                 Disabled
 
 ```
 
