@@ -109,3 +109,75 @@ Nous le faisons parce que les apprendre nous donne une bonne compréhension des 
 De plus, une fois que nous aurons maîtrisé comment détecter et exploiter les dépassements de mémoire tampon de base basés sur la pile, il sera beaucoup plus facile d'apprendre [Structured Exception Handling (SEH)](https://docs.microsoft.com/en-us/cpp/cpp /structured-exception-handling-c-cpp?view=msvc-160#:~:text=Structured%20exception%20handling%20(SEH)%20is,code%20more%20portable%20and%20flexible.), ce qui est très courant dans les systèmes Windows modernes.
 
 Enfin, une fois que nous aurons une bonne maîtrise des débordements de pile de base et des contournements d'atténuation de base, nous serions prêts à commencer à apprendre des méthodes avancées de contournement d'atténuation, comme (`ROP`) et d'autres méthodes avancées d'exploitation binaire.
+
+
+
+Débogage des programmes Windows
+==========================
+
+* * * * *
+
+Pour identifier et exploiter avec succès les débordements de tampon dans les programmes Windows, nous devons déboguer le programme pour suivre son flux d'exécution et ses données en mémoire. Il existe de nombreux outils que nous pouvons utiliser pour le débogage, comme [Immunity Debugger](https://www.immunityinc.com/products/debugger/index.html), [OllyDBG](http://www.ollydbg.de/) , [WinGDB](http://wingdb.com/) ou [IDA Pro](https://www.hex-rays.com/products/ida/). Cependant, ces débogueurs sont soit obsolètes (Immunity/OllyDBG), soit nécessitent une licence pro pour être utilisés (WinGDB/IDA).
+
+Dans ce module, nous utiliserons [x64dbg](https://github.com/x64dbg/x64dbg), qui est un excellent débogueur Windows destiné spécifiquement à l'exploitation binaire et à l'ingénierie inverse. `x64dbg` est un outil open source développé et maintenu par la communauté et prend également en charge le débogage x64 (contrairement à Immunity), nous pouvons donc continuer à l'utiliser lorsque nous voulons passer aux débordements de tampon Windows x64.
+
+En plus du débogueur lui-même, nous utiliserons un plugin d'exploitation binaire pour effectuer efficacement de nombreuses tâches nécessaires à l'identification et à l'exploitation des débordements de tampon. Un plugin populaire est [mona.py](https://github.com/x64dbg/mona), qui est un excellent plugin d'exploitation binaire, bien qu'il ne soit plus maintenu, ne supporte pas x64 et s'exécute sur Python2 au lieu de Python3 .\
+Donc, à la place, nous utiliserons [ERC.Xdbg](https://github.com/Andy53/ERC.Xdbg), qui est un plug-in d'exploitation binaire open source pour x64dbg.
+
+* * * * *
+
+Installation
+------------
+
+Tous ces outils sont déjà installés sur la VM Windows trouvée à la fin de la section, à laquelle vous pouvez vous connecter depuis la Pwnbox avec la commande ci-dessous :
+
+```
+dsgsec@htb[/htb]$ xfreerdp /v:<adresse IP cible> /u:htb-student /p:<mot de passe>
+
+```
+
+Vous pouvez également utiliser la même commande sur votre propre machine virtuelle Linux ou vous connecter à la machine virtuelle Windows avec RDP sous Windows ou macOS. Pour vous connecter à la VM depuis votre machine, vous devez d'abord vous connecter en utilisant la clé VPN qui se trouve à la fin de la section. Il est également possible d'installer les outils sur votre propre machine virtuelle Windows, comme illustré ci-dessous.
+
+#### x64dbg
+
+Pour installer `x64dbg`, nous pouvons suivre les instructions indiquées dans sa [page GitHub](https://github.com/x64dbg/x64dbg), et accéder à la [dernière version](https://github.com/ x64dbg/x64dbg/releases/tag/snapshot) et téléchargez le fichier `snapshot_<SNIP>.zip` . Une fois que nous l'avons téléchargé dans notre machine virtuelle Windows, nous pouvons extraire le contenu de l'archive `zip` , renommer le dossier `release` en quelque chose comme `x64dbg` et le déplacer vers notre dossier `C:\Program Files` ou le conserver dans n'importe quel dossier que nous voulons.
+
+Enfin, nous pouvons double-cliquer sur `C:\Program Files\x64dbg\x96dbg.exe` pour enregistrer l'extension du shell et ajouter un raccourci vers notre bureau.
+
+Remarque : `x64dbg` est fourni avec deux applications distinctes, une pour `x32` et une pour `x64`, chacune dans son dossier. Cliquer sur `x96dbg.exe` comme indiqué ci-dessus enregistrera la version qui correspond à notre machine virtuelle Windows, qui dans notre cas est celle `x32` .
+
+Une fois cela fait, nous pouvons trouver l'icône `x32dbg` sur notre bureau, et nous pouvons double-cliquer dessus pour démarrer notre débogueur : ![x32dbg](https://academy.hackthebox.com/storage/modules/89/win32bof_x32dbg_1 .jpg)
+
+Astuce : Pour utiliser le thème sombre comme dans la capture d'écran ci-dessus, accédez simplement à `Options > Thème` et sélectionnez `dark`.
+
+#### ERC
+
+Pour installer le plug-in `ERC` , nous pouvons accéder à la [page de publication](https://github.com/Andy53/ERC.Xdbg/releases) et télécharger l'archive `zip` qui correspond à notre VM (`x64` ou `x32`), qui dans notre cas est `ERC.Xdbg_32-<SNIP>.zip`. Une fois que nous l'avons téléchargé sur notre machine virtuelle Windows, nous pouvons extraire son contenu dans `x32dbg` dossier de plugins situé dans `C:\Program Files\x64dbg\x32\plugins`.
+
+Lorsque cela est terminé, le plugin devrait être prêt à l'emploi. Ainsi, une fois que nous avons exécuté `x32dbg`, nous pouvons taper `ERC --help` dans la barre de commandes en bas pour afficher le menu d'aide de `ERC`.
+
+Pour afficher la sortie `ERC`, nous devons passer à l'onglet `Log` en cliquant dessus ou en cliquant `Alt+L`, comme nous pouvons le voir ci-dessous : ![ERC Help](https://academy. hackthebox.com/storage/modules/89/win32bof_ERC_help.jpg)
+
+Nous pouvons également définir un répertoire de travail par défaut pour enregistrer tous les fichiers de sortie, à l'aide de la commande suivante :
+
+ERC
+
+```
+ERC --config SetWorkingDirectory C:\Users\htb-student\Desktop
+
+```
+
+Maintenant, toutes nos sorties doivent être enregistrées sur notre bureau.
+
+* * * * *
+
+Débogage d'un programme
+-------------------
+
+Chaque fois que nous voulons déboguer un programme, nous pouvons soit l'exécuter via `x32dbg`, soit l'exécuter séparément, puis l'attacher à son processus via `x32dbg`.
+
+Pour ouvrir un programme avec `x32dbg`, nous pouvons sélectionner `Fichier> Ouvrir` ou appuyer sur `F3`, ce qui nous invitera à sélectionner le programme à déboguer. Si nous voulions attacher à un processus/programme qui est déjà en cours d'exécution, nous pourrions sélectionner `Fichier> Attacher` ou appuyer `Alt+A`, et il nous présentera divers processus en cours d'exécution accessibles par notre utilisateur : ![Attacher le processus] (https://academy.hackthebox.com/storage/modules/89/win32bof_attach_process.jpg)
+
+Nous pouvons sélectionner le processus que nous voulons déboguer et cliquer sur `Joindre` pour commencer à le déboguer.
+
+Astuce : Si nous voulions faire un debug un processus et il n'a pas été affiché dans la "Fenêtre Attacher", nous pouvons essayer d'exécuter x32dbg en tant qu'administrateur, en cliquant sur `Fichier> Redémarrer en tant qu'administrateur`, puis nous aurons accès à tous les processus en cours d'exécution sur notre VM.
