@@ -146,17 +146,17 @@ Enfin, nous pouvons double-cliquer sur `C:\Program Files\x64dbg\x96dbg.exe` po
 
 Remarque : `x64dbg` est fourni avec deux applications distinctes, une pour `x32` et une pour `x64`, chacune dans son dossier. Cliquer sur `x96dbg.exe` comme indiqué ci-dessus enregistrera la version qui correspond à notre machine virtuelle Windows, qui dans notre cas est celle `x32` .
 
-Une fois cela fait, nous pouvons trouver l'icône `x32dbg` sur notre bureau, et nous pouvons double-cliquer dessus pour démarrer notre débogueur : ![x32dbg](https://academy.hackthebox.com/storage/modules/89/win32bof_x32dbg_1 .jpg)
+Une fois cela fait, nous pouvons trouver l'icône `x32dbg` sur notre bureau, et nous pouvons double-cliquer dessus pour démarrer notre débogueur : ![x32dbg](https://academy.hackthebox.com/storage/modules/89/win32bof_x32dbg_1.jpg)
 
 Astuce : Pour utiliser le thème sombre comme dans la capture d'écran ci-dessus, accédez simplement à `Options > Thème` et sélectionnez `dark`.
 
 #### ERC
 
-Pour installer le plug-in `ERC` , nous pouvons accéder à la [page de publication](https://github.com/Andy53/ERC.Xdbg/releases) et télécharger l'archive `zip` qui correspond à notre VM (`x64` ou `x32`), qui dans notre cas est `ERC.Xdbg_32-<SNIP>.zip`. Une fois que nous l'avons téléchargé sur notre machine virtuelle Windows, nous pouvons extraire son contenu dans `x32dbg` dossier de plugins situé dans `C:\Program Files\x64dbg\x32\plugins`.
+Pour installer le plug-in `ERC` , nous pouvons accéder à la [release page](https://github.com/Andy53/ERC.Xdbg/releases), et télécharger l'archive `zip` qui correspond à notre VM (`x64` ou `x32`), qui dans notre cas est `ERC.Xdbg_32-<SNIP>.zip`. Une fois que nous l'avons téléchargé sur notre machine virtuelle Windows, nous pouvons extraire son contenu dans `x32dbg` dossier de plugins situé dans `C:\Program Files\x64dbg\x32\plugins`.
 
 Lorsque cela est terminé, le plugin devrait être prêt à l'emploi. Ainsi, une fois que nous avons exécuté `x32dbg`, nous pouvons taper `ERC --help` dans la barre de commandes en bas pour afficher le menu d'aide de `ERC`.
 
-Pour afficher la sortie `ERC`, nous devons passer à l'onglet `Log` en cliquant dessus ou en cliquant `Alt+L`, comme nous pouvons le voir ci-dessous : ![ERC Help](https://academy. hackthebox.com/storage/modules/89/win32bof_ERC_help.jpg)
+Pour afficher la sortie `ERC`, nous devons passer à l'onglet `Log` en cliquant dessus ou en cliquant `Alt+L`, comme nous pouvons le voir ci-dessous : ![ERC Help](https://academy.hackthebox.com/storage/modules/89/win32bof_ERC_help.jpg)
 
 Nous pouvons également définir un répertoire de travail par défaut pour enregistrer tous les fichiers de sortie, à l'aide de la commande suivante :
 
@@ -176,7 +176,7 @@ Débogage d'un programme
 
 Chaque fois que nous voulons déboguer un programme, nous pouvons soit l'exécuter via `x32dbg`, soit l'exécuter séparément, puis l'attacher à son processus via `x32dbg`.
 
-Pour ouvrir un programme avec `x32dbg`, nous pouvons sélectionner `Fichier> Ouvrir` ou appuyer sur `F3`, ce qui nous invitera à sélectionner le programme à déboguer. Si nous voulions attacher à un processus/programme qui est déjà en cours d'exécution, nous pourrions sélectionner `Fichier> Attacher` ou appuyer `Alt+A`, et il nous présentera divers processus en cours d'exécution accessibles par notre utilisateur : ![Attacher le processus] (https://academy.hackthebox.com/storage/modules/89/win32bof_attach_process.jpg)
+Pour ouvrir un programme avec `x32dbg`, nous pouvons sélectionner `Fichier> Ouvrir` ou appuyer sur `F3`, ce qui nous invitera à sélectionner le programme à déboguer. Si nous voulions attacher à un processus/programme qui est déjà en cours d'exécution, nous pourrions sélectionner `Fichier> Attacher` ou appuyer `Alt+A`, et il nous présentera divers processus en cours d'exécution accessibles par notre utilisateur : ![Attach Process](https://academy.hackthebox.com/storage/modules/89/win32bof_attach_process.jpg)
 
 Nous pouvons sélectionner le processus que nous voulons déboguer et cliquer sur `Joindre` pour commencer à le déboguer.
 
