@@ -94,7 +94,7 @@ Comme nous pouvons le remarquer à partir des exemples ci-dessus, la plupart d'e
 
 Cependant, même avec ces types de protections, si un programme est vulnérable à un Buffer Overflow, il existe des méthodes avancées pour contourner ces protections. Certains exemples incluent la programmation orientée retour (`ROP`) mentionnée précédemment ou des méthodes d'exploitation spécifiques à Windows comme l'exploitation Egg Hunting ou Structured Exception Handling (`SEH`).
 
-De plus, les compilateurs modernes empêchent l'utilisation de fonctions vulnérables aux débordements de Stack, ce qui réduit considérablementl'apparition de débordements de tampon basés sur la pile. C'est pourquoi les débordements de tampon basés sur la pile sont moins courants de nos jours. Dans le même temps, d'autres types d'exploitation binaire plus avancés sont plus courants, car ils ne peuvent pas être atténués en activant simplement une méthode de protection.
+De plus, les compilateurs modernes empêchent l'utilisation de fonctions vulnérables aux débordements de Stack, ce qui réduit considérablement l'apparition de débordements de tampon basés sur la pile. C'est pourquoi les débordements de tampon basés sur la pile sont moins courants de nos jours. Dans le même temps, d'autres types d'exploitation binaire plus avancés sont plus courants, car ils ne peuvent pas être atténués en activant simplement une méthode de protection.
 
 * * * * *
 
