@@ -79,7 +79,7 @@ ERC --compare 0014F974 C:\Users\htb-student\Desktop\ByteArray_1.bin
 
 ```
 
-Ce que cette commande va faire, c'est comparer octet par octet à la fois notre entrée dans `ESP` et tous les caractères que nous avons générés précédemment dans `ByteArray_1.bin` : ![Byte Compare 1](https://academy.hackthebox.com/stockage/modules/89/win32bof_bytes_compare.jpg)
+Ce que cette commande va faire, c'est comparer octet par octet à la fois notre entrée dans `ESP` et tous les caractères que nous avons générés précédemment dans `ByteArray_1.bin` : ![Byte Compare 1](https://academy.hackthebox.com/storage/modules/89/win32bof_bytes_compare.jpg)
 
 Comme nous pouvons le voir, cela place chaque octet des deux emplacements à côté de chaqueautre pour repérer rapidement tout problème. La sortie que nous recherchons est celle où tous les octets des deux emplacements sont identiques, sans aucune différence. Cependant, nous constatons qu'après le premier caractère `00`, tous les octets restants sont différents. `Cela indique que 0x00 a tronqué l'entrée restante et qu'il doit donc être considéré comme un mauvais caractère.`
 
