@@ -66,11 +66,11 @@ Nous pouvons maintenant exécuter notre exploit avec `F5` pour générer le f
 Comparer notre entrée
 -------------------
 
-Nous pouvons maintenant redémarrer notre programme dans `x32dbg` et charger `chars.wav` dedans. Une fois que nous l'avons fait, nous pouvons commencer à comparer notre entrée en mémoire et voir s'il manque des caractères. Pour ce faire, nous pouvons vérifier le volet Stack en bas à droite de `x32dbg`, qui doit être aligné exactement au début de notre entrée : ![Byte Stack](https://academy.hackthebox.com/storage/modules /89/win32bof_bytes_stack.jpg)
+Nous pouvons maintenant redémarrer notre programme dans `x32dbg` et charger `chars.wav` dedans. Une fois que nous l'avons fait, nous pouvons commencer à comparer notre entrée en mémoire et voir s'il manque des caractères. Pour ce faire, nous pouvons vérifier le volet Stack en bas à droite de `x32dbg`, qui doit être aligné exactement au début de notre entrée : ![Byte Stack](https://academy.hackthebox.com/storage/modules/89/win32bof_bytes_stack.jpg)
 
 Nous pouvons maintenant parcourir manuellement la pile ligne par ligne de droite à gauche et nous assurer que toutes les valeurs hexadécimales sont présentes, de `0x00` à `0xff`. Comme cela peut prendre un certain temps et que nous comptons entièrement sur nos yeux, nous pouvons manquer un personnage ou deux. Nous allons donc à nouveau utiliser `ERC` pour effectuer la comparaison à notre place. Il comparera facilement notre entrée en mémoire à tous les caractères.
 
-Nous devons d'abord copier l'adresse `ESP` car c'est là que se trouve notre entrée. Nous pouvons le faire en cliquant dessus avec le bouton droit de la souris et en sélectionnant `Copier la valeur`, ou en cliquant sur `[Ctrl + C]` : ![Byte ESP](https://academy.hackthebox.com/storage/modules/89/win32bof_bytes_esp .jpg)
+Nous devons d'abord copier l'adresse `ESP` car c'est là que se trouve notre entrée. Nous pouvons le faire en cliquant dessus avec le bouton droit de la souris et en sélectionnant `Copier la valeur`, ou en cliquant sur `[Ctrl + C]` : ![Byte ESP](https://academy.hackthebox.com/storage/modules/89/win32bof_bytes_esp.jpg)
 
 Une fois que nous avons la valeur `ESP`, nous pouvons utiliser `ERC --compare` et lui donner l'adresse `ESP` et l'emplacement du fichier `.bin` qui contient tous les caractères, comme suit :
 
@@ -79,7 +79,7 @@ ERC --compare 0014F974 C:\Users\htb-student\Desktop\ByteArray_1.bin
 
 ```
 
-Ce que cette commande va faire, c'est comparer octet par octet à la fois notre entrée dans `ESP` et tous les caractères que nous avons générés précédemment dans `ByteArray_1.bin` : ![Byte Compare 1](https://academy.hackthebox.com/ stockage/modules/89/win32bof_bytes_compare.jpg)
+Ce que cette commande va faire, c'est comparer octet par octet à la fois notre entrée dans `ESP` et tous les caractères que nous avons générés précédemment dans `ByteArray_1.bin` : ![Byte Compare 1](https://academy.hackthebox.com/stockage/modules/89/win32bof_bytes_compare.jpg)
 
 Comme nous pouvons le voir, cela place chaque octet des deux emplacements à côté de chaqueautre pour repérer rapidement tout problème. La sortie que nous recherchons est celle où tous les octets des deux emplacements sont identiques, sans aucune différence. Cependant, nous constatons qu'après le premier caractère `00`, tous les octets restants sont différents. `Cela indique que 0x00 a tronqué l'entrée restante et qu'il doit donc être considéré comme un mauvais caractère.`
 
@@ -113,7 +113,7 @@ def bad_chars():
 
 Remarque : Le fichier `chars.wav` peut toujours être détenu par le débogueur, et notre script python peut ne pas être en mesure de l'écraser. Donc, redémarrez le programme dans `x32dbg` pour libérer le fichier avant d'exécuter l'exploit.
 
-Une fois que nous aurons notre nouveau fichier `chars.wav` , nous le chargerons à nouveau dans notre programme et utiliserons `--compare` avec le nouveau fichier `ByteArray_2.bin` pour voir si les deux entrées correspondent : ![Byte Compare 2] (https://academy.hackthebox.com/storage/modules/89/win32bof_bytes_compare_2.jpg)
+Une fois que nous aurons notre nouveau fichier `chars.wav` , nous le chargerons à nouveau dans notre programme et utiliserons `--compare` avec le nouveau fichier `ByteArray_2.bin` pour voir si les deux entrées correspondent : ![Byte Compare 2](https://academy.hackthebox.com/storage/modules/89/win32bof_bytes_compare_2.jpg)
 
 Comme nous pouvons le voir, cette fois, les deux lignes correspondent parfaitement jusqu'à `0xFF`, ce qui signifie qu'il n'y a plus de mauvais caractères dans notre entrée. Si nous avions identifié un autre mauvais personnage, nous répéterions le même processus que nous venons de faire pour `Éliminer les mauvais personnages` jusqu'à ce que les deux lignes correspondent parfaitement.
 
