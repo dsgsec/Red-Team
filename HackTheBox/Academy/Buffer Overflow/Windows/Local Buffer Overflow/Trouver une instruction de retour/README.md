@@ -104,7 +104,7 @@ Maintenant que nous avons une liste de fichiers chargés qui peuvent inclure l'i
 
 Nous pouvons commencer par `cdextract.exe` et double-cliquer dessus pour ouvrir la vue et rechercher ses instructions. Pour rechercher l'instruction `JMP ESP` dans les instructions de ce fichier, nous pouvons cliquer `ctrl+f`, ce qui nous permet de rechercher n'importe quelle instruction dans le fichier ouvert `cdextract.exe` : ![Rechercher la commande](https ://academy.hackthebox.com/storage/modules/89/win32bof_find_command.jpg)
 
-Nous pouvons entrer `jmp esp`, et il devrait nous montrer si ce fichier contient l'une des instructions que nous avons recherchées : ![Find JMP ESP](https://academy.hackthebox.com/storage/modules/89/win32bof_find_jmp_esp. jpg)
+Nous pouvons entrer `jmp esp`, et il devrait nous montrer si ce fichier contient l'une des instructions que nous avons recherchées : ![Find JMP ESP](https://academy.hackthebox.com/storage/modules/89/win32bof_find_jmp_esp.jpg)
 
 Comme nous pouvons le voir, nous avons trouvé les correspondances suivantes :
 
