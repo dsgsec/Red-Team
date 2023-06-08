@@ -5,10 +5,10 @@ Passer au Shellcode
 
 Jusqu'à présent, dans notre exercice d'identification et d'exploitation d'une vulnérabilité de débordement de tampon basée sur la pile, nous avons effectué les opérations suivantes :
 
-1. Paramètres flous
-2. EIP contrôlé
-3. Mauvais personnages identifiés
-4. Trouvé une instruction de retour
+1. Fuzz paramètres
+2. Prendre controle de EIP
+3. Identifier les mauvais Chars
+4. Trouver une instruction de retour
 
 La dernière étape consiste à écrire du shellcode sur la pile qui est exécuté lorsque les adresses de retour que nous avons trouvées plus tôt sont exécutées puisque nous recherchons des adresses d'instructions qui exécutent le code écrit en haut de la pile.
 
