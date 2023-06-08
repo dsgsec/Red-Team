@@ -95,7 +95,7 @@ Pour le convertir `hex` en une adresse dans Little Endian, nous allons utilis
 Code : python
 
 ```
-à partir du pack d'importation de structure
+from struct import pack
 
 ```
 
