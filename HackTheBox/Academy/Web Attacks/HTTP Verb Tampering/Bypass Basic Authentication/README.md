@@ -33,7 +33,7 @@ Exploiter
 
 Pour essayer d'exploiter la page, nous devons identifier la méthode de requête HTTP utilisée par l'application Web. Nous pouvons intercepter la demande dans Burp Suite et l'examiner : ![unauthorized_request](https://academy.hackthebox.com/storage/modules/134/web_attacks_verb_tampering_unauthorized_request.jpg)
 
-Comme la page utilise une requête `GET` , nous pouvons envoyer une requête `POST` et voir si la page Web autorise les requêtes `POST` (c'est-à-dire si l'authentification couvre les requêtes `POST`). Pour ce faire, nous pouvons cliquer avec le bouton droit de la souris sur la demande interceptée dans Burp et sélectionner `Change Request Method`, et cela transformera automatiquement la demande en une demande `POST` : ![change_request](https://academy.hackthebox. com/storage/modules/134/web_attacks_verb_tampering_change_request.jpg)
+Comme la page utilise une requête `GET` , nous pouvons envoyer une requête `POST` et voir si la page Web autorise les requêtes `POST` (c'est-à-dire si l'authentification couvre les requêtes `POST`). Pour ce faire, nous pouvons cliquer avec le bouton droit de la souris sur la demande interceptée dans Burp et sélectionner `Change Request Method`, et cela transformera automatiquement la demande en une demande `POST` : ![change_request](https://academy.hackthebox.com/storage/modules/134/web_attacks_verb_tampering_change_request.jpg)
 
 Une fois cela fait, nous pouvons cliquer sur `Suivant` et examiner la page dans notre navigateur. Malheureusement, nous sommes toujours invités à nous connecter et nous recevrons une page `401 Non autorisé` si nous ne fournissons pas les informations d'identification :
 
