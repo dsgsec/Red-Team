@@ -3,7 +3,7 @@ Contournement des filtres de sécurité
 
 * * * * *
 
-L'autre type de vulnérabilité HTTP Verb Tampering, le plus courant, est causé par des erreurs de "codage non sécurisé" commises lors du développement de l'application Web, qui conduisent à ce que l'application Web ne couvre pas toutes les méthodes HTTP dans certaines fonctionnalités. Cela se trouve couramment dans les filtres de sécurité qui détectent les requêtes malveillantes. Par exemple, si un filtre de sécurité était utilisé pour détecter les vulnérabilités d'injection et ne vérifiait les injections que dans les paramètres `POST` (par exemple `$_POST['parameter']`), il peut être possible de le contourner en modifiant simplement la méthode de requête. à `OBTENIR`.
+L'autre type de vulnérabilité HTTP Verb Tampering, le plus courant, est causé par des erreurs de "codage non sécurisé" commises lors du développement de l'application Web, qui conduisent à ce que l'application Web ne couvre pas toutes les méthodes HTTP dans certaines fonctionnalités. Cela se trouve couramment dans les filtres de sécurité qui détectent les requêtes malveillantes. Par exemple, si un filtre de sécurité était utilisé pour détecter les vulnérabilités d'injection et ne vérifiait les injections que dans les paramètres `POST` (par exemple `$_POST['parameter']`), il peut être possible de le contourner en modifiant simplement la méthode de requête. à `GET`.
 
 * * * * *
 
