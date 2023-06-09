@@ -84,7 +84,6 @@ Considérons le code `PHP` suivant de notre exercice `Gestionnaire de fichier
 Code : php
 
 ```
-```
 if (isset($_REQUEST['filename'])) {
     if (!preg_match('/[^A-Za-z0-9. _-]/', $_POST['filename'])) {
         system("touch " . $_REQUEST['filename']);
@@ -97,7 +96,7 @@ if (isset($_REQUEST['filename'])) {
 
 Si nous ne considérions que les vulnérabilités d'injection de commande, nous dirions que cela est codé de manière sécurisée. La fonction `preg_match` recherche correctement les caractères spéciaux indésirables et n'autorise pas l'entrée dans la commande si des caractères spéciaux sont trouvés. Cependant, l'erreur fatale commise dans ce cas n'est pas due aux injections de commandes, mais à l' `utilisation incohérente des méthodes HTTP`.
 
-Nous constatons que le filtre `preg_match` vérifie uniquement les caractères spéciaux dans les paramètres `POST` avec `$_POST['filename']`. Cependant, la commande `system` finale utilise la variable `$_REQUEST['filename']` , qui couvre à la fois les paramètres `GET` et `POST` . Ainsi, dans la section précédente, lorsque nous envoyions notre entrée malveillante via une requête `GET` , elle n'était pas arrêtée par la fonction `preg_match` , car les paramètres `POST` étaient vides et ne contenaient donc aucun caractère spécial. Une fois que nous avons atteint la fonction `system` , cependant, elle utilisait n'importe quel paramètreers trouvés dans la requête, et nos paramètres `GET` ont été utilisés dans la commande, ce qui a finalement conduit à l'injection de commande.
+Nous constatons que le filtre `preg_match` vérifie uniquement les caractères spéciaux dans les paramètres `POST` avec `$_POST['filename']`. Cependant, la commande `system` finale utilise la variable `$_REQUEST['filename']` , qui couvre à la fois les paramètres `GET` et `POST` . Ainsi, dans la section précédente, lorsque nous envoyions notre entrée malveillante via une requête `GET` , elle n'était pas arrêtée par la fonction `preg_match` , car les paramètres `POST` étaient vides et ne contenaient donc aucun caractère spécial. Cependant, une fois que nous avons atteint la fonction `system` , tous les paramètres trouvés dans la requête ont été utilisés, et nos paramètres `GET` ont été utilisés dans la commande, ce qui a finalement conduit à l'injection de commande.
 
 Cet exemple de base nous montre comment des incohérences mineures dans l'utilisation des méthodes HTTP peuvent conduire à des vulnérabilités critiques. Dans une application Web de production, ces types de vulnérabilités ne seront pas aussi évidents. Ils seraient probablement répartis sur l'application Web et ne seraient pas sur deux lignes consécutives comme nous l'avons ici. Au lieu de cela, l'application Web aura probablement une fonction spéciale pour vérifier les injections et une fonction différente pour créer des fichiers. Cette séparation du code rend difficile la détection de ces types d'incohérences et, par conséquent, elles peuvent survivre jusqu'à la production.
 
