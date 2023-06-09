@@ -14,13 +14,13 @@ Falsification des verbes HTTP
 
 Pour comprendre `HTTP Verb Tampering`, nous devons d'abord connaître les différentes méthodes acceptées par le protocole HTTP. HTTP a [9 verbes différents](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods) qui peuvent être acceptés comme méthodes HTTP par les serveurs Web. Outre `GET` et `POST`, voici quelques-uns des verbes HTTP couramment utilisés :
 
-| Verbe | Descriptif |
+| Verb | Description |
 | --- | --- |
-| `TÊTE` | Identique à une requête GET, mais sa réponse ne contient que les "en-têtes", sans le corps de la réponse |
-| 'METTRE' | Écrit la charge utile de la requête à l'emplacement spécifié |
-| `SUPPRIMER` | Supprime la ressource à l'emplacement spécifié |
-| `OPTIONS` | Affiche différentes options acceptées par un serveur Web, comme les verbes HTTP acceptés |
-| `PATCH` | Appliquer des modifications partielles à la ressource à l'emplacement spécifié |
+| `HEAD` | Identical to a GET request, but its response only contains the `headers`, without the response body |
+| `PUT` | Writes the request payload to the specified location |
+| `DELETE` | Deletes the resource at the specified location |
+| `OPTIONS` | Shows different options accepted by a web server, like accepted HTTP verbs |
+| `PATCH` | Apply partial modifications to the resource at the specified location |
 
 Comme vous pouvez l'imaginer, certaines des méthodes ci-dessus peuvent exécuter des fonctionnalités très sensibles, comme écrire (`PUT`) ou supprimer (`DELETE`) des fichiers dans le répertoire webroot sur le serveur principal. Comme indiqué dans le module [Requêtes Web](https://academy.hackthebox.com/course/preview/web-requests) , si un serveur Web n'est pas configuré de manière sécurisée pour gérer ces méthodes, nous pouvons les utiliser pour prendre le contrôle de le serveur principal. Cependant, ce qui rend les attaques HTTP Verb Tampering plus courantes (et donc plus critiques), c'est qu'elles sont causées par une mauvaise configuration du serveur Web principal ou de l'application Web, l'une ou l'autre pouvant entraîner la vulnérabilité.
 
@@ -34,9 +34,9 @@ Les configurations de serveur Web non sécurisées provoquent le premier type de
 Code : xml
 
 ```
-<Limite GET POST>
-     Exiger un utilisateur valide
-</Limite>
+<Limit GET POST>
+    Require valid-user
+</Limit>
 
 ```
 
@@ -52,11 +52,11 @@ Les pratiques de codage non sécurisées provoquent l'autre type de vulnérabili
 Code : php
 
 ```
-$motif = "/^[A-Za-z\s]+$/" ;
+$pattern = "/^[A-Za-z\s]+$/";
 
-si(preg_match($motif, $_GET["code"])) {
-     $query = "Sélectionnez * parmi les ports où port_code ressemble à '%" . $_REQUEST["code"] . "%' " ;
-     ...COUPER...
+if(preg_match($pattern, $_GET["code"])) {
+    $query = "Select * from ports where port_code like '%" . $_REQUEST["code"] . "%'";
+    ...SNIP...
 }
 
 ```
