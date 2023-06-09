@@ -21,7 +21,7 @@ Ce message indique que l'application Web utilise certains filtres sur le back-en
 Exploiter
 -------
 
-Pour essayer d'exploiter cette vulnérabilité, interceptons la requête dans Burp Suite (Burp), puis utilisons `Change Request Method` pour la remplacer par une autre méthode : ![unauthorized_request](https://academy.hackthebox.com/storage/modules /134/web_attacks_verb_tampering_GET_request.jpg)
+Pour essayer d'exploiter cette vulnérabilité, interceptons la requête dans Burp Suite (Burp), puis utilisons `Change Request Method` pour la remplacer par une autre méthode : ![unauthorized_request](https://academy.hackthebox.com/storage/modules/134/web_attacks_verb_tampering_GET_request.jpg)
 
 Cette fois, nous n'avons pas reçu le message "Demande malveillante refusée !" et notre fichier a bien été créé :
 
