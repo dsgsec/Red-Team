@@ -546,7 +546,7 @@ Les partages permettent aux utilisateurs d'un domaine d'accéder rapidement aux 
 
 * * * * *
 
-Filet
+Snaffler
 -----
 
 [Snaffler](https://github.com/SnaffCon/Snaffler) est un outil qui peut nous aider à acquérir des informations d'identification ou d'autres données sensibles dans un environnement Active Directory. Snaffler fonctionne en obtenant une liste d'hôtes dans le domaine, puis en énumérant ces hôtes pour les partages et les répertoires lisibles. Une fois cela fait, il parcourt tous les répertoires lisibles par notre utilisateur et recherche les fichiers qui pourraient servir à améliorer notre position dans l'évaluation. Snaffler nécessite qu'il soit exécuté à partir d'un hôte joint à un domaine ou dans un contexte d'utilisateur de domaine.
@@ -614,7 +614,7 @@ Maintenant que nous disposons d'une multitude de données sur le domaine INLANEF
 
 * * * * *
 
-### Limier
+### SharpHound
 
 Comme indiqué dans la section précédente, `Bloodhound`est un outil open source exceptionnel qui peut identifier les chemins d'attaque dans un environnement AD en analysant les relations entre les objets. Les testeurs d'intrusion et les équipes bleues peuvent bénéficier de l'apprentissage de l'utilisation de BloodHound pour visualiser les relations dans le domaine. Lorsqu'il est utilisé correctement et associé à des requêtes Cipher personnalisées, BloodHound peut trouver des failles à fort impact, mais difficiles à découvrir, qui sont présentes dans le domaine depuis des années.
 
