@@ -197,19 +197,19 @@ root@kali$ cd /opt/armitage/release/unix && ./armitage
 
 Lorsque vous utilisez un framework C2 , vous ne souhaitez jamais exposer publiquement l'interface de gestion ; Vous devez toujours écouter sur une interface locale, jamais sur une interface publique. Cela complique l'accès pour les autres opérateurs. Heureusement, il existe une solution simple pour cela. Pour que les opérateurs puissent accéder au serveur, vous devez créer un nouveau compte utilisateur pour eux et activer l'accès SSH sur le serveur, et ils pourront transférer le port SSH TCP/55553. Armitage refuse explicitement aux utilisateurs d'écouter sur 127.0.0.1 ; c'est parce qu'il s'agit essentiellement d'un serveur Metasploit partagé avec un "serveur de déconfliction" que lorsque plusieurs utilisateurs se connectent au serveur, vous ne voyez pas tout ce que vos autres utilisateurs voient. Avec Armitage, vous devez écouter sur votre adresse IP tun0/eth0.
 
-![](https://tryhackme-images.s3.amazonaws.com/user-uploads/5d5a2b006986bf3508047664/room-content/250523e0ea93b10e42c3515c6b812609.png)
+![250523e0ea93b10e42c3515c6b812609](https://github.com/dsgsec/Red-Team/assets/82456829/27d88f56-4330-4c81-a832-2bdc5432fdd2)
 
 *Modifiez l'adresse IP de l'hôte en fonction de ce que vous avez défini à l'étape précédente, "Démarrage du serveur d'équipe d'Armitage".*
 
 Après avoir cliqué sur "Se connecter", vous serez invité à entrer un surnom. Vous pouvez définir ce que vous voulez ; seuls vos collègues opérateurs de l'équipe rouge le verront.
 
-![](https://tryhackme-images.s3.amazonaws.com/user-uploads/5d5a2b006986bf3508047664/room-content/67465eb4ae28c1f7d57452b6b632314c.png)
+![67465eb4ae28c1f7d57452b6b632314c](https://github.com/dsgsec/Red-Team/assets/82456829/e155e8c5-204e-4b69-a91d-e434430cab1f)
 
 *L'interface utilisateur d'Armitage pour mettre un surnom personnalisé*
 
 Après un moment ou deux, l'interface utilisateur d'Armitage devrait s'ouvrir, jusqu'à ce que nous commencions à interagir avec des systèmes distants ; il aura l'air nu. Dans la prochaine tâche à venir, nous exploiterons une machine virtuelle vulnérable pour vous familiariser davantage avec l'interface utilisateur d'Armitage et son utilisation.
 
-![](https://tryhackme-images.s3.amazonaws.com/user-uploads/5d5a2b006986bf3508047664/room-content/fca62d124845af393a71e38e9eb94edb.png)
+![fca62d124845af393a71e38e9eb94edb](https://github.com/dsgsec/Red-Team/assets/82456829/c768fcb5-e54c-40a4-a48f-8571043900aa)
 
 *L'interface utilisateur d'Armitage*
 
