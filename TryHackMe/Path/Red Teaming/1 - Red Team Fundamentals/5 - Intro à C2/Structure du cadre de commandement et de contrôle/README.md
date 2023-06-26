@@ -15,7 +15,7 @@ Alors, qu'est-ce qui rend exactement les frameworks C2 meilleurs qu'un écoute
 
 Afin de comprendre un cadre de commande et de contrôle, nous devons d'abord commencer par comprendre les différents composants d'un serveur C2 . Commençons par le composant le plus essentiel - Le serveur C2 lui-même . Le serveur C2 sert de plaque tournante vers laquelle les agents peuvent rappeler. Les agents contacteront périodiquement le serveur C2 et attendront les commandes de l'opérateur.
 
-![](https://tryhackme-images.s3.amazonaws.com/user-uploads/5d5a2b006986bf3508047664/room-content/5de5e62c5ba37013302790062b6b429e.png)
+![5de5e62c5ba37013302790062b6b429e](https://github.com/dsgsec/Red-Team/assets/82456829/cbf66180-419d-4e8a-a717-ca5be3cc6f94)
 
 *Cette capture d'écran illustre un diagramme de serveur C2 de base .*
 
@@ -81,7 +81,7 @@ Charges utiles sans étape
 
 Les charges utiles sans étape sont les plus simples des deux ; ils contiennent l' agent C2 complet et rappelleront le serveur C2 et commenceront le balisage immédiatement. Vous pouvez vous référer au schéma ci-dessous pour mieux comprendre le fonctionnement des charges utiles Stageless.
 
-![](https://tryhackme-images.s3.amazonaws.com/user-uploads/5d5a2b006986bf3508047664/room-content/e79d46d97f108842b9424ae5a134d2f8.png)
+![e79d46d97f108842b9424ae5a134d2f8](https://github.com/dsgsec/Red-Team/assets/82456829/5553109b-6e99-48ae-9b0b-3fe59afef808)
 
 *Cette capture d'écran illustre une charge utile sans étape rappelant un serveur C2*
 
@@ -94,7 +94,7 @@ Les étapes pour établir le balisage C2 avec une charge utile Stageless sont 
 Charges utiles mises en scène
 
 Les charges utiles mises en place nécessitent un rappel au serveur C2 pour télécharger des parties supplémentaires de l'agent C2. Ceci est communément appelé un "Dropper" car il est "déposé" sur la machine victime pour télécharger la deuxième étape de notre charge utile étagée. Il s'agit d'une méthode préférée par rapport aux charges utiles sans étape, car une petite quantité de code doit être écrite pour récupérer les parties supplémentaires de l'agent C2 à partir du serveur C2. Il facilite également l'obscurcissement du code pour contourner les programmes antivirus.\
-![](https://tryhackme-images.s3.amazonaws.com/user-uploads/5d5a2b006986bf3508047664/room-content/e6127ac6a295a1d9b01444757f711084.png)
+![e6127ac6a295a1d9b01444757f711084](https://github.com/dsgsec/Red-Team/assets/82456829/57a67754-dec0-4a44-ad75-5152883f85e4)
 
 *Ce diagramme illustre un dropper rappelant un serveur C2 pour sa deuxième étape.*
 
@@ -135,7 +135,7 @@ Les modules de post-exploitation sont simplement des modules qui traitent de tou
 
 L'un des derniers composants majeurs d'un cadre C2 est ses modules pivotants, qui facilitent l'accès aux segments de réseau restreints au sein du cadre C2. Si vous disposez d'un accès administrateur sur un système, vous pourrez peut-être ouvrir une "balise SMB", qui peut permettre à une machine d'agir en tant que proxy via le protocole SMB. Cela peut permettre aux machines d'un segment de réseau restreint de communiquer avec votre serveur C2.
 
-![](https://tryhackme-images.s3.amazonaws.com/user-uploads/5d5a2b006986bf3508047664/room-content/da7b0247ff1db8e98c9358c39a0c3d21.png)
+![da7b0247ff1db8e98c9358c39a0c3d21](https://github.com/dsgsec/Red-Team/assets/82456829/b9e45812-44ae-4ea3-a316-bafb97812d05)
 
 *Ce diagramme illustre plusieurs victimes avec un pivot SMB rappelant un serveur C2.*
 
@@ -159,7 +159,7 @@ Façade de domaine
 
 Domain Fronting utilise un bon hôte connu (par exemple) Cloudflare. Cloudflare gère une entreprise qui fournit des métriques améliorées sur les détails de connexion HTTP ainsi que la mise en cache des demandes de connexion HTTP pour économiser la bande passante. Les Red Teamers peuvent en abuser pour donner l'impression qu'un poste de travail ou un serveur communique avec une adresse IP connue et de confiance. Les résultats de géolocalisation s'afficheront là où se trouve le serveur Cloudflare le plus proche, et l'adresse IP apparaîtra comme propriété de Cloudflare.
 
-![](https://tryhackme-images.s3.amazonaws.com/user-uploads/5d5a2b006986bf3508047664/room-content/cd1ea19e9e0d7bef0d8ec6615061335b.png)
+![cd1ea19e9e0d7bef0d8ec6615061335b](https://github.com/dsgsec/Red-Team/assets/82456829/b1f0b6d4-7c46-4f4f-8694-af62105968bf)
 
 *Ce diagramme montre un exemple de balise HTTP provenant d'un appareil compromis.*
 
@@ -181,7 +181,7 @@ Profils C2
 
 La technique suivante porte plusieurs noms par plusieurs produits différents, "NGINX Reverse Proxy", "Apache Mod_Proxy/Mod_Rewrite", "Malleable HTTP C2 Profiles", et bien d'autres. Cependant, ils sont tous plus ou moins les mêmes. Toutes les fonctionnalités du proxy permettent plus ou moins à un utilisateur de contrôler des éléments spécifiques de la requête HTTP entrante. Supposons qu'une demande de connexion entrante ait un en-tête "X-C2-Server" ; nous pourrions extraire explicitement cet en-tête en utilisant la technologie spécifique qui est à votre disposition (Reverse Proxy, Mod_Proxy/Rewrite, Malleable C2 Profile, etc.) et nous assurer que votre serveur C2 répond avec des réponses basées sur C2. Alors que si un utilisateur normal interrogeait le serveur HTTP, il pourrait voir une page Web générique. Tout dépend de votre configuration.
 
-![](https://tryhackme-images.s3.amazonaws.com/user-uploads/5d5a2b006986bf3508047664/room-content/22eac0e3ab2de3f61d57e858cee3e33e.png)
+![22eac0e3ab2de3f61d57e858cee3e33e](https://github.com/dsgsec/Red-Team/assets/82456829/4faffcb2-80c5-4e59-8a06-9d77849483c9)
 
 *Un analyste de l'appareil compromis et de la sécurité contacte un serveur C2 , seul l'appareil compromis récupère une balise C2 - l'analyste récupère le site Web de Cloudflare.*
 
