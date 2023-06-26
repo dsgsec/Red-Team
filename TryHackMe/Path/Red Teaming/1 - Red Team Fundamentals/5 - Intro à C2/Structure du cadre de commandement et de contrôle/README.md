@@ -2,7 +2,7 @@
 
 Tout en essayant de digérer les différents composants d'un cadre C2 , cela peut être intimidant. Cependant, ils ne doivent pas l'être. Afin de mieux comprendre ce qu'est un framework C2 à son niveau le plus basique, pensez à un écouteur Netcat (le serveur C2) qui est capable de gérer plusieurs shells inversés rappelant à la fois (Agents C2). C'est un serveur mais pour les shells inversés. Contrairement à Netcat, presque tous les frameworks C2 nécessitent un générateur de charge utile spécial. Il s'agit généralement d'une fonctionnalité intégrée au framework lui-même. Par exemple, Metasploit est un framework C2 qui possède son propre générateur de charge utile, MSFVenom.
 
-![g](https://tryhackme-images.s3.amazonaws.com/user-uploads/5d5a2b006986bf3508047664/room-content/661abd734022d8a1f3050e90d3fb6861.png)
+![](https://tryhackme-images.s3.amazonaws.com/user-uploads/5d5a2b006986bf3508047664/room-content/661abd734022d8a1f3050e90d3fb6861.png)
 
 *Le diagramme ci-dessus illustre trois clients compromis rappelant un serveur C2 .\
 *
