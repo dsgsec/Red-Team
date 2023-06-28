@@ -31,8 +31,7 @@ Chaque structure RoE sera déterminée par le client et l'équipe rouge et peut 
  |
 | Approbation  | Signatures des deux parties approuvant toutes les sous-sections du document précédent\
  |
-| annexe | Toute autre information des sous-sections précédentes\
- |
+| annexe | Toute autre information des sous-sections précédentes |
 
 Lors de l'analyse du document, il est important de se rappeler qu'il ne s'agit que d'un résumé et que son objectif est d'être un document juridique. Une planification future et plus approfondie est nécessaire pour développer le RdE et les objectifs du client.
 
