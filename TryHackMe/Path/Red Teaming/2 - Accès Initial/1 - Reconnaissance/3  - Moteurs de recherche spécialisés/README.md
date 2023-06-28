@@ -36,7 +36,7 @@ D'autre part, lorsque nous recherchions `cafe.thmredteam.com`, nous pouvions é
 
 [Censys Search](https://search.censys.io/) peut fournir de nombreuses informations sur les adresses IP et les domaines. Dans cet exemple, nous recherchons l'une des adresses IP qui `cafe.thmredteam.com`se résout en. Nous pouvons facilement en déduire que l'adresse IP que nous avons recherchée appartient à Cloudflare. Nous pouvons voir des informations relatives aux ports 80 et 443, entre autres ; cependant, il est clair que cette adresse IP est utilisée pour des sites Web de serveurs autres que `cafe.thmredteam.com`. En d'autres termes, cette adresse IP appartient à une société autre que notre client, [Organic Cafe](https://cafe.thmredteam.com/) . Il est essentiel de faire cette distinction afin que nous ne sondions pas des systèmes en dehors de la portée de notre contrat.
 
-![](https://tryhackme-images.s3.amazonaws.com/user-uploads/5f04259cf9bf5b57aed2c476/room-content/efc8f98cc9e721707d4bad477340e120.png)
+![efc8f98cc9e721707d4bad477340e120](https://github.com/dsgsec/Red-Team/assets/82456829/5d684c10-4ee1-4e0b-b727-00649838047d)
 
 #### Shodan
 
