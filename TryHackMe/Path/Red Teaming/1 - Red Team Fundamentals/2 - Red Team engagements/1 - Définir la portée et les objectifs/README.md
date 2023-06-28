@@ -32,3 +32,32 @@ La prochaine clé de voûte d'un engagement précis et transparent est un périm
 * * * * *
 
 Lors de l'analyse des objectifs ou de la portée d'un client du point de vue de l'équipe rouge, il est essentiel de comprendre la signification et les implications plus profondes. Lors de l'analyse, vous devez toujours avoir une compréhension dynamique de la manière dont votre équipe aborderait les problèmes/objectifs. Si nécessaire, vous devez rédiger vos plans d'engagement ou les démarrer à partir d'une simple lecture des objectifs et de la portée du client.
+
+* * * * *
+
+# Exemple 
+## Etreprises mondiales :
+
+Objectifs:
+
+1.  Identifiez les erreurs de configuration du système et les faiblesses du réseau.
+    1.  Concentrez-vous sur les systèmes extérieurs.
+2.  Déterminer l'efficacité des systèmes de détection et de réponse aux terminaux.
+3.  Évaluez la posture de sécurité globale et la réponse.
+    1.  SIEM et mesures de détection.
+    2.  Remédiation.
+    3.  Segmentation de la DMZ et des serveurs internes.
+4.  L'utilisation de cartes blanches est autorisée en fonction du temps d'arrêt et de la durée.
+5.  Évaluez l'impact de l'exposition et de l'exfiltration des données.
+
+Portée:
+
+1.  L'arrêt du système n'est autorisé en aucune circonstance.
+    1.  Toute forme de DDoS ou DoS est interdite.
+    2.  L'utilisation de tout logiciel malveillant nuisible est interdite ; cela inclut les rançongiciels et d'autres variantes.
+2.  L'exfiltration de PII est interdite. Utilisez des données d'exfiltration arbitraires.
+3.  Les attaques contre les systèmes dans 10.0.4.0/22 ​​sont autorisées.
+4.  Les attaques contre les systèmes dans 10.0.12.0/22 ​​sont interdites.
+5.  Bean Enterprises surveillera de près les interactions avec la DMZ et les systèmes critiques/de production.
+    1.  Toute interaction avec "*.bethechange.xyz" est interdite.
+    2.  Toute interaction avec "*.globalenterprises.thm" est autorisée.
