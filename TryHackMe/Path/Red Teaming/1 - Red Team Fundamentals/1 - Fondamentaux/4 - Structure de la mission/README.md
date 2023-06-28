@@ -1,3 +1,6 @@
+Structure de la mission
+========================
+
 Une fonction essentielle de l'équipe rouge est l'émulation de l'adversaire. Bien qu'il ne soit pas obligatoire, il est couramment utilisé pour évaluer ce qu'un véritable adversaire ferait dans un environnement en utilisant ses outils et ses méthodologies. L'équipe rouge peut utiliser diverses chaînes de destruction cybernétique pour résumer et évaluer les étapes et les procédures d'un engagement.
 
 L'équipe bleue utilise couramment des chaînes de destruction cybernétique pour cartographier les comportements et décomposer le mouvement d'un adversaire. L'équipe rouge peut adapter cette idée pour mapper les TTP de l'adversaire ( tactiques ,  techniques et  procédures ) aux composants d'un engagement.
