@@ -1,3 +1,6 @@
+Planification des ressources
+=============================
+
   Le plan de ressources est le deuxième document du plan d'engagement, détaillant un bref aperçu des dates, des connaissances requises (facultatif), des besoins en ressources. Le plan prolonge le CONOPS et inclut des détails spécifiques, tels que les dates, les connaissances requises, etc.
 
 Contrairement au CONOPS, le plan des ressources ne doit pas être rédigé sous forme de résumé ; à la place, écrites sous forme de listes à puces de sous-sections. Comme pour la plupart des documents de l'équipe rouge, il n'y a pas d'ensemble standard de modèles ou de documents de plan de ressources ; vous trouverez ci-dessous un aperçu d'exemples de sous-sections du plan de ressources.
