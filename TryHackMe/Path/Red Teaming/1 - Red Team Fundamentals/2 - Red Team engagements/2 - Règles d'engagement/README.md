@@ -37,3 +37,6 @@ Chaque structure RoE sera déterminée par le client et l'équipe rouge et peut 
 Lors de l'analyse du document, il est important de se rappeler qu'il ne s'agit que d'un résumé et que son objectif est d'être un document juridique. Une planification future et plus approfondie est nécessaire pour développer le RdE et les objectifs du client.
 
 Pour cette tâche, nous utiliserons un document abrégé adapté de [redteam.guide](https://redteam.guide/docs/templates/roe_template/)
+Lors de l'analyse du document, il est important de se rappeler qu'il ne s'agit que d'un résumé et que son objectif est d'être un document juridique. Une planification future et plus approfondie est nécessaire pour développer le RdE et les objectifs du client.
+
+Pour cette tâche, nous utiliserons un document abrégé adapté de [redteam.guide](https://redteam.guide/docs/templates/roe_template/)
