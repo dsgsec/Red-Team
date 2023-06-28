@@ -10,8 +10,6 @@ Lors de l'évaluation des objectifs d'un client et de la planification des déta
 
 Les engagements peuvent être classés entre un test de pénétration interne/réseau général ou une émulation d'adversaire ciblée. Une émulation d'adversaire ciblée définira un APT ou un groupe spécifique à émuler dans un engagement. Cela sera généralement déterminé sur la base de groupes qui ciblent les industries particulières de l'entreprise, c'est-à-dire les institutions financières et  [l'APT38](https://content.fireeye.com/apt/rpt-apt38) . Un test de pénétration interne ou réseau suivra une structure similaire mais sera souvent moins ciblé et utilisera des TTP plus standard. 
 
-![ffcfbe35e5ac372dc7ccc01896b76f9e](https://github.com/dsgsec/Red-Team/assets/82456829/8bcc6cfa-0dc1-423e-a972-0d21008d0c83)
-
 Les spécificités de l'approche dépendront au cas par cas de l'engagement défini par les objectifs du client.
 
 Les objectifs du client affecteront également les règles générales d'engagement et la portée de la mission.
