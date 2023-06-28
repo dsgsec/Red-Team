@@ -1,0 +1,16 @@
+L'évaluation des risques
+==============
+
+Nous avons terminé l'analyse des vulnérabilités, et maintenant nous pouvons passer à la quatrième étape : effectuer une évaluation des risques. [Le NIST ](https://csrc.nist.gov/glossary/term/risk_assessment)définit une évaluation des risques comme "le processus d'identification des risques pour les opérations organisationnelles (y compris la mission, les fonctions, l'image, la réputation), les actifs organisationnels, les individus, les autres organisations et la Nation, résultant de l'exploitation d'un système d'information". Dans l'OPSEC , l'évaluation des risques nécessite de connaître la possibilité qu'un événement se produise ainsi que le coût prévu de cet événement. Il s'agit donc d'évaluer la capacité de l'adversaire à exploiter les vulnérabilités.
+
+![8d32963e947b11b953927479960a7127](https://github.com/dsgsec/Red-Team/assets/82456829/0ba85512-ea9f-48d8-bbec-eca20207e35c)
+
+Une fois le niveau de risque déterminé, des contre-mesures peuvent être envisagées pour atténuer ce risque. Nous devons considérer les trois facteurs suivants :
+
+1.  L'efficacité de la contre-mesure dans la réduction du risque
+2.  Le coût de la contre-mesure par rapport à l'impact de la vulnérabilité exploitée.
+3.  La possibilité que la contre-mesure puisse révéler des informations à l'adversaire
+
+Reprenons les deux exemples de la tâche précédente. Dans le premier exemple, nous avons considéré la vulnérabilité de l'analyse du réseau avec Nmap, en utilisant le framework Metasploit, et en hébergeant les pages de phishing en utilisant la même adresse IP publique. Nous avons analysé qu'il s'agit d'une vulnérabilité car elle permet à l'adversaire de bloquer plus facilement nos trois activités en détectant simplement une activité. Évaluons maintenant ce risque. Pour évaluer le risque lié à cette vulnérabilité, nous devons connaître la possibilité qu'une ou plusieurs de ces activités soient détectées. Nous ne pouvons pas répondre à cela sans obtenir quelques informations sur les capacités de l'adversaire. Considérons le cas où le client dispose d'un système de gestion des informations et des événements de sécurité ( SIEM) en place. Un SIEM est un système qui permet la surveillance et l'analyse en temps réel des événements liés à la sécurité provenant de différentes sources sur le réseau. Nous pouvons nous attendre à ce qu'un SIEM simplifie raisonnablement la détection des activités suspectes et relie les trois événements. Par conséquent, nous évaluerions le risque connexe comme étant élevé. En revanche, si l'on sait que l'adversaire dispose de ressources minimales pour détecter les événements de sécurité, on peut évaluer le risque lié à cette vulnérabilité comme faible.
+
+Considérons le deuxième exemple d'une base de données non sécurisée utilisée pour stocker les données reçues d'une page de phishing. Sur la base des données recueillies auprès de plusieurs groupes de recherche utilisant des pots de miel, nous pouvons nous attendre à ce que divers robots malveillants ciblent activement des adresses IP aléatoires sur Internet. Par conséquent, ce n'est qu'une question de temps avant qu'un système à faible sécurité ne soit découvert et exploité.
