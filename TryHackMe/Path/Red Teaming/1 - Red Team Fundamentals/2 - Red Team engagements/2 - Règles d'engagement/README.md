@@ -7,31 +7,23 @@ Le format et le libellé des RoE sont essentiels car il s'agit d'un contrat juri
 
 Chaque structure RoE sera déterminée par le client et l'équipe rouge et peut varier en longueur de contenu et en sections globales. Vous trouverez ci-dessous un bref tableau des sections standard que vous pouvez voir contenues dans les RoE.
 
-| Nom de la section | Détails de la section |
-| Résumé | Résumé général de tous les contenus et autorisations dans le document RoE\
- |
-| But | Définit pourquoi le document RoE est utilisé |
-| Les références | Toutes les références utilisées dans le document RoE (HIPAA, ISO, etc.)\
- |
-| Portée | Déclaration d'accord aux restrictions et directives\
- |
-| Définitions | Définitions des termes techniques utilisés dans le document RoE\
- |
-| Règles d'engagement et accord de soutien | Définit les obligations des deux parties et les attentes techniques générales de la conduite de la mission\
- |
-| Des provisions | Définir les exceptions et les informations supplémentaires des règles d'engagement\
- |
-| Exigences, restrictions et autorité  | Définir les attentes spécifiques de la cellule de l'équipe rouge\
- |
-| Règles de base | Définir les limites des interactions de la cellule de l'équipe rouge\
- |
-| Résolution des problèmes/points de contact | Contient tout le personnel essentiel impliqué dans un engagement\
- |
-| Autorisation | Déclaration d'autorisation pour la mission\
- |
-| Approbation  | Signatures des deux parties approuvant toutes les sous-sections du document précédent\
- |
-| annexe | Toute autre information des sous-sections précédentes |
+|Nom de la section|Détails de la section|
+|:----|:----|
+|Résumé|Résumé général de tous les contenus et autorisations dans le document RoE|
+|But|Définit pourquoi le document RoE est utilisé|
+|Les références|Toutes les références utilisées dans le document RoE (HIPAA, ISO, etc.)|
+|Portée|Déclaration d'accord aux restrictions et directives|
+|Définitions|Définitions des termes techniques utilisés dans le document RoE|
+|Règles d'engagement et accord de soutien|Définit les obligations des deux parties et les attentes techniques générales de la conduite de la mission|
+|Des provisions|Définir les exceptions et les informations supplémentaires des règles d'engagement|
+|Exigences, restrictions et autorité |Définir les attentes spécifiques de la cellule de l'équipe rouge|
+|Règles de base|Définir les limites des interactions de la cellule de l'équipe rouge|
+|Résolution des problèmes/points de contact|Contient tout le personnel essentiel impliqué dans un engagement|
+|Autorisation|Déclaration d'autorisation pour la mission|
+|Approbation |Signatures des deux parties approuvant toutes les sous-sections du document précédent|
+|annexe|Toute autre information des sous-sections précédentes|
+
+
 
 Lors de l'analyse du document, il est important de se rappeler qu'il ne s'agit que d'un résumé et que son objectif est d'être un document juridique. Une planification future et plus approfondie est nécessaire pour développer le RdE et les objectifs du client.
 
