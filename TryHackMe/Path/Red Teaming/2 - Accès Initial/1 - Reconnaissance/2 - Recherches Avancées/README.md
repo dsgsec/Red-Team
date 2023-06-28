@@ -50,8 +50,8 @@ Nous allons maintenant explorer deux sources supplémentaires qui peuvent fourni
 
 -   Réseaux sociaux
 -   Annonces d'emploi
+![f94dadbbcf2c644230d6eb310e159ed5](https://github.com/dsgsec/Red-Team/assets/82456829/ac92e43e-604b-45f4-824c-043ca2dfa24f)
 
-![](https://tryhackme-images.s3.amazonaws.com/user-uploads/5f04259cf9bf5b57aed2c476/room-content/f94dadbbcf2c644230d6eb310e159ed5.png)
 
 ### Réseaux sociaux
 
@@ -64,7 +64,8 @@ Les sites Web de médias sociaux sont devenus très populaires non seulement pou
 
 Les sites Web de médias sociaux facilitent la collecte des noms des employés d'une entreprise donnée; de plus, dans certains cas, vous pourriez apprendre des informations spécifiques qui peuvent révéler des réponses à des questions de récupération de mot de passe ou obtenir des idées à inclure dans une liste de mots ciblée. Les messages du personnel technique peuvent révéler des détails sur les systèmes et les fournisseurs d'une entreprise. Par exemple, un ingénieur réseau qui a récemment reçu des certifications Juniper peut faire allusion à l'infrastructure réseau Juniper utilisée dans l'environnement de son employeur.
 
-![](https://tryhackme-images.s3.amazonaws.com/user-uploads/5f04259cf9bf5b57aed2c476/room-content/cf84f21108b6aae75e1fa73018bf12db.png)
+![cf84f21108b6aae75e1fa73018bf12db](https://github.com/dsgsec/Red-Team/assets/82456829/b65cf937-5077-4b40-a0dd-aaae8557c10a)
+
 
 ### Offres d'emploi
 
