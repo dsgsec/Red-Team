@@ -32,7 +32,7 @@ Ensuite, nous allons configurer la page de destination ; il s'agit du site Web
 Cliquez sur le lien Pages de destination dans le menu de gauche, puis cliquez sur le bouton "Nouvelle page".
 
 Donnez à la Landing Page le nom ACME Login , ensuite dans la zone HTML ; vous devrez appuyer sur le bouton Source pour nous permettre de saisir le code HTML comme indiqué ci-dessous :
-
+```
 <!DOCTYPE html >\
 <html lang ="fr" >\
 <head>\
@@ -61,7 +61,7 @@ Donnez à la Landing Page le nom ACME Login , ensuite dans la zone HTML ; vou
  </form>\
 </body>\
 </html>
-
+```
 Cliquez à nouveau sur le bouton Source , et vous devriez voir une boîte de connexion avec les champs de nom d'utilisateur et de mot de passe selon l'image ci-dessous, cliquez également sur la boîte Capturer les données soumises , puis sur la boîte Capturer les mots de passe , puis cliquez sur le bouton Enregistrer la page.
 
 ![c46147f57dbac7f8ae02d2b44e0ed088](https://github.com/dsgsec/Red-Team/assets/82456829/225eab53-3f61-4fde-adaf-4d5513d89fe1)
