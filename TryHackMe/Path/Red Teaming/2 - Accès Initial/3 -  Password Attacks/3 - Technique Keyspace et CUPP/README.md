@@ -1,4 +1,4 @@
-Profilage de mot de passe #1 -Listes de mots par défaut, faibles, fuites, combinées et de nom d'utilisateur
+Technique Keyspace et CUPP
 ==================================================================
 
 ### Technique de l'espace clé
