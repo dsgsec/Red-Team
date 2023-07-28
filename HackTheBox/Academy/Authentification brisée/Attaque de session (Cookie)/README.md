@@ -1,4 +1,4 @@
-Biscuits de forçage brutal
+Bruteforce cookie
 ==========================
 
 * * * * *
