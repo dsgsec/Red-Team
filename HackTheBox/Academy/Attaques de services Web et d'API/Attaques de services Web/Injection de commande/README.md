@@ -9,8 +9,6 @@ Les injections de commandes font partie des vulnérabilités les plus critiques 
 
 Vous avez peut-être rencontré des services Web de vérification de la connectivité dans les panneaux d'administration du routeur ou même des sites Web qui exécutent simplement une commande ping vers un site Web de votre choix.
 
-Allez à la fin de cette section et cliquez sur `Click here to spawn the target system!`ou sur l' `Reset Target`icône . Utilisez la Pwnbox fournie ou une machine virtuelle locale avec la clé VPN fournie pour atteindre le service cible et suivez-le.
-
 Supposons que nous évaluons un tel service de vérification de connectivité résidant dans `http://<TARGET IP>:3003/ping-server.php/ping`. Supposons que nous ayons également reçu le code source du service.
 
 Remarque : Le service Web que nous sommes sur le point d'évaluer ne suit pas les conceptions/approches architecturales de service Web que nous avons couvertes. Cependant, il est assez proche d'un service Web normal, car il fournit ses fonctionnalités de manière programmatique et différents clients peuvent l'utiliser à des fins de vérification de la connectivité.
