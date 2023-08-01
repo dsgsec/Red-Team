@@ -12,8 +12,6 @@ Lors de l'évaluation d'un service Web ou d'une API pour la divulgation d'inform
 Divulgation d'informations par fuzzing
 --------------------------------------
 
-Allez à la fin de cette section et cliquez sur `Click here to spawn the target system!`ou sur l' `Reset Target`icône . Utilisez la Pwnbox fournie ou une machine virtuelle locale avec la clé VPN fournie pour atteindre l'API cible et suivez-la.
-
 Supposons que nous évaluons une API résidant dans `http://<TARGET IP>:3003`.
 
 Il y a peut-être un paramètre qui révélera la fonctionnalité de l'API. Effectuons le fuzzing des paramètres en utilisant *ffuf* et la liste [burp-parameter-names.txt](https://github.com/danielmiessler/SecLists/blob/master/Discovery/Web-Content/burp-parameter-names.txt) , comme suit.
