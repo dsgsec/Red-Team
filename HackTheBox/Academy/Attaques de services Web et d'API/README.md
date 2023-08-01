@@ -564,7 +564,3 @@ Le fichier WSDL ci-dessus suit la disposition [WSDL version 1.1](https://www.w3
         ```
 
 Dans la `SOAP Action Spoofing`section, plus tard, nous verrons comment nous pouvons tirer parti du fichier WSDL identifié pour interagir avec le service Web.
-
-Marquer terminé et suivant
-
-[Suivant](https://academy.hackthebox.com/module/160/section/1471)
