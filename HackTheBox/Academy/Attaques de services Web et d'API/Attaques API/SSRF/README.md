@@ -1,3 +1,4 @@
+SSRF
 * * * * *
 
 Les attaques Server-Side Request Forgery (SSRF), répertoriées dans le top 10 de l'OWASP, nous permettent d'abuser des fonctionnalités du serveur pour effectuer des demandes de ressources internes ou externes au nom du serveur. Nous devons généralement fournir ou modifier les URL utilisées par l'application cible pour lire ou soumettre des données. L'exploitation des vulnérabilités de SSRF peut entraîner :
