@@ -91,8 +91,114 @@ Il existe plusieurs approches/technologies pour fournir et consommer des service
           --> POST /ENDPOINT HTTP/1.1
            Host: ...
            Content-Type: application/json-rpc
+           Content-Length: ...
+
+          {"method": "sum", "params": {"a":3, "b":4}, "id":0}
+
+          <-- HTTP/1.1 200 OK
+           ...
+           Content-Type: application/json-rpc
+
+           {"result": 7, "error": null, "id": 0}
 
         ```
 
-    -   `\
-        `
+    L' `{"method": "sum", "params": {"a":3, "b":4}, "id":0}`objet est sérialisé à l'aide de JSON. Notez les trois propriétés : `method`, `params`et `id`. `method`contient le nom de la méthode à invoquer. `params`contient un tableau portant les arguments à passer. `id`contient un identifiant établi par le client. Le serveur doit répondre avec la même valeur dans l'objet de réponse s'il est inclus.
+
+-   `SOAP (Simple Object Access Protocol)`
+
+    -   SOAP utilise également XML mais fournit plus de fonctionnalités que XML-RPC. SOAP définit à la fois une structure d'en-tête et une structure de charge utile. Le premier identifie les actions que les nœuds SOAP sont censés entreprendre sur le message, tandis que le second traite des informations transportées. Une déclaration WSDL (Web Services Definition Language) est facultative. WSDL spécifie comment un service SOAP peut être utilisé. Divers protocoles de niveau inférieur (HTTP inclus) peuvent être le transport.
+    -   Anatomie d'un message SOAP
+        -   `soap:Envelope`: (Bloc obligatoire) Balise pour différencier SOAP du XML normal. Cette balise nécessite un `namespace`attribut.
+        -   `soap:Header`: (Bloc facultatif) Active l'extensibilité de SOAP via les modules SOAP.
+        -   `soap:Body`: (Bloc obligatoire) Contient la procédure, les paramètres et les données.
+        -   `soap:Fault`: (Bloc facultatif) Utilisé dans `soap:Body`pour les messages d'erreur lors d'un échec d'appel d'API.
+    -   Code : http
+
+        ```
+          --> POST /Quotation HTTP/1.0
+          Host: www.xyz.org
+          Content-Type: text/xml; charset = utf-8
+          Content-Length: nnn
+
+          <?xml version = "1.0"?>
+          <SOAP-ENV:Envelope
+            xmlns:SOAP-ENV = "http://www.w3.org/2001/12/soap-envelope"
+             SOAP-ENV:encodingStyle = "http://www.w3.org/2001/12/soap-encoding">
+
+            <SOAP-ENV:Body xmlns:m = "http://www.xyz.org/quotations">
+               <m:GetQuotation>
+                 <m:QuotationsName>MiscroSoft</m:QuotationsName>
+              </m:GetQuotation>
+            </SOAP-ENV:Body>
+          </SOAP-ENV:Envelope>
+
+          <-- HTTP/1.0 200 OK
+          Content-Type: text/xml; charset = utf-8
+          Content-Length: nnn
+
+          <?xml version = "1.0"?>
+          <SOAP-ENV:Envelope
+           xmlns:SOAP-ENV = "http://www.w3.org/2001/12/soap-envelope"
+            SOAP-ENV:encodingStyle = "http://www.w3.org/2001/12/soap-encoding">
+
+          <SOAP-ENV:Body xmlns:m = "http://www.xyz.org/quotation">
+          	  <m:GetQuotationResponse>
+          	     <m:Quotation>Here is the quotation</m:Quotation>
+             </m:GetQuotationResponse>
+           </SOAP-ENV:Body>
+          </SOAP-ENV:Envelope>
+
+        ```
+
+Remarque : Vous pouvez rencontrer des enveloppes SOAP légèrement différentes. Leur anatomie sera la même, cependant.
+
+-   `WS-BPEL (Web Services Business Process Execution Language)`
+    -   Les services Web WS-BPEL sont essentiellement des services Web SOAP avec plus de fonctionnalités pour décrire et appeler des processus métier.
+    -   Les services Web WS-BPEL ressemblent fortement aux services SOAP. Pour cette raison, ils ne seront pas inclus dans le périmètre de ce module.
+-   `RESTful (Representational State Transfer)`
+    -   Les services Web REST utilisent généralement XML ou JSON. Les déclarations WSDL sont prises en charge mais peu courantes. HTTP est le transport de choix, et les verbes HTTP sont utilisés pour accéder/modifier/supprimer des ressources et utiliser des données.
+    -   Code : http
+
+        ```
+          --> POST /api/2.2/auth/signin HTTP/1.1
+          HOST: my-server
+          Content-Type:text/xml
+
+          <tsRequest>
+            <credentials name="administrator" password="passw0rd">
+              <site contentUrl="" />
+            </credentials>
+          </tsRequest>
+
+        ```
+
+    -   Code : http
+
+        ```
+          --> POST /api/2.2/auth/signin HTTP/1.1
+          HOST: my-server
+          Content-Type:application/json
+          Accept:application/json
+
+          {
+           "credentials": {
+             "name": "administrator",
+            "password": "passw0rd",
+            "site": {
+              "contentUrl": ""
+             }
+            }
+          }
+
+        ```
+
+* * * * *
+
+Des spécifications/protocoles API similaires existent, tels que Remote Procedure Call (RPC), SOAP, REST, gRPC, GraphQL, etc.
+
+Ne vous sentez pas dépassé ! Dans les sections suivantes, vous aurez la possibilité d'interagir avec différents services Web et API.
+
+Marquer terminé et suivant
+
+[Suivant](https://academy.hackthebox.com/module/160/section/1471)
