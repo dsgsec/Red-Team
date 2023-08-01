@@ -3,7 +3,7 @@ Upload arbitraire de fichiers
 
 * * * * *
 
-Les téléchargements de fichiers arbitraires font partie des vulnérabilités les plus critiques. Ces failles permettent aux attaquants de télécharger des fichiers malveillants, d'exécuter des commandes arbitraires sur le serveur principal et même de prendre le contrôle de l'ensemble du serveur. Les vulnérabilités de téléchargement de fichiers arbitraires affectent aussi bien les applications Web que les API.
+L'Upload de fichiers arbitraires font partie des vulnérabilités les plus critiques. Ces failles permettent aux attaquants de télécharger des fichiers malveillants, d'exécuter des commandes arbitraires sur le serveur principal et même de prendre le contrôle de l'ensemble du serveur. Les vulnérabilités de téléchargement de fichiers arbitraires affectent aussi bien les applications Web que les API.
 
 * * * * *
 
