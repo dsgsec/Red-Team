@@ -105,18 +105,6 @@ Shodan est le moteur de recherche incontournable pour les appareils accessibles 
 | "200 d'accord"                       | Vous pouvez ajouter "200 OK" à vos requêtes de recherche pour obtenir des résultats dont les requêtes ont abouti. Cependant, si une API n'accepte pas le format de la demande de Shodan, elle émettra probablement une réponse 300 ou 400. |
 | "wp-json"                            | Cela recherchera des applications Web à l'aide de l'API WordPress.             
 
-Vous pouvez ajouter "200 OK" à vos requêtes de recherche pour obtenir des résultats dont les requêtes ont abouti. Cependant, si une API n'accepte pas le format de la demande de Shodan, elle émettra probablement une réponse 300 ou 400.
-
- |
-|
-
-"wp-json"
-
- |
-
-Cela recherchera des applications Web à l'aide de l'API WordPress.
-
- |
 
 La machine à remonter le temps
 ==============================
