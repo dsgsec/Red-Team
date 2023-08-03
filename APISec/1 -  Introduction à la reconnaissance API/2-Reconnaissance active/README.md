@@ -177,7 +177,7 @@ http://test5.com:8888/api
 
 L'une des fonctionnalités les plus intéressantes de Kiterunner est la possibilité de rejouer les demandes. Ainsi, non seulement vous aurez un résultat intéressant à étudier, mais vous pourrez également disséquer exactement pourquoi cette demande est intéressante. Pour rejouer une requête, copiez toute la ligne de contenu dans Kiterunner, collez-la à l'aide de l' option de relecture ko et incluez la liste de mots que vous avez utilisée :  
 ```
-$ kr ko rejouer "GET 414 [ 183, 7, 8]
+$ kr kb replay "GET     414 [    183,    7,   8]
 
 ://192.168.50.35:8888/api/privatisations/count 0cf6841b1e7ac8badc6e237ab300a90ca873d571" -w
 
