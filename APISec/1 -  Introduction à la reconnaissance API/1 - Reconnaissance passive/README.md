@@ -25,60 +25,13 @@ Même sans aucune technique Dorking, trouver une API en tant qu'utilisateur fina
 
 Cependant, il se peut que vous n'obteniez parfois pas les résultats exacts que vous espériez. Si vous obtenez trop de résultats non pertinents, vous pouvez déployer certaines techniques de Google Dorking pour découvrir plus efficacement les API.
 
-|
-
-Requête Google Dorking
-
- |
-
-Résultats attendus
-
- |
-|
-
-inurl :"/wp-json/wp/v2/users"
-
- |
-
-Trouve tous les répertoires d'utilisateurs de l'API WordPress disponibles publiquement.
-
- |
-|
-
-intitle:"index.of" intext:"api.txt"
-
- |
-
-Trouve les fichiers de clés d'API accessibles au public.
-
- |
-|
-
-inurl :"/api/v1" intext :"index de /"
-
- |
-
-Trouve des répertoires d'API potentiellement intéressants.
-
- |
-|
-
-ext:php inurl:"api.php?action="
-
- |
-
-Trouve tous les sites présentant une vulnérabilité d'injection SQL XenAPI. (Cette requête a été publiée en 2016 ; quatre ans plus tard, il y a actuellement 141 000 résultats.)
-
- |
-|
-
-intitle:"index of" api_key OU "clé api" OU apiKey -pool
-
- |
-
-C'est l'une de mes requêtes préférées. Il répertorie les clés API potentiellement exposées.
-
- |
+| Requête Google Dorking                                  | Résultats attendus                                                                                                                                                              |
+| ------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| inurl :"/wp-json/wp/v2/users"                           | Trouve tous les répertoires d'utilisateurs de l'API WordPress disponibles publiquement.                                                                                         |
+| intitle:"index.of" intext:"api.txt"                     | Trouve les fichiers de clés d'API accessibles au public.                                                                                                                        |
+| inurl :"/api/v1" intext :"index de /"                   | Trouve des répertoires d'API potentiellement intéressants.                                                                                                                      |
+| ext:php inurl:"api.php?action="                         | Trouve tous les sites présentant une vulnérabilité d'injection SQL XenAPI. (Cette requête a été publiée en 2016 ; quatre ans plus tard, il y a actuellement 141 000 résultats.) |
+| intitle:"index of" api_key OU "clé api" OU apiKey -pool | C'est l'une de mes requêtes préférées. Il répertorie les clés API potentiellement exposées.
 
 GitDorking
 ----------
