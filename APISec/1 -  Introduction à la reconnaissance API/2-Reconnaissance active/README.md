@@ -14,11 +14,11 @@ NmapName
 
 Nmap est un outil puissant pour analyser les ports, rechercher les vulnérabilités, énumérer les services et découvrir les hôtes actifs. Pour la découverte d'API, vous devez exécuter deux scans Nmap en particulier : la détection générale et tous les ports. L'analyse de détection générale de Nmap utilise les scripts par défaut (-sC) et l'énumération de service (-sV) par rapport à une cible, puis enregistre la sortie dans trois formats pour un examen ultérieur ( -oX  pour XML, -oN pour Nmap, -oG pour greppable, ou -oA pour les trois):      
 
-$ nmap -sC -sV  [adresse cible ou plage réseau]  -oA nomdesortie 
+ `$ nmap -sC -sV  [adresse cible ou plage réseau]  -oA nomdesortie`
 
 L'analyse de tous les ports Nmap vérifiera rapidement les 65 535 ports TCP pour les services en cours d'exécution, les versions d'application et le système d'exploitation hôte utilisé :
 
-$ nmap -p-  [adresse cible]  -oA allportscan 
+`$ nmap -p-  [adresse cible]  -oA allportscan`
 
 Dès que l'analyse de détection générale commence à renvoyer des résultats, lancez l'analyse de tous les ports. Ensuite, commencez votre analyse pratique des résultats. Vous découvrirez très probablement les API en consultant les résultats liés au trafic HTTP et à d'autres indications de serveurs Web. Généralement, vous les trouverez exécutés sur les ports 80 et 443, mais une API peut être hébergée sur toutes sortes de ports différents. Une fois que vous avez découvert un serveur Web, vous pouvez effectuer une énumération HTTP à l'aide d'un script Nmap NSE (utilisez -p pour spécifier les ports que vous souhaitez tester).
 
@@ -33,7 +33,7 @@ OWASP Amass est un outil de ligne de commande qui peut cartographier le réseau 
 Avant de plonger dans l'utilisation d'Amass, nous devrions en tirer le meilleur parti en y ajoutant des clés API. Obtenons quelques clés API gratuites pour améliorer nos analyses Amass.
 
 Tout d'abord, nous pouvons voir quelles sources de données sont disponibles pour Amass (payant et gratuit) en exécutant :\
-$ amass enum -list\
+`$ amass enum -list\`
 ![](https://kajabi-storefronts-production.kajabi-cdn.com/kajabi-storefronts-production/site/2147573912/products/eex0psZsSx2Zyd9ekGIl_ActiveDiscovery1.PNG)
 
 Ensuite, nous devrons créer un fichier de configuration pour y ajouter nos clés API.
@@ -64,23 +64,23 @@ Cette analyse pourrait révéler de nombreux sous-domaines d'API uniques, notamm
 
 Amass a plusieurs options de ligne de commande utiles. Utilisez la commande Intel pour collecter des certificats SSL, rechercher des enregistrements Whois inversés et trouver les ID ASN associés à votre cible. Commencez par fournir la commande avec les adresses IP cibles  
 
-$ amass intel -addr  [adresses IP cibles] 
+`$ amass intel -addr  [adresses IP cibles] `
 
 Si cette analyse réussit, elle vous fournira des noms de domaine. Ces domaines peuvent ensuite être transmis à Intel avec l' option whois pour effectuer une recherche Whois inversée :    
 
-$ amass intel -d  [domaine cible]  --whois 
+`$ amass intel -d  [domaine cible]  --whois `
 
 Cela pourrait vous donner une tonne de résultats. Concentrez-vous sur les résultats intéressants qui se rapportent à votre organisation cible. Une fois que vous avez une liste de domaines intéressants, passez à la sous-commande enum pour commencer à énumérer les sous-domaines. Si vous spécifiez l' option - passive , Amass s'abstiendra d'interagir directement avec votre cible :    
 
-$ amass enum -passive -d  [domaine cible] 
+`$ amass enum -passive -d  [domaine cible] `
 
 L' analyse d'énumération active effectuera une grande partie de la même analyse que l'analyse passive, mais elle ajoutera une résolution de nom de domaine, tentera des transferts de zone DNS et récupérera les informations de certificat SSL :  
 
-$ amasser enum -active -d  [domaine cible] 
+`$ amasser enum -active -d  [domaine cible] `
 
 Pour améliorer votre jeu, ajoutez l' option -brute aux sous-domaines brute-force, -w pour spécifier la liste de mots API_superlist, puis l' option -dir pour envoyer la sortie dans le répertoire de votre choix :      
 
-$ amass enum -active -brute -w /usr/share/wordlists/API_superlist -d  [domaine cible]  -dir  [nom du répertoire]   
+`$ amass enum -active -brute -w /usr/share/wordlists/API_superlist -d  [domaine cible]  -dir  [nom du répertoire] `  
 
 Annuaire Brute-force avec Gobuster
 ----------------------------------
@@ -90,8 +90,8 @@ Gobuster peut être utilisé pour forcer brutalement les URI et les sous-domaine
 Chaque fois que vous utilisez un outil de force brute, vous devrez équilibrer la taille de la liste de mots et le temps nécessaire pour obtenir des résultats. Kali a des listes de mots de répertoire stockées sous /usr/share/wordlists/dirbuster qui sont complètes mais prendront un certain temps. Au lieu de cela, vous pouvez utiliser une liste de mots liée à l'API, ce qui accélérera vos analyses Gobuster car la liste de mots est relativement courte et ne contient que des répertoires liés aux API.  
 
 L'exemple suivant utilise une liste de mots spécifique à l'API pour rechercher les répertoires sur une adresse IP :
-
-$ gobuster dir -u nom-cible.com :8000 -w /home/hapihacker/api/wordlists/common_apis_160 
+```
+$ gobuster dir -u nom-cible.com :8000 -w /home/hapihacker/api/wordlists/common_apis_160
 
 ================================================= ======
 
@@ -140,6 +140,7 @@ Si vous souhaitez ignorer certains codes d'état de réponse, utilisez l'option�
 $ gobuster répertoire -u 
 
 ://targetaddress/ -w /usr/share/wordlists/api_list/common_apis_160 -x 200,202,301 -b 302
+```
 
 Gobuster fournit un moyen rapide d'énumérer les URL actives pour trouver des chemins d'API.
 
@@ -150,7 +151,7 @@ Kiterunner est un excellent outil qui a été développé et publié par Assetno
 
 Vous pouvez effectuer une analyse rapide de l'URL ou de l'adresse IP de votre cible comme ceci :
 
-$ kr scan HTTP://127.0.0.1  -w ~/api/wordlists/data/kiterunner/routes-large.kite 
+`$ kr scan HTTP://127.0.0.1  -w ~/api/wordlists/data/kiterunner/routes-large.kite `
 
 ![](https://kajabi-storefronts-production.kajabi-cdn.com/kajabi-storefronts-production/site/2147573912/products/nXzTsPZ8R6C79ghxe2DO_ActiveDiscovery10.PNG)
 
@@ -160,7 +161,7 @@ Notez que nous avons effectué cette analyse sans aucun en-tête d'autorisation,
 
 Si vous souhaitez utiliser une liste de mots texte plutôt qu'un fichier . kite  , utilisez l' option brute avec le fichier texte de votre choix :  
 
-$ kr brute  <target>  -w ~/api/wordlists/data/automated/nameofwordlist.txt 
+`$ kr brute  <target>  -w ~/api/wordlists/data/automated/nameofwordlist.txt `
 
 Si vous avez plusieurs cibles, vous pouvez enregistrer une liste de cibles séparées par des lignes sous forme de fichier texte et utiliser ce fichier comme cible. Vous pouvez utiliser l'un des formats d'URI séparés par des lignes suivants en entrée :
 
@@ -175,12 +176,13 @@ http://test4.com
 http://test5.com:8888/api
 
 L'une des fonctionnalités les plus intéressantes de Kiterunner est la possibilité de rejouer les demandes. Ainsi, non seulement vous aurez un résultat intéressant à étudier, mais vous pourrez également disséquer exactement pourquoi cette demande est intéressante. Pour rejouer une requête, copiez toute la ligne de contenu dans Kiterunner, collez-la à l'aide de l' option de relecture ko et incluez la liste de mots que vous avez utilisée :  
-
-$ kr ko rejouer "GET 414 [ 183, 7, 8] 
+```
+$ kr ko rejouer "GET 414 [ 183, 7, 8]
 
 ://192.168.50.35:8888/api/privatisations/count 0cf6841b1e7ac8badc6e237ab300a90ca873d571" -w
 
 ~/api/wordlists/data/kiterunner/routes-large.kite
+```
 
 L'exécution de ceci rejouera la demande et vous fournira la réponse HTTP. Vous pouvez ensuite examiner le contenu pour voir s'il y a quelque chose qui mérite une enquête. J'examine normalement les résultats intéressants, puis je les teste à l'aide de Postman et Burp Suite.
 
