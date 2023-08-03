@@ -97,47 +97,13 @@ Shodan
 
 Shodan est le moteur de recherche incontournable pour les appareils accessibles depuis Internet. Shodan analyse régulièrement l'ensemble de l'espace d'adressage IPv4 pour les systèmes avec des ports ouverts et rend publiques les informations collectées sur https://shodan.io . Vous pouvez utiliser Shodan pour découvrir des API externes et obtenir des informations sur les ports ouverts de votre cible, ce qui est utile si vous ne disposez que d'une adresse IP ou du nom d'une organisation à partir de laquelle travailler. Comme avec Google dorks, vous pouvez rechercher Shodan avec désinvolture en entrant le nom de domaine ou les adresses IP de votre cible ; vous pouvez également utiliser des paramètres de recherche comme vous le feriez lors de la rédaction de requêtes Google. Le tableau suivant montre quelques requêtes Shodan utiles.
 
-|
-
-Requêtes Shodan
-
- |
-
-But
-
- |
-|
-
-nom d'hôte :"nomcible.com"
-
- |
-
-L'utilisation du nom d'hôte effectuera une recherche Shodan de base pour le nom de domaine de votre cible. Cela doit être combiné avec les requêtes suivantes pour obtenir des résultats spécifiques à votre cible.
-
- |
-|
-
-"type de contenu : application/json"
-
- |
-
-Les API doivent avoir leur type de contenu défini sur JSON ou XML. Cette requête filtrera les résultats qui répondent avec JSON.
-
- |
-|
-
-"type de contenu : application/xml"
-
- |
-
-Cette requête filtrera les résultats qui répondent avec XML.
-
- |
-|
-
-"200 d'accord"
-
- |
+| Requêtes Shodan                      | But                                                                                                                                                                                                                                        |
+| ------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| nom d'hôte :"nomcible.com"           | L'utilisation du nom d'hôte effectuera une recherche Shodan de base pour le nom de domaine de votre cible. Cela doit être combiné avec les requêtes suivantes pour obtenir des résultats spécifiques à votre cible.                        |
+| "type de contenu : application/json" | Les API doivent avoir leur type de contenu défini sur JSON ou XML. Cette requête filtrera les résultats qui répondent avec JSON.                                                                                                           |
+| "type de contenu : application/xml"  | Cette requête filtrera les résultats qui répondent avec XML.                                                                                                                                                                               |
+| "200 d'accord"                       | Vous pouvez ajouter "200 OK" à vos requêtes de recherche pour obtenir des résultats dont les requêtes ont abouti. Cependant, si une API n'accepte pas le format de la demande de Shodan, elle émettra probablement une réponse 300 ou 400. |
+| "wp-json"                            | Cela recherchera des applications Web à l'aide de l'API WordPress.             
 
 Vous pouvez ajouter "200 OK" à vos requêtes de recherche pour obtenir des résultats dont les requêtes ont abouti. Cependant, si une API n'accepte pas le format de la demande de Shodan, elle émettra probablement une réponse 300 ou 400.
 
