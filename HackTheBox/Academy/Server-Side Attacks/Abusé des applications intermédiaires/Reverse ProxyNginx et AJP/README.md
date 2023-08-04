@@ -1,0 +1,107 @@
+Proxy inversé Nginx et AJP
+==========================
+
+* * * * *
+
+Lorsque nous rencontrons un port proxy AJP ouvert (8009 TCP), nous pouvons utiliser Nginx avec le `ajp_module`pour accéder au Tomcat Manager "caché". Cela peut être fait en compilant le code source Nginx et en ajoutant le module requis, comme suit :
+
+-   Télécharger le code source Nginx
+-   Télécharger le module requis
+-   Compilez le code source Nginx avec le `ajp_module`.
+-   Créer un fichier de configuration pointant vers le port AJP
+
+#### Télécharger le code source Nginx
+
+  Télécharger le code source Nginx
+
+```
+dsgsec@htb[/htb]$ wget https://nginx.org/download/nginx-1.21.3.tar.gz
+dsgsec@htb[/htb]$ tar -xzvf nginx-1.21.3.tar.gz
+
+```
+
+#### Compiler le code source Nginx avec le module ajp
+
+  Compiler le code source Nginx avec le module ajp
+
+```
+dsgsec@htb[/htb]$ git clone https://github.com/dvershinin/nginx_ajp_module.git
+dsgsec@htb[/htb]$ cd nginx-1.21.3
+dsgsec@htb[/htb]$ sudo apt install libpcre3-dev
+dsgsec@htb[/htb]$ ./configure --add-module=`pwd`/../nginx_ajp_module --prefix=/etc/nginx --sbin-path=/usr/sbin/nginx --modules-path=/usr/lib/nginx/modules
+dsgsec@htb[/htb]$ make
+dsgsec@htb[/htb]$ sudo make install
+dsgsec@htb[/htb]$ nginx -V
+
+nginx version: nginx/1.21.3
+built by gcc 10.2.1 20210110 (Debian 10.2.1-6)
+configure arguments: --add-module=../nginx_ajp_module --prefix=/etc/nginx --sbin-path=/usr/sbin/nginx --modules-path=/usr/lib/nginx/modules
+
+```
+
+Remarque : Dans la configuration suivante, nous utilisons le port 8009, qui est le port par défaut de Tomcat pour AJP, et c'est ainsi que nous l'utiliserions dans un environnement réel. Cependant, pour terminer l'exercice à la fin de cette section, vous devez spécifier l'adresse IP et le port de la cible que vous allez générer (ils seront tous deux visibles juste à côté de "Cible :"). Le port que vous verrez est essentiellement mappé sur le port 8009 du conteneur Docker sous-jacent.
+
+Commentez le `server`bloc entier et ajoutez les lignes suivantes à l'intérieur du `http`bloc dans `/etc/nginx/conf/nginx.conf`.
+
+#### Pointant vers le port AJP
+
+  Pointant vers le port AJP
+
+```
+upstream tomcats {
+	server <TARGET_SERVER>:8009;
+	keepalive 10;
+	}
+server {
+	listen 80;
+	location / {
+		ajp_keep_conn on;
+		ajp_pass tomcats;
+	}
+}
+
+```
+
+Remarque : Si vous utilisez Pwnbox, le port 80 sera déjà utilisé, donc, dans la configuration ci-dessus, changez le port 80 en 8080. Enfin, à l'étape suivante, utilisez le port 8080 avec cURL.
+
+Démarrez Nginx et vérifiez si tout fonctionne correctement en envoyant une requête cURL à votre hébergeur local.
+
+  Pointant vers le port AJP
+
+```
+dsgsec@htb[/htb]$ sudo nginx
+dsgsec@htb[/htb]$ curl http://127.0.0.1:80
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Apache Tomcat/X.X.XX</title>
+        <link href="favicon.ico" rel="icon" type="image/x-icon" />
+        <link href="favicon.ico" rel="shortcut icon" type="image/x-icon" />
+        <link href="tomcat.css" rel="stylesheet" type="text/css" />
+    </head>
+
+    <body>
+        <div id="wrapper">
+            <div id="navigation" class="curved container">
+                <span id="nav-home"><a href="https://tomcat.apache.org/">Home</a></span>
+                <span id="nav-hosts"><a href="/docs/">Documentation</a></span>
+                <span id="nav-config"><a href="/docs/config/">Configuration</a></span>
+                <span id="nav-examples"><a href="/examples/">Examples</a></span>
+                <span id="nav-wiki"><a href="https://wiki.apache.org/tomcat/FrontPage">Wiki</a></span>
+                <span id="nav-lists"><a href="https://tomcat.apache.org/lists.html">Mailing Lists</a></span>
+                <span id="nav-help"><a href="https://tomcat.apache.org/findhelp.html">Find Help</a></span>
+                <br class="separator" />
+            </div>
+            <div id="asf-box">
+                <h1>Apache Tomcat/X.X.XX</h1>
+            </div>
+            <div id="upper" class="curved container">
+                <div id="congrats" class="curved container">
+                    <h2>If you're seeing this, you've successfully installed Tomcat. Congratulations!</h2>
+<SNIP>
+
+```
+
+Démarrer l'instance
