@@ -1,4 +1,4 @@
-Présentation des séances
+Présentation des Sessions
 ========================
 
 * * * * *
