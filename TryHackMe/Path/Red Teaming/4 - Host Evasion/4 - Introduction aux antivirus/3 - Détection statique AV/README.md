@@ -5,7 +5,7 @@ De manière générale, la détection AV peut être classée en trois approche
 
 3.  Détection heuristique et comportementale 
 
-Détection statique
+## Détection statique
 
 Une technique de détection statique est le type de détection antivirus le plus simple, basée sur des signatures prédéfinies de fichiers malveillants. Simplement, il utilise des techniques de correspondance de modèles dans la détection, telles que la recherche d'une chaîne unique, le CRC (sommes de contrôle), la séquence de valeurs bytecode/Hex et les hachages cryptographiques (MD5, SHA1, etc.).
 
