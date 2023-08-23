@@ -2,7 +2,7 @@
 
 Un moteur AV est chargé de rechercher et de supprimer le code et les fichiers malveillants. Un bon logiciel AV implémente un noyau AV efficace et solide qui analyse avec précision et rapidité  les fichiers malveillants . En outre, il doit gérer et prendre en charge différents types de fichiers, y compris les fichiers d'archives, où il peut auto-extraire et inspecter tous les fichiers compressés.
 
-La plupart des produits audiovisuels partagent les mêmes fonctionnalités communes mais sont implémentés différemment, notamment :
+La plupart des produits antiviruss partagent les mêmes fonctionnalités communes mais sont implémentés différemment, notamment :
 
 -   Scanner
 -   Techniques de détection
@@ -12,7 +12,7 @@ La plupart des produits audiovisuels partagent les mêmes fonctionnalités com
 
 ## Scanner
 
-La fonction de scanner est incluse dans la plupart des produits audiovisuels : le logiciel audiovisuel s'exécute et analyse en temps réel ou à la demande. Cette fonctionnalité est disponible dans l'interface graphique ou via l'invite de commande. L'utilisateur peut l'utiliser chaque fois que nécessaire pour vérifier des fichiers ou des répertoires. La fonction d'analyse doit prendre en charge les types de fichiers malveillants les plus connus pour détecter et supprimer la menace. En outre, il peut également prendre en charge d'autres types d'analyse en fonction du logiciel AV, notamment les vulnérabilités, les e-mails, la mémoire Windows et le registre Windows.
+La fonction de scanner est incluse dans la plupart des produits antiviruss : le logiciel antivirus s'exécute et analyse en temps réel ou à la demande. Cette fonctionnalité est disponible dans l'interface graphique ou via l'invite de commande. L'utilisateur peut l'utiliser chaque fois que nécessaire pour vérifier des fichiers ou des répertoires. La fonction d'analyse doit prendre en charge les types de fichiers malveillants les plus connus pour détecter et supprimer la menace. En outre, il peut également prendre en charge d'autres types d'analyse en fonction du logiciel AV, notamment les vulnérabilités, les e-mails, la mémoire Windows et le registre Windows.
 
 ## Techniques de détection
 
@@ -22,7 +22,7 @@ Une technique de détection AV recherche et détecte les fichiers malveillants
 -   La détection heuristique est une technique plus avancée qui inclut diverses méthodes comportementales pour analyser les fichiers suspects.
 -   La détection dynamique est une technique qui comprend la surveillance des appels système et des API, ainsi que les tests et analyses dans un environnement isolé.
 
-Nous aborderons ces techniques dans la tâche suivante. Un bon moteur antivirus est précis et détecte rapidement les fichiers malveillants avec moins de résultats faussement positifs. Nous présenterons plusieurs produits audiovisuels qui fournissent des résultats inexacts et classent mal un fichier.
+Nous aborderons ces techniques dans la tâche suivante. Un bon moteur antivirus est précis et détecte rapidement les fichiers malveillants avec moins de résultats faussement positifs. Nous présenterons plusieurs produits antiviruss qui fournissent des résultats inexacts et classent mal un fichier.
 
 ## Compresseurs et archives
 
@@ -51,7 +51,7 @@ Un émulateur arrête l'exécution d'un fichier lorsque suffisamment d'artefacts
 
 ## Autres caractéristiques communes
 
-Voici quelques fonctionnalités courantes trouvées dans les produits audiovisuels :
+Voici quelques fonctionnalités courantes trouvées dans les produits antiviruss :
 
 -   Un pilote d'autoprotection pour se prémunir contre les logiciels malveillants attaquant le véritable AV .
 -   Fonctionnalité de pare-feu et d'inspection du réseau.
