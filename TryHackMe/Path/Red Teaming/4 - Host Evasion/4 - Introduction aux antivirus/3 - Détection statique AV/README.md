@@ -105,7 +105,7 @@ C:\Users\thm\Desktop\Samples\backdoor2.exe: backdoor2.exe.UNOFFICIAL FOUND
 
 Comme nous nous y attendions,  l' outil ClamAV a signalé le binaire backdoor2.exe comme malveillant sur la base de la base de données que nous avons fournie. En tant que pratique, ajoutez la signature MD5 d'AV-Check.exe dans la même base de données que nous avons déjà créée, puis vérifiez si ClamAV peut signaler AV-Check.exe comme malveillant.
 
-Règles Yara pour la détection statique
+## Règles Yara pour la détection statique
 
 L'un des outils qui aident à la détection statique est [Yara](http://virustotal.github.io/yara/) . Yara est un outil qui permet aux ingénieurs en logiciels malveillants de classer et de détecter les logiciels malveillants. Yara utilise une détection basée sur des règles. Ainsi, pour détecter de nouveaux logiciels malveillants, nous devons créer une nouvelle règle. ClamAV peut également gérer les règles Yara pour détecter les fichiers malveillants. La règle sera la même que dans notre base de données dans la section précédente. 
 
