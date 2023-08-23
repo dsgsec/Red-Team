@@ -14,7 +14,7 @@ Ce type de détection présente également des inconvénients car elle nécessit
 
 Pour plus d'informations sur l'évasion sandbox, nous vous suggérons de consulter la salle THM : [Sandbox Evasion](https://tryhackme.com/room/sandboxevasion) !
 
-##Détection heuristique et comportementale
+## Détection heuristique et comportementale
 
 La détection heuristique et comportementale est devenue essentielle dans les produits audiovisuels modernes d'aujourd'hui . Les logiciels audiovisuels modernes s'appuient sur ce type de détection pour détecter les logiciels malveillants. L'analyse heuristique utilise diverses techniques, notamment des méthodes heuristiques statiques et dynamiques :
 
