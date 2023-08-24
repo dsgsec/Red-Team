@@ -1,6 +1,6 @@
 Bien qu'il ne s'agisse pas d'une méthode de contournement antivirus , les classeurs sont également importants lors de la conception d'une charge utile malveillante à distribuer aux utilisateurs finaux. Un classeur est un programme qui fusionne deux (ou plus) exécutables en un seul. Il est souvent utilisé lorsque vous souhaitez distribuer votre charge utile cachée dans un autre programme connu pour tromper les utilisateurs en leur faisant croire qu'ils exécutent un programme différent.
 
-![5c72d80a077a1f8a813a70c01a6561e9](https://github.com/dsgsec/Red-Team/assets/82456829/c327b30f-9a59-4309-b2a9-c8e1537bdd26)
+![5c72d80a077a1f8a813a70c01a6561e9](https://github.com/dsgsec/Red-Team/assets/82456829/53b0145f-9cce-4d80-b0ea-11dcec5a93f4)
 
 Bien que chaque classeur puisse fonctionner légèrement différemment, ils ajouteront essentiellement le code de votre shellcode à l'intérieur du programme légitime et le feront exécuter d'une manière ou d'une autre.
 
