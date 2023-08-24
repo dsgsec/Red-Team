@@ -30,7 +30,8 @@ Final size of csharp file: 2170 bytes
 
 Si nous essayons de télécharger notre charge utile nouvellement générée sur notre machine de test, l' AV la signalera instantanément avant même que nous ayons la possibilité de l'exécuter :
 
-![Windows Defender a détecté notre charge utile comme malveillante !](https://tryhackme-images.s3.amazonaws.com/user-uploads/5d617515c8cd8348d0b4e68f/room-content/747c69e737c96044123329c47845f659.png)
+![747c69e737c96044123329c47845f659](https://github.com/dsgsec/Red-Team/assets/82456829/e84560d5-c0cb-43bf-8b2e-bc3440be8d42)
+
 
 Si le codage ne fonctionne pas, nous pouvons toujours essayer de chiffrer la charge utile. Intuitivement, nous nous attendrions à ce que cela ait un taux de réussite plus élevé, car le décryptage de la charge utile devrait s'avérer une tâche plus difficile pour l' AV . Essayons ça maintenant.
 
