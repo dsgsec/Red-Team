@@ -176,9 +176,6 @@ back-end DBMS: MySQL >= 5.0
 
 Remarque : dans ce cas, l'option « -u » est utilisée pour fournir l'URL cible, tandis que le commutateur « --batch » est utilisé pour ignorer toute saisie utilisateur requise, en choisissant automatiquement l'option par défaut.
 
-[Précédent](https://academy.hackthebox.com/module/58/section/509)
-
-Marquer comme terminé et suivant
 
 [Suivant](https://academy.hackthebox.com/module/58/section/696)
 
