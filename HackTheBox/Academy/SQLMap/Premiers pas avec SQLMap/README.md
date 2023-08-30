@@ -176,7 +176,133 @@ back-end DBMS: MySQL >= 5.0
 
 Remarque : dans ce cas, l'option « -u » est utilisée pour fournir l'URL cible, tandis que le commutateur « --batch » est utilisé pour ignorer toute saisie utilisateur requise, en choisissant automatiquement l'option par défaut.
 
+============================================
 
-[Suivant](https://academy.hackthebox.com/module/58/section/696)
+Description de la sortie SQLMap
+===============================
 
-Aide-mémoire
+* * * * *
+
+À la fin de la section précédente, la sortie sqlmap nous a montré de nombreuses informations lors de son analyse. Ces données sont généralement cruciales à comprendre, car elles nous guident tout au long du processus d'injection SQL automatisé. Cela nous montre exactement quel type de vulnérabilités SQLMap exploite, ce qui nous aide à signaler le type d'injection de l'application Web. Cela peut également devenir pratique si nous souhaitons exploiter manuellement l'application Web une fois que SQLMap a déterminé le type d'injection et le paramètre vulnérable.
+
+* * * * *
+
+Description des messages du journal
+-----------------------------------
+
+Voici quelques-uns des messages les plus courants généralement trouvés lors d'une analyse de SQLMap, ainsi qu'un exemple de chacun de l'exercice précédent et sa description.
+
+#### Le contenu de l'URL est stable
+
+`Log Message:`
+
+-   "le contenu de l'URL cible est stable"
+
+Cela signifie qu'il n'y a pas de changements majeurs entre les réponses en cas de demandes identiques continues. Ceci est important du point de vue de l'automatisation car, en cas de réponses stables, il est plus facile de repérer les différences provoquées par les éventuelles tentatives SQLi. Bien que la stabilité soit importante, SQLMap dispose de mécanismes avancés pour supprimer automatiquement le « bruit » potentiel qui pourrait provenir de cibles potentiellement instables.
+
+#### Le paramètre semble être dynamique
+
+`Log Message:`
+
+-   "Le paramètre GET 'id' semble être dynamique"
+
+Il est toujours souhaité que le paramètre testé soit « dynamique », car c'est le signe que toute modification apportée à sa valeur entraînerait une modification de la réponse ; le paramètre peut donc être lié à une base de données. Dans le cas où la sortie est « statique » et ne change pas, cela pourrait indiquer que la valeur du paramètre testé n'est pas traitée par la cible, du moins dans le contexte actuel.
+
+#### Le paramètre peut être injectable
+
+`Log Message:`"un test heuristique (de base) montre que le paramètre GET 'id' peut être injectable (SGBD possible : 'MySQL')"
+
+Comme indiqué précédemment, les erreurs du SGBD sont une bonne indication du potentiel de SQLi. Dans ce cas, il y a eu une erreur MySQL lorsque SQLMap envoie une valeur intentionnellement invalide (par exemple `?id=1",)..).))'`), ce qui indique que le paramètre testé pourrait être injectable SQLi et que la cible pourrait être MySQL. Il convient de noter qu'il ne s'agit pas d'une preuve de SQLi, mais simplement d'une indication que le mécanisme de détection doit être prouvé lors de l'exécution suivante.
+
+#### Le paramètre peut être vulnérable aux attaques XSS
+
+`Log Message:`
+
+-   "Le test heuristique (XSS) montre que le paramètre GET 'id' pourrait être vulnérable aux attaques de script intersite (XSS)"
+
+Bien que ce ne soit pas son objectif principal, SQLMap exécute également un test heuristique rapide pour détecter la présence d'une vulnérabilité XSS. Dans les tests à grande échelle, où de nombreux paramètres sont testés avec SQLMap, il est agréable de disposer de ce type de vérifications heuristiques rapides, surtout si aucune vulnérabilité SQLi n'est trouvée.
+
+#### Le SGBD back-end est '...'
+
+`Log Message:`
+
+-   "il semble que le SGBD back-end soit 'MySQL'. Voulez-vous ignorer les charges utiles de test spécifiques à d'autres SGBD ? [O/n]"
+
+Lors d'une exécution normale, SQLMap teste tous les SGBD pris en charge. Dans le cas où il existe une indication claire que la cible utilise le SGBD spécifique, nous pouvons limiter les charges utiles à ce SGBD spécifique.
+
+#### Valeurs de niveau/risque
+
+`Log Message:`
+
+-   "pour les tests restants, souhaitez-vous inclure tous les tests pour 'MySQL' étendant les valeurs de niveau (1) et de risque (1) fournies ? [O/n]"
+
+S'il existe une indication claire que la cible utilise le SGBD spécifique, il est également possible d'étendre les tests pour ce même SGBD spécifique au-delà des tests réguliers.\
+Cela signifie essentiellement exécuter toutes les charges utiles d'injection SQL pour ce SGBD spécifique, tandis que si aucun SGBD n'était détecté, seules les charges utiles les plus importantes seraient testées.
+
+#### Valeurs réfléchissantes trouvées
+
+`Log Message:`
+
+-   "valeur(s) réfléchissante(s) trouvée(s) et filtrée(s)"
+
+Juste un avertissement indiquant que des parties des charges utiles utilisées se trouvent dans la réponse. Ce comportement pourrait causer des problèmes aux outils d'automatisation, car il représente un courrier indésirable. Cependant, SQLMap dispose de mécanismes de filtrage pour supprimer ces fichiers indésirables avant de comparer le contenu de la page d'origine.
+
+#### Le paramètre semble être injectable
+
+`Log Message:`
+
+-   "Le paramètre GET 'id' semble être 'AND aveugle basé sur un booléen - clause WHERE ou HAVING' injectable (avec --string="luther")"
+
+Ce message indique que le paramètre semble être injectable, même s'il existe toujours un risque qu'il s'agisse d'un résultat faussement positif. Dans le cas de types aveugles booléens et de types SQLi similaires (par exemple, aveugles basés sur le temps), où il existe un risque élevé de faux positifs, à la fin de l'exécution, SQLMap effectue des tests approfondis consistant en de simples vérifications logiques pour la suppression. de résultats faussement positifs.
+
+De plus, `with --string="luther"`indique que SQLMap a reconnu et utilisé l'apparence d'une valeur de chaîne constante `luther`dans la réponse pour la distinguer `TRUE`des `FALSE`réponses. Il s'agit d'une découverte importante car dans de tels cas, il n'est pas nécessaire d'utiliser des mécanismes internes avancés, tels que la suppression de la dynamique/réflexion ou la comparaison floue des réponses, qui ne peuvent pas être considérées comme des faux positifs.
+
+#### Modèle statistique de comparaison basé sur le temps
+
+`Log Message:`
+
+-   "La comparaison temporelle nécessite un modèle statistique plus grand, veuillez patienter.......... (terminé)"
+
+SQLMap utilise un modèle statistique pour la reconnaissance des réponses cibles régulières et (délibérément) retardées. Pour que ce modèle fonctionne, il est nécessaire de collecter un nombre suffisant de temps de réponse réguliers. De cette façon, SQLMap peut statistiquement distinguer le retard délibéré, même dans les environnements réseau à latence élevée.
+
+#### Extension des tests de technique d'injection de requêtes UNION
+
+`Log Message:`
+
+-   "étend automatiquement les plages pour les tests de technique d'injection de requête UNION car il existe au moins une autre technique (potentielle) trouvée"
+
+Les vérifications SQLi par requête UNION nécessitent beaucoup plus de requêtes pour une reconnaissance réussie de la charge utile utilisable que les autres types SQLi. Afin de réduire le temps de test par paramètre, notamment si la cible ne semble pas injectable, le nombre de requêtes est plafonné à une valeur constante (soit 10) pour ce type de contrôle. Cependant, s'il y a de fortes chances que la cible soit vulnérable, en particulier lorsqu'une autre technique SQLi (potentielle) est trouvée, SQLMap étend le nombre par défaut de requêtes pour la requête UNION SQLi, en raison d'une espérance de réussite plus élevée.
+
+#### La technique semble utilisable
+
+`Log Message:`
+
+-   "La technique ORDER BY' semble être utilisable. Cela devrait réduire le temps nécessaire pour trouver le bon nombre de colonnes de requête. Extension automatique de la plage pour le test actuel de la technique d'injection de requête UNION"
+
+En tant que vérification heuristique pour le type SQLi de requête UNION, avant que les `UNION`charges utiles réelles ne soient envoyées, une technique connue sous le nom de `ORDER BY`est vérifiée pour sa convivialité. S'il est utilisable, SQLMap peut rapidement reconnaître le nombre correct de `UNION`colonnes requises en effectuant l'approche de recherche binaire.
+
+Notez que cela dépend de la table affectée dans la requête vulnérable.
+
+#### Le paramètre est vulnérable
+
+`Log Message:`
+
+-   "Le paramètre GET 'id' est vulnérable. Voulez-vous continuer à tester les autres (le cas échéant) ? [o/N]"
+
+C'est l'un des messages les plus importants de SQLMap, car il signifie que le paramètre s'est révélé vulnérable aux injections SQL. Dans les cas habituels, l'utilisateur peut vouloir uniquement trouver au moins un point d'injection (c'est-à-dire un paramètre) utilisable contre la cible. Cependant, si nous effectuons un test approfondi sur l'application Web et souhaitons signaler toutes les vulnérabilités potentielles, nous pouvons continuer à rechercher tous les paramètres vulnérables.
+
+#### Sqlmap a identifié les points d'injection
+
+`Log Message:`
+
+-   "sqlmap a identifié le(s) point(s) d'injection suivant avec un total de 46 requêtes HTTP(s) :"
+
+Ci-dessous se trouve une liste de tous les points d'injection avec leur type, leur titre et leurs charges utiles, qui représente la preuve finale de la détection et de l'exploitation réussies des vulnérabilités SQLi trouvées. Il convient de noter que SQLMap répertorie uniquement les résultats dont il est prouvé qu'ils sont exploitables (c'est-à-dire utilisables).
+
+#### Données enregistrées dans des fichiers texte
+
+`Log Message:`
+
+-   "données récupérées enregistrées dans des fichiers texte sous '/home/user/.sqlmap/output/www.example.com'"
+
+Cela indique l'emplacement du système de fichiers local utilisé pour stocker tous les journaux, sessions et données de sortie pour une cible spécifique - dans ce cas, `www.example.com`. Après une telle exécution initiale, au cours de laquelle le point d'injection est détecté avec succès, tous les détails des exécutions futures sont stockés dans les fichiers de session du même répertoire. Cela signifie que SQLMap essaie de réduire autant que possible les requêtes cibles requises, en fonction des données des fichiers de session.
