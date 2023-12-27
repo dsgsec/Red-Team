@@ -11,12 +11,13 @@ Un environnement Active Directory contient différents comptes avec les autorisa
 
 Voici les comptes d'administrateurs Active Directory :
 
-| CONSTRUIT\Administrateur | Accès administrateur local sur un contrôleur de domaine |
-| Administrateurs de domaine | Accès administratif à toutes les ressources du domaine |
-| Administrateurs d'entreprise | Disponible uniquement dans la racine de la forêt |
-| Administrateurs de schéma | Capable de modifier le domaine/la forêt ; utile pour les équipes rouges |
-| Opérateurs de serveur | Peut gérer des serveurs de domaine |
-| Opérateurs de comptes | Peut gérer les utilisateurs qui ne font pas partie de groupes privilégiés |
+**CONSTRUIT\Administrateur**|**Accès administrateur local sur un contrôleur de domaine**
+:-----:|:-----:
+Administrateurs de domaine|Accès administratif à toutes les ressources du domaine
+Administrateurs d'entreprise|Disponible uniquement dans la racine de la forêt
+Administrateurs de schéma|Capable de modifier le domaine/la forêt ; utile pour les équipes rouges
+Opérateurs de serveur|Peut gérer des serveurs de domaine
+Opérateurs de comptes|Peut gérer les utilisateurs qui ne font pas partie de groupes
 
 Maintenant que nous découvrons les différents types de comptes dans l' environnement AD . Énumérons la machine Windows  à laquelle nous avons accès lors de la phase d'accès initiale. En tant qu'utilisateur actuel, nous disposons d'autorisations spécifiques pour afficher ou gérer des éléments au sein de la machine et de l' environnement AD . 
 
