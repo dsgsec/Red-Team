@@ -5,7 +5,7 @@ Accès privilégié
 
 Une fois que nous avons pris pied dans le domaine, notre objectif consiste désormais à faire progresser notre position en nous déplaçant latéralement ou verticalement pour obtenir l'accès à d'autres hôtes, et éventuellement à compromettre le domaine ou à atteindre un autre objectif, en fonction de l'objectif de l'évaluation. Pour y parvenir, il existe plusieurs façons de se déplacer latéralement. Généralement, si nous prenons en charge un compte doté de droits d'administrateur local sur un hôte ou un ensemble d'hôtes, nous pouvons effectuer une `Pass-the-Hash`attaque pour nous authentifier via le protocole SMB.
 
-`But what if we don't yet have local admin rights on any hosts in the domain?`
+`Mais que se passe-t-il si nous n'avons pas encore de droits d'administrateur local sur les hôtes du domaine ?`
 
 Il existe plusieurs autres façons de se déplacer dans un domaine Windows :
 
