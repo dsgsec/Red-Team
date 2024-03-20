@@ -1,4 +1,4 @@
-ntroduction aux approbations de domaine
+Introduction aux approbations de domaine
 =======================================
 
 * * * * *
