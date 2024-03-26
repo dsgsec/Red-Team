@@ -91,3 +91,15 @@ Dans ce cas, nous empoisonnerions une entrée de base de données avec une charg
 Les développeurs négligent souvent ces vulnérabilités, car elles peuvent protéger contre la saisie directe de l'utilisateur (par exemple, à partir d'un paramètre ?page), mais ils peuvent faire confiance aux valeurs extraites de leur base de données, comme notre nom d'utilisateur dans ce cas. Si nous parvenions à empoisonner notre nom d'utilisateur lors de notre inscription, alors l'attaque serait possible.
 
 L'exploitation des vulnérabilités LFI à l'aide d'attaques de second ordre est similaire à ce dont nous avons discuté dans cette section. La seule différence est que nous devons repérer une fonction qui extrait un fichier en fonction d'une valeur que nous contrôlons indirectement, puis essayer de contrôler cette valeur pour exploiter la vulnérabilité.
+
+
+
+
+## Extras
+
+Si le fichier appelé existe mais n'est pas dans le retour du LFI, cela peut être lié au fait qu'il est trop gros pour sortir dans l'output.
+
+Dans ce cas il faut l'encoder en b64 avce :
+```
+php://filter/convert.base64-encode/resource=index.php
+```
