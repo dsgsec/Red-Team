@@ -5,4 +5,7 @@ Dans certains cas, le serveur d'applications est capable d'interagir avec des sy
 
 Dans l'exemple précédent, imaginez qu'il y ait une interface d'administration à l'URL principale `https://192.168.0.68/admin`. Un attaquant peut soumettre la requête suivante pour exploiter la vulnérabilité SSRF et accéder à l'interface administrative:
 
-`POST /product/stock HTTP/1.0 Content-Type: application/x-www-form-urlencoded Content-Length: 118 stockApi=http://192.168.0.68/admin`
+`POST /product/stock HTTP/1.0 
+Content-Type: application/x-www-form-urlencoded 
+Content-Length: 118 
+stockApi=http://192.168.0.68/admin`
