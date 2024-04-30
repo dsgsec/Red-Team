@@ -14,3 +14,13 @@ Dans cette section, nous expliquons:
 -   Comment rendre vos propres mécanismes d'authentification aussi robustes que possible.
 
 ![Vulnérabilités d'authentification: empoisonnement par réinitialisation de mot de passe](https://portswigger.net/web-security/images/password-reset-poisoning.svg)
+
+
+Quelle est la différence entre authentification et autorisation?
+----------------------------------------------------------------
+
+L'authentification est le processus de vérification qu'un utilisateur est qui il prétend être. L'autorisation consiste à vérifier si un utilisateur est autorisé à faire quelque chose.
+
+Par exemple, l'authentification détermine si quelqu'un tente d'accéder à un site Web avec le nom d'utilisateur `Carlos123` c'est vraiment la même personne qui a créé le compte.
+
+Une fois `Carlos123` est authentifié, leurs autorisations déterminent ce qu'ils sont autorisés à faire. Par exemple, ils peuvent être autorisés à accéder à des informations personnelles sur d'autres utilisateurs ou à effectuer des actions telles que la suppression du compte d'un autre utilisateur.
