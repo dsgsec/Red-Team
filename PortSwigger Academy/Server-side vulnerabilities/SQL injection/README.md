@@ -65,3 +65,19 @@ La requête modifiée renvoie tous les éléments où `category` est `Gifts`,
 #### Avertissement
 
 Faites attention lors de l'injection de la condition `OR 1=1` dans une requête SQL. Même s'il semble inoffensif dans le contexte dans lequel vous injectez, il est courant que les applications utilisent les données d'une seule requête dans plusieurs requêtes différentes. Si votre condition atteint un `UPDATE` ou `DELETE` déclaration, par exemple, il peut entraîner une perte accidentelle de données.
+
+
+Logique d'application subversive
+--------------------------------
+
+Imaginez une application qui permet aux utilisateurs de se connecter avec un nom d'utilisateur et un mot de passe. Si un utilisateur envoie le nom d'utilisateur `wiener` et le mot de passe `bluecheese`, l'application vérifie les informations d'identification en effectuant la requête SQL suivante:
+
+`SELECT * FROM users WHERE username = 'wiener' AND password = 'bluecheese'`
+
+Si la requête renvoie les détails d'un utilisateur, la connexion est réussie. Sinon, il est rejeté.
+
+Dans ce cas, un attaquant peut se connecter en tant qu'utilisateur sans avoir besoin d'un mot de passe. Ils peuvent le faire en utilisant la séquence de commentaires SQL `--` pour supprimer la vérification du mot de passe du `WHERE` clause de la requête. Par exemple, en soumettant le nom d'utilisateur `administrator'--` et un mot de passe vide entraîne la requête suivante:
+
+`SELECT * FROM users WHERE username = 'administrator'--' AND password = ''`
+
+Cette requête renvoie l'utilisateur dont `username` est `administrator` et enregistre avec succès l'attaquant en tant qu'utilisateur.
