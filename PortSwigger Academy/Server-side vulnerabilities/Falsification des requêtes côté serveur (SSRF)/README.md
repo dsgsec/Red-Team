@@ -25,3 +25,14 @@ Dans cet exemple, un attaquant peut modifier la requête pour spécifier une URL
 Le serveur récupère le contenu de la `/admin` URL et le renvoie à l'utilisateur.
 
 Un attaquant peut visiter le `/admin` URL, mais la fonctionnalité d'administration n'est normalement accessible qu'aux utilisateurs authentifiés. Cela signifie qu'un attaquant ne verra rien d'intéressant. Toutefois, si la demande à la `/admin` L'URL provient de la machine locale, les contrôles d'accès normaux sont contournés. L'application accorde un accès complet à la fonctionnalité administrative, car la demande semble provenir d'un emplacement de confiance.
+
+Attaques SSRF contre le serveur - Suite
+---------------------------------------
+
+Pourquoi les applications se comportent-elles de cette manière et font-elles implicitement confiance aux requêtes provenant de la machine locale? Cela peut se produire pour diverses raisons:
+
+-   La vérification du contrôle d'accès peut être implémentée dans un composant différent qui se trouve devant le serveur d'applications. Lorsqu'une connexion est établie vers le serveur, la vérification est contournée.
+-   À des fins de reprise après sinistre, l'application peut autoriser l'accès administratif sans se connecter, à tout utilisateur provenant de la machine locale. Cela permet à un administrateur de récupérer le système s'il perd ses informations d'identification. Cela suppose que seul un utilisateur pleinement fiable viendrait directement du serveur.
+-   L'interface d'administration peut écouter sur un numéro de port différent de l'application principale et peut ne pas être accessible directement par les utilisateurs.
+
+Ce type de relations de confiance, où les demandes provenant de la machine locale sont traitées différemment des demandes ordinaires, font souvent de SSRF une vulnérabilité critique.
