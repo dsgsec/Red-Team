@@ -1,4 +1,4 @@
-Noms d'utilisateur forçants
+Bruteforcer les noms d'utilisateurs
 ---------------------------
 
 Les noms d'utilisateur sont particulièrement faciles à deviner s'ils sont conformes à un modèle reconnaissable, tel qu'une adresse e-mail. Par exemple, il est très courant de voir les connexions professionnelles dans le format `firstname.lastname@somecompany.com`. Cependant, même s'il n'y a pas de modèle évident, parfois même des comptes hautement privilégiés sont créés en utilisant des noms d'utilisateur prévisibles, tels que `admin` ou `administrator`.
